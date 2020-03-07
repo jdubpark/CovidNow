@@ -1,0 +1,36 @@
+@import '_vars';
+
+.mnav{
+  position:relative;height:auto;width:100vw;
+  &.moving{box-shadow:0 0 2px 20px rgba(30, 30, 30, 0.05);}
+  &-wrapper{
+    padding-top:30px;padding-bottom:30px;
+    &::before{content:'';display:table;clear:both;}
+  }
+  &-col{
+    position:relative;float:left;
+    &.right{float:right;}
+  }
+  &-logo{
+    font-size:30px;font-weight:800;text-transform:uppercase;letter-spacing:-0.5px;
+    & span{color:$punch;}
+  }
+  &-menu{
+    margin-top:6px;font-size:22px;font-weight:700;
+    & li{display:inline-block;}
+    & a{
+      padding:4px 10px;transition:none;
+      &.bg{
+        color:#fff;background-color:$punch;border-radius:4px;
+        &:hover,&:active{background-color:$carmine-pink;}
+      }
+      &:not(.bg){
+        &:hover,&:active{color:$punch;}
+      }
+    }
+  }
+}
+
+.container{
+  max-width:1350px;padding-left:20px;padding-right:20px;
+}

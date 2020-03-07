@@ -1,0 +1,64 @@
+.mnav {
+  position: relative;
+  height: auto;
+  width: 100vw;
+}
+.mnav.moving {
+  box-shadow: 0 0 2px 20px rgba(30, 30, 30, 0.05);
+}
+.mnav-wrapper {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+.mnav-wrapper::before {
+  content: "";
+  display: table;
+  clear: both;
+}
+.mnav-col {
+  position: relative;
+  float: left;
+}
+.mnav-col.right {
+  float: right;
+}
+.mnav-logo {
+  font-size: 30px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+.mnav-logo span {
+  color: #db4031;
+}
+.mnav-menu {
+  margin-top: 6px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.mnav-menu li {
+  display: inline-block;
+}
+.mnav-menu a {
+  padding: 4px 10px;
+  transition: none;
+}
+.mnav-menu a.bg {
+  color: #fff;
+  background-color: #db4031;
+  border-radius: 4px;
+}
+.mnav-menu a.bg:hover, .mnav-menu a.bg:active {
+  background-color: #f14b46;
+}
+.mnav-menu a:not(.bg):hover, .mnav-menu a:not(.bg):active {
+  color: #db4031;
+}
+
+.container {
+  max-width: 1350px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/*# sourceMappingURL=universal.css.map */

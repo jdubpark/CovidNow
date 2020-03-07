@@ -1,0 +1,62 @@
+$screen-s: 650px;
+$screen-m: 1024px;
+$screen-l: 1440px;
+$screen-xl: 1960px;
+
+$pink: #df5067;
+$orange: #f4a84b;
+$purple: #6d64ed;
+$blue: #658be5;
+$lightblue: #8aa7ed;
+$green: #22a39f;
+$deepblue: #3e59cd;
+
+$alt1: #f1f2f5;
+
+// https://www.color-blindness.com/color-name-hue/
+// https://www.colorcombos.com/tags/colors/malibu (change the last word)
+$cranberry: #df5067;
+$malibu: #52adda;
+$summersky: #4cbada;
+$yellowsea: #f2a543;
+$mediumpurple: #6d64ed; // medium slate purple
+$keppel: #65b8a6;
+$avocado: #568203;
+
+// most names are from (sipapp.io)
+$google-red: #db4437;
+$google-blue: #4285f4;
+$google-yellow: #f4b400;
+$google-green: #0f9d58;
+$majorelle-blue: #6638f0;
+$han-purple: #501ceb;
+$fountain-blue: #63aabc;
+$blue-green: #118fb6;
+$sea-blue: #0c7393;
+$bandicoot: #868375;
+$fantasy: #f9f3ec;
+$quarter-white: #faefe2;
+$half-pearl-lusta: #f5e8d9;
+$albescent-white: #f5e1ca;
+$carnation: #f76262;
+$carmine-pink: #f14b46;
+$punch: #db4031;
+$hint-of-yellow: #f9fce1;
+$banana-mania: #fee9b2;
+$golden-glow: #f7d57d;
+$rajah: #ffaf65;
+$mint-tulip: #caf2d7;
+$breaker-bay: #60a9a6;
+$jungle-green: #27aa80;
+$green-yellow: #a8ff3e;
+$ufo-green: #32ff6a;
+$deerfield: #2d693c;
+$chathams-blue: #174f7c;
+
+$gts: cubic-bezier(0.6, 0.1, 0.3, 0.8);
+
+%title-big{font-size:30px;font-weight:normal;}
+%title-big-xs{font-size:22px;font-weight:normal;}
+
+%bgimg{background-repeat:no-repeat;background-position:center center;background-size:cover;}
+%shadow-light{box-shadow:0 8px 25px 0 rgba(45, 50, 60, 0.2)}
