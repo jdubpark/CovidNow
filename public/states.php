@@ -51,8 +51,43 @@
       <div id="wrapper">
         <div id="hero">
           <div class="container">
-            <div id="map" style="width: 650px; height: 400px;"></div>
-            <div id="clicked-state"></div>
+            <div class="hero-head">
+              <div class="hero-title">U.S. States</div>
+              <div class="hero-desc">Click on each state to see their COVID-19 situation</div>
+            </div>
+            <div class="hero-body">
+              <div id="usmap-wrapper" class="hero-map-wrapper">
+                <div id="usmap" class="hero-map"></div>
+              </div>
+              <div class="hero-state">
+                <div class="state-name">State: <span id="usmap-state-name">Select a state</span></div>
+                <div class="state-stats">
+                  <div class="state-stat total">
+                    <div id="usmap-state-stat-total" class="val">0</div>
+                    <div class="name">Total Cases</div>
+                  </div>
+                  <div class="state-stat deaths">
+                    <div id="usmap-state-stat-deaths" class="val">0</div>
+                    <div class="name">Deaths</div>
+                  </div>
+                  <div class="state-stat recov">
+                    <div id="usmap-state-stat-recov" class="val">0</div>
+                    <div class="name">Recovered</div>
+                  </div>
+                </div>
+                <div class="state-cases-wrapper">
+                  <div class="state-cases-title">Reported Cases</div>
+                  <div id="usmap-state-cases" class="state-cases">
+                    <!-- <div class="state-case">
+                      <div class="state-case-item loc">Location</div>
+                      <div class="state-case-item stat total"><span>0</span> Cases</div>
+                      <div class="state-case-item stat deaths"><span>0</span> Deaths</div>
+                      <div class="state-case-item stat recov"><span>0</span> Recovered</div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

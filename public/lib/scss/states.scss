@@ -1,0 +1,52 @@
+@import '_vars';
+
+.hero{
+  font-size:0;
+  &-head,&-body{text-align:center;}
+  &-head{padding-bottom:20px;}
+  // head
+  &-title{color:$punch;font-size:30px;font-weight:800;}
+  &-desc{padding-top:5px;color:#aaa;font-size:18px;}
+  // body
+  &-map{
+    display:inline-block;height:320px;width:100%;max-width:480px;margin:0 auto;
+    @media (min-width: $screen-m){height:420px;width:630px;max-width:none;}
+    &-wrapper{
+      padding:10px 0;
+    }
+  }
+  &-state{padding-top:10px;}
+}
+.state{
+  &-name{
+    font-size:28px;
+    & span{font-weight:800;}
+  }
+  &-stat{
+    flex:1;padding:10px;font-size:26px;
+    &s{display:flex;max-width:800px;margin:0 auto;padding:20px 10px;font-size:0;}
+    & .val,& .name{display:block;}
+    & .val{font-size:40px;font-weight:800;}
+    & .name{padding-top:8px;}
+    &.total .val{color:$yellowsea;}
+    &.deaths .val{color:$punch;}
+    &.recov .val{color:$green;}
+  }
+  &-case{
+    display:flex;padding:5px;
+    &s{
+      padding-top:20px;max-width:800px;margin:0 auto;font-size:20px;
+      &-title{font-size:28px;font-weight:800;}
+      &-wrapper{padding:20px 0;}
+    }
+    &-item{
+      flex:1;
+      &.loc{flex:2;font-weight:700;text-align:left;}
+      &.stat{
+        padding:0 5px;
+        &:last-child{padding-right:0;}
+      }
+      & span{padding-right:5px;font-weight:700;}
+    }
+  }
+}

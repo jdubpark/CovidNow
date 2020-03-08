@@ -22,8 +22,8 @@ module.exports = class JHU{
     return new Promise((resolve, reject) => {
       this.fetch()
         .then(res => {
-          this.process(res);
-          resolve(res);
+          const data = this.process(res);
+          resolve(data);
         })
         .catch(err => {
           console.log(err);
@@ -59,10 +59,10 @@ module.exports = class JHU{
 
   process(res){
     const data = {
-      usa: JHU.compileUSA(res.usa),
-      stats: JHU.compileStats({total: res.nTotal, death: res.nDeath, recov: res.nRecov}),
-      cases: JHU.compileCases(res.cases),
-      countries: JHU.compileCountries(res.countries),
+      usa: this.compileUSA(res.usa),
+      stats: this.compileStats({total: res.nTotal, death: res.nDeath, recov: res.nRecov}),
+      cases: this.compileCases(res.cases),
+      countries: this.compileCountries(res.countries),
     };
     return data;
   }
@@ -85,17 +85,18 @@ module.exports = class JHU{
         loc1n = data.Lat+'_'+data.Long_; // loc 1 name (as object key)
 
       geo.list.push(loc);
-      geo.ref[loc1n] = {
+      const obj = {
         location: data.Province_State,
         confirmed: data.Confirmed,
         deaths: data.Deaths,
         recovered: data.Recovered,
       };
+      geo.ref[loc1n] = obj;
 
       ref.total += data.Confirmed;
       ref.deaths += data.Deaths;
       ref.recovered += data.Recovered;
-      ref.cases.push(data);
+      ref.cases.push(obj);
     });
 
     // compiled

@@ -3,7 +3,7 @@
 (function($){
   let cdFetch = undefined; // core data fetch
 
-  
+
 
   const ajax = $.ajax({
     method: 'GET',

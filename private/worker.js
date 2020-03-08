@@ -16,6 +16,7 @@ const
   JHU = new ModJHU(),
   DDB = new ModDDB({}, AWS);
 
+fetchJHU();
 function fetchJHU(){
   JHU.get()
     .then(data => {

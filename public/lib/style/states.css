@@ -1,0 +1,114 @@
+.hero {
+  font-size: 0;
+}
+.hero-head, .hero-body {
+  text-align: center;
+}
+.hero-head {
+  padding-bottom: 20px;
+}
+.hero-title {
+  color: #db4031;
+  font-size: 30px;
+  font-weight: 800;
+}
+.hero-desc {
+  padding-top: 5px;
+  color: #aaa;
+  font-size: 18px;
+}
+.hero-map {
+  display: inline-block;
+  height: 320px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+@media (min-width: 1024px) {
+  .hero-map {
+    height: 420px;
+    width: 630px;
+    max-width: none;
+  }
+}
+.hero-map-wrapper {
+  padding: 10px 0;
+}
+.hero-state {
+  padding-top: 10px;
+}
+
+.state-name {
+  font-size: 28px;
+}
+.state-name span {
+  font-weight: 800;
+}
+.state-stat {
+  flex: 1;
+  padding: 10px;
+  font-size: 26px;
+}
+.state-stats {
+  display: flex;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 10px;
+  font-size: 0;
+}
+.state-stat .val, .state-stat .name {
+  display: block;
+}
+.state-stat .val {
+  font-size: 40px;
+  font-weight: 800;
+}
+.state-stat .name {
+  padding-top: 8px;
+}
+.state-stat.total .val {
+  color: #f2a543;
+}
+.state-stat.deaths .val {
+  color: #db4031;
+}
+.state-stat.recov .val {
+  color: #22a39f;
+}
+.state-case {
+  display: flex;
+  padding: 5px;
+}
+.state-cases {
+  padding-top: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 20px;
+}
+.state-cases-title {
+  font-size: 28px;
+  font-weight: 800;
+}
+.state-cases-wrapper {
+  padding: 20px 0;
+}
+.state-case-item {
+  flex: 1;
+}
+.state-case-item.loc {
+  flex: 2;
+  font-weight: 700;
+  text-align: left;
+}
+.state-case-item.stat {
+  padding: 0 5px;
+}
+.state-case-item.stat:last-child {
+  padding-right: 0;
+}
+.state-case-item span {
+  padding-right: 5px;
+  font-weight: 700;
+}
+
+/*# sourceMappingURL=states.css.map */
