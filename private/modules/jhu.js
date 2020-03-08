@@ -9,7 +9,7 @@ module.exports = class JHU{
     this.base = 'https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services';
     // &cacheHint=true
     this.ext = {
-      geo: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&resultOffset=0&resultRecordCount=1000',
+      countries: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&resultOffset=0&resultRecordCount=1000',
       usa: '/ncov_cases/FeatureServer/1/query?f=json&where=(Confirmed%20%3E%200)%20AND%20(Country_Region%20=%20%27US%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&resultOffset=0&resultRecordCount=1000',
       cases: '/cases_time_v3/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Report_Date_String%20asc&resultOffset=0&resultRecordCount=2000',
       nTotal: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Confirmed%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D',
@@ -18,7 +18,7 @@ module.exports = class JHU{
     };
   }
 
-  run(){
+  get(){
     return new Promise((resolve, reject) => {
       this.fetch()
         .then(res => {
@@ -38,6 +38,9 @@ module.exports = class JHU{
       links = exts.map(key => this.base+this.ext[key]),
       reqs = links.map(link => rp(link));
 
+    //
+    // do i need to wrap Bluebird?
+    //
     return new Promise((resolve, reject) => {
       Bluebird.all(reqs)
         .spread((...res) => {
@@ -54,7 +57,13 @@ module.exports = class JHU{
     });
   }
 
-  process(data){
+  process(res){
+    const data = {
+      usa: JHU.compileUSA(res.usa),
+      stats: JHU.compileStats({total: res.nTotal, death: res.nDeath, recov: res.nRecov}),
+      cases: JHU.compileCases(res.cases),
+      countries: JHU.compileCountries(res.countries),
+    };
     return data;
   }
 
@@ -62,20 +71,31 @@ module.exports = class JHU{
     // dataUSA: res.usa
     const usaNon = jsonfile.readFileSync('./usa-non.json'); // update every read
     const clt = {}; // collected
+    const geo = {list: [], ref: {}}; // geo-location
     dataUSA.features.forEach(feature => {
       const
         data = feature.attributes,
         [prov, state] = data.Province_State.split(', '),
-        marker = state ? state.trim() : usaNon[prov] ? usaNon[prov] : prov;
+        marker = state ? usaNon[state] ? usaNon[state] : state.trim() : usaNon[prov] ? usaNon[prov] : prov;
 
-      if (typeof clt[marker] === 'undefined'){
-        clt[marker] = {total: 0, deaths: 0, recovered: 0, cases: []};
-      }
+      if (typeof clt[marker] === 'undefined') clt[marker] = {total: 0, deaths: 0, recovered: 0, cases: []};
+      const
+        ref = clt[marker], // target ref to store data (cleaner code)
+        loc = [data.Lat, data.Long_], // latitude, longitude
+        loc1n = data.Lat+'_'+data.Long_; // loc 1 name (as object key)
 
-      clt[marker].total += data.Confirmed;
-      clt[marker].deaths += data.Deaths;
-      clt[marker].recovered += data.Recovered;
-      clt[marker].cases.push(data);
+      geo.list.push(loc);
+      geo.ref[loc1n] = {
+        location: data.Province_State,
+        confirmed: data.Confirmed,
+        deaths: data.Deaths,
+        recovered: data.Recovered,
+      };
+
+      ref.total += data.Confirmed;
+      ref.deaths += data.Deaths;
+      ref.recovered += data.Recovered;
+      ref.cases.push(data);
     });
 
     // compiled
@@ -89,7 +109,7 @@ module.exports = class JHU{
       cobj.recovered += data.recovered;
     });
 
-    return {collected: clt, compiled: cmp};
+    return {collected: clt, compiled: cmp, geo};
   }
 
   compileStats(data){
@@ -167,7 +187,7 @@ module.exports = class JHU{
     return {confirmed: cfrm, recovered: recv};
   }
 
-  compileGeo(data){
+  compileCountries(data){
     const byCountry = {};
     data.features.forEach(({attributes: cData}) => {
       const country = cData.Country_Region.split(' ').join('_');

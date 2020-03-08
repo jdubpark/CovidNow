@@ -1,0 +1,93 @@
+@import '_vars';
+
+.hero{
+  font-size:0;
+  // focus
+  &-fc{
+    background-color:$fantasy;
+    &-head{background-color:$half-pearl-lusta;padding:7px 25px;}
+    &-body{display:flex;padding:25px;}
+    // head
+    &-updated{font-size:18px;}
+    // body
+    &-row,&-col,&-item{display:inline-block;}
+    &-row{
+      flex:1 1 33.333333%;padding-right:5px;
+      &-head{
+        padding-bottom:20px;
+        & num{display:block;padding-top:5px;}
+      }
+      & name,& num{line-height:1;}
+      & name{font-size:34px;font-weight:700;text-transform:uppercase;}
+      & num{font-size:38px;font-weight:800;}
+      &.total num{color:$yellowsea;}
+      &.deaths num{color:$punch;}
+      &.recovered num{color:$green;}
+    }
+    &-item{
+      display:flex;width:100%;padding-bottom:10px;
+      &:last-child{padding-bottom:0;}
+      & name{flex:1;color:#777;padding-right:10px;letter-spacing:-0.5px;}
+      & num{flex:2;font-size:34px;}
+    }
+  }
+  &-you{
+    padding:35px 0;
+    &-head{padding:0 25px 20px;}
+    // head
+    &-title{font-size:30px;font-weight:800;}
+    // body
+    &-home{
+      padding:0 25px 5px;
+      & li{display:inline-block;padding-right:25px;font-size:20px;}
+      & val{padding-left:5px;font-weight:700;}
+    }
+    &-loc{
+      flex-basis:1;padding:0 10px;font-size:16px;
+      &s{
+        display:flex;padding-top:10px;
+        background: /* gradient can be an image */
+    linear-gradient(
+      to left,
+      rgba(92,7,52,1) 0%,
+      rgba(134,29,84,1) 12%,
+      rgba(255,93,177,1) 47%,
+      rgba(83,0,30,1) 100%
+    )
+    left
+    bottom
+    #eee
+    no-repeat;
+  background-size:100% 5px ;/* if linear-gradient, we need to resize it */
+      }
+      &-radius{font-weight:700;}
+      & li{
+        display:flex;
+        & name{flex:1;}
+        & val{flex:2;padding-left:5px;font-weight:700;}
+      }
+      &.d0-10{flex-grow:1;}
+      &.d10-25{flex-grow:1;}
+      &.d25-50{flex-grow:2;}
+      &.d50-100{flex-grow:2;}
+      &.d100{flex-grow:3;}
+    }
+  }
+  &-linkbox{
+    flex:1 1 33.333333%;max-width:33.333333%;border-top:10px solid;
+    &es{display:flex;flex-wrap:wrap;padding:25px 0;}
+    &-inner{
+      display:block;height:100%;padding:20px 25px 30px;background-color:$fantasy;
+      &:hover,&:active{background-color:$half-pearl-lusta;}
+    }
+    &:nth-child(2n) &-inner{background-color:$quarter-white;}
+    &-name{color:inherit;font-size:26px;font-weight:800;}
+    &-desc{padding-top:5px;color:#aaa;font-size:15px;font-weight:500;line-height:1.2;}
+    &.states{color:$google-blue;border-color:$google-blue;}
+    &.research{color:$google-yellow;border-color:$google-yellow;}
+    &.prevention{color:$google-red;border-color:$google-red;}
+    &.myths{color:$breaker-bay;border-color:$breaker-bay;}
+    &.faq{color:$fountain-blue;border-color:$fountain-blue;}
+    &.about{color:$bandicoot;border-color:$bandicoot;}
+  }
+}

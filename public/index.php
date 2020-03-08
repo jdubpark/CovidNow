@@ -46,28 +46,176 @@
 
     <div id="page">
 
-      <div id="main-nav" class="mnav">
-        <div class="mnav-wrapper container">
-          <div class="mnav-col mnav-logo">COVID<span>NOW</span></div>
-          <div class="mnav-col right">
-            <ul class="mnav-menu">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">States</a></li>
-              <li><a href="#">Myths</a></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Research</a></li>
-              <li><a href="#">About</a></li>
-              <li><a class="bg" href="#">Prevention</a></li>
-            </ul>
+      <?php require_once './components/main_nav.php'; ?>
+
+      <div id="wrapper">
+
+        <div id="hero" class="hero">
+          <div class="container">
+            <div class="hero-fc">
+              <div class="hero-fc-head">
+                <div class="hero-fc-updated">Last updated - <span>March 27</span> (updated every five minutes)</div>
+              </div>
+              <div class="hero-fc-body">
+                <div class="hero-fc-row total">
+                  <div class="hero-fc-row-head">
+                    <name>Total Cases</name>
+                    <num>102304</num>
+                  </div>
+                  <div class="hero-fc-row-body">
+                    <div class="hero-fc-item">
+                      <name>USA</name>
+                      <num>405</num>
+                    </div>
+                    <div class="hero-fc-item">
+                      <name>China</name>
+                      <num>80231</num>
+                    </div>
+                    <div class="hero-fc-item">
+                      <name>Other</name>
+                      <num>15032</num>
+                    </div>
+                  </div>
+                </div>
+                <div class="hero-fc-row deaths">
+                  <div class="hero-fc-row-head">
+                    <name>Deaths</name>
+                    <num>3059</num>
+                  </div>
+                  <div class="hero-fc-row-body">
+                    <div class="hero-fc-item">
+                      <name>USA</name>
+                      <num>19</num>
+                    </div>
+                    <div class="hero-fc-item">
+                      <name>China</name>
+                      <num>2503</num>
+                    </div>
+                    <div class="hero-fc-item">
+                      <name>Other</name>
+                      <num>467</num>
+                    </div>
+                  </div>
+                </div>
+                <div class="hero-fc-row recovered">
+                  <div class="hero-fc-row-head">
+                    <name>Recovered</name>
+                    <num>3059</num>
+                  </div>
+                  <div class="hero-fc-row-body">
+                    <div class="hero-fc-item">
+                      <name>USA</name>
+                      <num>19</num>
+                    </div>
+                    <div class="hero-fc-item">
+                      <name>China</name>
+                      <num>2503</num>
+                    </div>
+                    <div class="hero-fc-item">
+                      <name>Other</name>
+                      <num>467</num>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-you">
+              <div class="hero-you-head">
+                <div class="hero-you-title">COVID-19 around YOU</div>
+              </div>
+              <div class="hero-you-body">
+                <ul class="hero-you-home">
+                  <li class="hero-you-home-lat">Latitude: <val>43.0392</val></li>
+                  <li class="hero-you-home-long">Longtitude: <val>-72.4938</val></li>
+                  <li class="hero-you-home-prov">Location: <val>Boston, MA</val></li>
+                </ul>
+                <div class="hero-you-locs">
+                  <div class="hero-you-loc d0-10">
+                    <div class="hero-you-loc-radius">within 10 mi</div>
+                    <ul>
+                      <li class="cases"><name>Cases:</name> <val>0</val></li>
+                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                    </ul>
+                  </div>
+                  <div class="hero-you-loc d10-25">
+                    <div class="hero-you-loc-radius">10-25 mi</div>
+                    <ul>
+                      <li class="cases"><name>Cases:</name> <val>0</val></li>
+                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                    </ul>
+                  </div>
+                  <div class="hero-you-loc d25-50">
+                    <div class="hero-you-loc-radius">25-50 mi</div>
+                    <ul>
+                      <li class="cases"><name>Cases:</name> <val>0</val></li>
+                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                    </ul>
+                  </div>
+                  <div class="hero-you-loc d50-100">
+                    <div class="hero-you-loc-radius">50-100 mi</div>
+                    <ul>
+                      <li class="cases"><name>Cases:</name> <val>0</val></li>
+                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                    </ul>
+                  </div>
+                  <div class="hero-you-loc d100">
+                    <div class="hero-you-loc-radius">100+ mi</div>
+                    <ul>
+                      <li class="cases"><name>Cases:</name> <val>0</val></li>
+                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-linkboxes">
+              <div class="hero-linkbox states">
+                <a class="hero-linkbox-inner" href="./states">
+                  <div class="hero-linkbox-name">States Breakdown &#8250;</div>
+                  <div class="hero-linkbox-desc">Check out current COVID-19 cases and status in each state.</div>
+                </a>
+              </div>
+              <div class="hero-linkbox research">
+                <a class="hero-linkbox-inner" href="./research">
+                  <div class="hero-linkbox-name">Information &#8250;</div>
+                  <div class="hero-linkbox-desc">Learn more about COVID-19 and current researches.</div>
+                </a>
+              </div>
+              <div class="hero-linkbox prevention">
+                <a class="hero-linkbox-inner" href="./prevention">
+                  <div class="hero-linkbox-name">Prevention &#8250;</div>
+                  <div class="hero-linkbox-desc">How you can minimize your exposure to COVID-19.</div>
+                </a>
+              </div>
+              <div class="hero-linkbox myths">
+                <a class="hero-linkbox-inner" href="./myths">
+                  <div class="hero-linkbox-name">Myths &#8250;</div>
+                  <div class="hero-linkbox-desc">Expert-backed facts to disprove COVID-19 myths and rumors.</div>
+                </a>
+              </div>
+              <div class="hero-linkbox faq">
+                <a class="hero-linkbox-inner" href="./faq">
+                  <div class="hero-linkbox-name">FAQ &#8250;</div>
+                  <div class="hero-linkbox-desc">We answered some of the most asked questions about COVID-19.</div>
+                </a>
+              </div>
+              <div class="hero-linkbox about">
+                <a class="hero-linkbox-inner" href="./about">
+                  <div class="hero-linkbox-name">About &#8250;</div>
+                  <div class="hero-linkbox-desc">Help us improve our website and data. Your voice matters.</div>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div id="top">
-        <div class="container">
-          <div id="map" style="width: 650px; height: 400px;"></div>
-          <div id="clicked-state"></div>
-        </div>
       </div>
 
     </div>

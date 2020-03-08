@@ -1,15 +1,18 @@
 'use strict';
 
-$('#map').usmap({
-  // https://newsignature.github.io/us-map/#usage-style-options
-  stateStyles: {fill: '#f1f2f3', stroke: '#999'},
-  stateHoverStyles: {fill: '#db4031'},
-  stateHoverAnimation: 100,
-  labelBackingHoverStyles: {fill: '#db4031'},
-  // The click action
-  click: function(event, data){
-    $('#clicked-state')
-      .text('You clicked: '+data.name)
-      .parent().effect('highlight', {color: '#C7F464'}, 2000);
-  },
-});
+(function($){
+  let cdFetch = undefined; // core data fetch
+
+  
+
+  const ajax = $.ajax({
+    method: 'GET',
+    url: 'http://localhost:8012/api/core/all',
+    dataType: 'json',
+  });
+  ajax.done(data => {
+    console.log(data);
+    cdFetch = data;
+  });
+  ajax.fail((a, b, c) => console.error(a, b, c));
+})(jQuery);

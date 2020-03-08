@@ -22,6 +22,9 @@ module.exports = {
   },
 
   watch: true,
+  watchOptions: {
+    poll: true, // keep watching // https://github.com/webpack/webpack/issues/2297
+  },
 
   resolve: {
     extensions: ["*", ".js", ".es6", ".ts", ".tsx", ".scss", ".css"],

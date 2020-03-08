@@ -1,3 +1,193 @@
-
+.hero {
+  font-size: 0;
+}
+.hero-fc {
+  background-color: #f9f3ec;
+}
+.hero-fc-head {
+  background-color: #f5e8d9;
+  padding: 7px 25px;
+}
+.hero-fc-body {
+  display: flex;
+  padding: 25px;
+}
+.hero-fc-updated {
+  font-size: 18px;
+}
+.hero-fc-row, .hero-fc-col, .hero-fc-item {
+  display: inline-block;
+}
+.hero-fc-row {
+  flex: 1 1 33.333333%;
+  padding-right: 5px;
+}
+.hero-fc-row-head {
+  padding-bottom: 20px;
+}
+.hero-fc-row-head num {
+  display: block;
+  padding-top: 5px;
+}
+.hero-fc-row name, .hero-fc-row num {
+  line-height: 1;
+}
+.hero-fc-row name {
+  font-size: 34px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.hero-fc-row num {
+  font-size: 38px;
+  font-weight: 800;
+}
+.hero-fc-row.total num {
+  color: #f2a543;
+}
+.hero-fc-row.deaths num {
+  color: #db4031;
+}
+.hero-fc-row.recovered num {
+  color: #22a39f;
+}
+.hero-fc-item {
+  display: flex;
+  width: 100%;
+  padding-bottom: 10px;
+}
+.hero-fc-item:last-child {
+  padding-bottom: 0;
+}
+.hero-fc-item name {
+  flex: 1;
+  color: #777;
+  padding-right: 10px;
+  letter-spacing: -0.5px;
+}
+.hero-fc-item num {
+  flex: 2;
+  font-size: 34px;
+}
+.hero-you {
+  padding: 35px 0;
+}
+.hero-you-head {
+  padding: 0 25px 20px;
+}
+.hero-you-title {
+  font-size: 30px;
+  font-weight: 800;
+}
+.hero-you-home {
+  padding: 0 25px 5px;
+}
+.hero-you-home li {
+  display: inline-block;
+  padding-right: 25px;
+  font-size: 20px;
+}
+.hero-you-home val {
+  padding-left: 5px;
+  font-weight: 700;
+}
+.hero-you-loc {
+  flex-basis: 1;
+  padding: 0 10px;
+  font-size: 16px;
+}
+.hero-you-locs {
+  display: flex;
+  padding-top: 10px;
+  background: linear-gradient(to left, #5c0734 0%, #861d54 12%, #ff5db1 47%, #53001e 100%) left bottom #eee no-repeat;
+  background-size: 100% 5px;
+  /* if linear-gradient, we need to resize it */
+}
+.hero-you-loc-radius {
+  font-weight: 700;
+}
+.hero-you-loc li {
+  display: flex;
+}
+.hero-you-loc li name {
+  flex: 1;
+}
+.hero-you-loc li val {
+  flex: 2;
+  padding-left: 5px;
+  font-weight: 700;
+}
+.hero-you-loc.d0-10 {
+  flex-grow: 1;
+}
+.hero-you-loc.d10-25 {
+  flex-grow: 1;
+}
+.hero-you-loc.d25-50 {
+  flex-grow: 2;
+}
+.hero-you-loc.d50-100 {
+  flex-grow: 2;
+}
+.hero-you-loc.d100 {
+  flex-grow: 3;
+}
+.hero-linkbox {
+  flex: 1 1 33.333333%;
+  max-width: 33.333333%;
+  border-top: 10px solid;
+}
+.hero-linkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 25px 0;
+}
+.hero-linkbox-inner {
+  display: block;
+  height: 100%;
+  padding: 20px 25px 30px;
+  background-color: #f9f3ec;
+}
+.hero-linkbox-inner:hover, .hero-linkbox-inner:active {
+  background-color: #f5e8d9;
+}
+.hero-linkbox:nth-child(2n) .hero-linkbox-inner {
+  background-color: #faefe2;
+}
+.hero-linkbox-name {
+  color: inherit;
+  font-size: 26px;
+  font-weight: 800;
+}
+.hero-linkbox-desc {
+  padding-top: 5px;
+  color: #aaa;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.hero-linkbox.states {
+  color: #4285f4;
+  border-color: #4285f4;
+}
+.hero-linkbox.research {
+  color: #f4b400;
+  border-color: #f4b400;
+}
+.hero-linkbox.prevention {
+  color: #db4437;
+  border-color: #db4437;
+}
+.hero-linkbox.myths {
+  color: #60a9a6;
+  border-color: #60a9a6;
+}
+.hero-linkbox.faq {
+  color: #63aabc;
+  border-color: #63aabc;
+}
+.hero-linkbox.about {
+  color: #868375;
+  border-color: #868375;
+}
 
 /*# sourceMappingURL=home.css.map */

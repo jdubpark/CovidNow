@@ -1,5 +1,7 @@
 @import '_vars';
 
+#wrapper{padding:20px 0;}
+
 .mnav{
   position:relative;height:auto;width:100vw;
   &.moving{box-shadow:0 0 2px 20px rgba(30, 30, 30, 0.05);}

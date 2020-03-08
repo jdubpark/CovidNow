@@ -1,11 +1,9 @@
 {
   "TableName": "TempCoreData",
   "KeySchema": [
-    {"AttributeName": "id", "KeyType": "HASH"},
-    {"AttributeName": "type", "KeyType": "RANGE"}
+    {"AttributeName": "type", "KeyType": "HASH"}
   ],
   "AttributeDefinitions": [
-    {"AttributeName": "id", "AttributeType": "S"},
     {"AttributeName": "type", "AttributeType": "S"}
   ],
   "ProvisionedThroughput": {
