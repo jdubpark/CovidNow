@@ -98,7 +98,7 @@
 .hero-you-locs {
   display: flex;
   padding-top: 10px;
-  background: linear-gradient(to left, #5c0734 0%, #861d54 12%, #ff5db1 47%, #53001e 100%) left bottom #eee no-repeat;
+  background: linear-gradient(to left, rga(219, 64, 49, 1) 0%, #f14b46 30%, #f14b46 70%, #df5067 100%) left bottom #f9f3ec no-repeat;
   background-size: 100% 5px;
   /* if linear-gradient, we need to resize it */
 }

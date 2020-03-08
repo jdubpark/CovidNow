@@ -122,7 +122,7 @@
 
             <div class="hero-you">
               <div class="hero-you-head">
-                <div class="hero-you-title">COVID-19 around YOU</div>
+                <div class="hero-you-title">COVID-19 around ME</div>
               </div>
               <div class="hero-you-body">
                 <ul class="hero-you-home">

@@ -47,18 +47,9 @@
       &s{
         display:flex;padding-top:10px;
         background: /* gradient can be an image */
-    linear-gradient(
-      to left,
-      rgba(92,7,52,1) 0%,
-      rgba(134,29,84,1) 12%,
-      rgba(255,93,177,1) 47%,
-      rgba(83,0,30,1) 100%
-    )
-    left
-    bottom
-    #eee
-    no-repeat;
-  background-size:100% 5px ;/* if linear-gradient, we need to resize it */
+        linear-gradient(to left, rga(219,64,49,1) 0%, rgb(241,75,70) 30%, rgb(241,75,70) 70%, rgb(223,80,103) 100%)
+        left bottom $fantasy no-repeat;
+        background-size:100% 5px;/* if linear-gradient, we need to resize it */
       }
       &-radius{font-weight:700;}
       & li{

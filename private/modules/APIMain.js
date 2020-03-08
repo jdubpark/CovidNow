@@ -23,14 +23,15 @@ module.exports = class APIMain{
 
   get core(){
     return {
-      // bind this to access Class object
+      // bind this to attach Class object scope
+      // bind returns the function (don't use call/apply)
       get: this.coreGet.bind(this),
       getAll: this.coreGetAll.bind(this),
     };
   }
 
   coreGet(type){
-    if (!this.coreGetTypes.includes(type)) Promise.reject(`Core Get type ${type} is not allowed`);
+    if (!this.coreGetTypes.includes(type)) return Promise.reject(`Core Get type ${type} is not allowed`);
     return this.DDB.search(type)
       .then(res => {
         // console.log(res);
@@ -55,5 +56,9 @@ module.exports = class APIMain{
 
   err404(req){
     return {code: 404, error: 'page-not-found', endpoint: req.path};
+  }
+
+  err422(req){
+    return {code: 404, error: 'unprocessable-entity', endpoint: req.path};
   }
 };
