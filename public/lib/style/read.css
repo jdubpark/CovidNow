@@ -7,28 +7,91 @@
 }
 .doc-menu {
   position: fixed;
-  height: 100vh;
-  width: 400px;
+  height: auto;
+  max-height: 100vh;
+  width: 100vw;
   top: 0;
-  padding-top: 100px;
+  padding-top: 89px;
   background-color: #f9f3ec;
+  overflow-y: scroll;
   z-index: 1000;
 }
+@media (min-width: 1024px) {
+  .doc-menu {
+    height: 100vh;
+    width: 400px;
+    padding-top: 99px;
+  }
+}
+.doc-menu-trigger {
+  display: block;
+  padding: 10px 0;
+  font-size: 0;
+  text-align: center;
+}
+.doc-menu-trigger:hover, .doc-menu-trigger:active {
+  background-color: #f5e1ca;
+}
+@media (min-width: 1024px) {
+  .doc-menu-trigger {
+    display: none;
+  }
+}
+.doc-menu-trigger img, .doc-menu-trigger span {
+  display: inline-block;
+  vertical-align: middle;
+}
+.doc-menu-trigger img {
+  height: 30px;
+}
+.doc-menu-trigger span {
+  display: inline-block;
+  padding: 3px 0 0 10px;
+  font-size: 18px;
+  font-weight: 700;
+}
 .doc-menu-inner {
-  padding: 30px 20px;
+  height: 0;
+}
+.doc-menu-inner.opened {
+  height: auto;
+  padding: 20px;
+}
+@media (min-width: 1024px) {
+  .doc-menu-inner {
+    height: auto;
+    padding: 30px 20px;
+  }
 }
 .doc-main {
-  padding-left: 400px;
+  padding-top: 50px;
+  padding-left: 0;
+}
+@media (min-width: 1024px) {
+  .doc-main {
+    padding-top: 0;
+    padding-left: 400px;
+  }
 }
 .doc-main-inner {
-  padding: 30px 50px;
+  padding: 0 30px 20px;
+}
+@media (min-width: 1024px) {
+  .doc-main-inner {
+    padding: 30px 50px;
+  }
 }
 .doc-leads {
   font-size: 16px;
 }
 .doc-leads li {
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
+}
+@media (min-width: 1024px) {
+  .doc-leads li {
+    margin-bottom: 20px;
+  }
 }
 .doc-leads a {
   transition: none;
@@ -37,13 +100,30 @@
   color: #db4031;
 }
 .doc-section {
-  padding: 25px 0;
+  padding-top: 60px;
+  margin-bottom: -30px;
+}
+@media (min-width: 1024px) {
+  .doc-section {
+    padding: 25px 0;
+    margin: 0;
+  }
 }
 .doc-section:first-child {
-  padding-top: 15px;
+  padding-top: 50px;
+}
+@media (min-width: 1024px) {
+  .doc-section:first-child {
+    padding-top: 15px;
+  }
 }
 .doc-section:last-child {
-  padding-bottom: 15px;
+  padding-bottom: 50px;
+}
+@media (min-width: 1024px) {
+  .doc-section:last-child {
+    padding-bottom: 15px;
+  }
 }
 
 .dsec-title {

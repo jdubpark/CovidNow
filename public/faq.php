@@ -65,6 +65,8 @@
         </div>
       </div>
 
+      recent studies showed that the general mass start to show symptoms five (5) days after contracting COVID-19.
+
     </div>
 
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->

@@ -4,25 +4,52 @@
 .doc{
   font-size:0;
   &-menu{
-    position:fixed;height:100vh;width:400px;top:0;padding-top:100px;background-color:$fantasy;z-index:1000;
-    &-inner{padding:30px 20px;}
+    position:fixed;height:auto;max-height:100vh;width:100vw;top:0;padding-top:89px;background-color:$fantasy;overflow-y:scroll;z-index:1000;
+    @media (min-width: $screen-m){height:100vh;width:400px;padding-top:99px;}
+    &-trigger{
+      display:block;padding:10px 0;font-size:0;text-align:center;
+      &:hover,&:active{background-color:$albescent-white;}
+      @media (min-width: $screen-m){display:none;}
+      & img,& span{display:inline-block;vertical-align:middle;}
+      & img{height:30px;}
+      & span{display:inline-block;padding:3px 0 0 10px;font-size:18px;font-weight:700;}
+    }
+    &-inner{
+      height:0;
+      &.opened{height:auto;padding:20px;}
+      @media (min-width: $screen-m){height:auto;padding:30px 20px;}
+    }
   }
   &-main{
-    padding-left:400px;
-    &-inner{padding:30px 50px;}
+    padding-top:50px;padding-left:0;
+    @media (min-width: $screen-m){padding-top:0;padding-left:400px;}
+    &-inner{
+      padding:0 30px 20px;
+      @media (min-width: $screen-m){padding:30px 50px;}
+    }
   }
   &-leads{
     font-size:16px;
-    & li{display:block;margin-bottom:20px;}
+    & li{
+      display:block;margin-bottom:12px;
+      @media (min-width: $screen-m){margin-bottom:20px;}
+    }
     & a{
       transition:none;
       &:hover,&:active{color:$punch;}
     }
   }
   &-section{
-    padding:25px 0;
-    &:first-child{padding-top:15px;}
-    &:last-child{padding-bottom:15px;}
+    padding-top:60px;margin-bottom:-30px;
+    @media (min-width: $screen-m){padding:25px 0;margin:0;}
+    &:first-child{
+      padding-top:50px;
+      @media (min-width: $screen-m){padding-top:15px;}
+    }
+    &:last-child{
+      padding-bottom:50px;
+      @media (min-width: $screen-m){padding-bottom:15px;}
+    }
   }
 }
 .dsec{

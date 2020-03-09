@@ -50,7 +50,8 @@
 
       <div id="doc">
         <div id="doc-menu" class="doc-menu">
-          <div class="doc-menu-inner">
+          <div id="doc-menu-trigger" class="doc-menu-trigger"><img src="./lib/svg/doc-menu-trigger.svg" /> <span>Menu</span></div>
+          <div id="doc-menu-inner" class="doc-menu-inner">
             <ul class="doc-leads">
               <li><b>COVID-19 Myths</b></li>
               <li><a href="#myth-1">#1: Only older adults and young people are at risk</a></li>
@@ -72,7 +73,7 @@
               </div>
             </div>
             <div id="myth-2" class="doc-section">
-              <div class="dsec-title"><a href="#myth-1">#2: COVID-19 is just like the flu</a></div>
+              <div class="dsec-title"><a href="#myth-2">#2: COVID-19 is just like the flu</a></div>
               <div class="dsec-content">
                 <p>SARS-CoV-19 causes illness that does, indeed, have flu-like symptoms, such as aches, fever, and cough. Similarly, both COVID-19 and flu can be mild, severe, or, in rare cases, fatal. Both can also lead to pneumonia.</p>
                 <p>However, the overall profile of COVID-19 is more serious. Estimates vary, but its mortality rate seems to be between about 1% and 3%.</p>
@@ -80,7 +81,7 @@
               </div>
             </div>
             <div id="myth-3" class="doc-section">
-              <div class="dsec-title"><a href="#myth-1">#3: Cats and dogs spread coronavirus</a></div>
+              <div class="dsec-title"><a href="#myth-3">#3: Cats and dogs spread coronavirus</a></div>
               <div class="dsec-content">
                 <p>Currently, there is little evidence that SARS-CoV-2 can infect cats and dogs. However, in Hong Kong, a Pomeranian whose owner had COVID-19 became infected. The dog did not display any symptoms.</p>
                 <p>Scientists are debating the importance of this case to the epidemic. For instance, Prof. Jonathan Ball, Professor of Molecular Virology at the University of Nottingham in the United Kingdom, says:</p>
@@ -88,7 +89,7 @@
               </div>
             </div>
             <div id="myth-4" class="doc-section">
-              <div class="dsec-title"><a href="#myth-1">#4: Antibiotics kill coronavirus</a></div>
+              <div class="dsec-title"><a href="#myth-4">#4: Antibiotics kill coronavirus</a></div>
               <div class="dsec-content">
                 <p>Antibiotics only kill bacteria; they do not kill viruses.</p>
               </div>

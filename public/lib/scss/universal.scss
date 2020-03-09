@@ -1,12 +1,17 @@
 @import '_vars';
 
-#wrapper{padding:20px 0;}
+#wrapper{
+  padding:10px 0;
+  @media (min-width: $screen-m){padding:20px 0;}
+  &.paused{height:calc(100vh - 99px);overflow:hidden;} // 99px is nav height
+}
 
 .mnav{
   position:relative;height:auto;width:100vw;background-color:#fff;z-index:15000;
   &.moving{box-shadow:0 0 2px 20px rgba(30, 30, 30, 0.05);}
   &-wrapper{
-    padding-top:30px;padding-bottom:30px;
+    padding-top:25px;padding-bottom:25px;
+    @media (min-width: $screen-m){padding-top:30px;padding-bottom:30px;}
     &::before{content:'';display:table;clear:both;}
   }
   &-col{
@@ -14,14 +19,28 @@
     &.right{float:right;}
   }
   &-logo{
-    font-size:30px;font-weight:800;text-transform:uppercase;letter-spacing:-0.5px;
+    position:relative;font-size:30px;font-weight:800;text-transform:uppercase;letter-spacing:-0.5px;z-index:15000;
     & span{color:$punch;}
   }
   &-menu{
-    margin-top:6px;font-size:22px;font-weight:700;
-    & li{display:inline-block;}
+    display:none;position:fixed;height:100vh;width:100vw;top:0;left:0;font-size:24px;font-weight:700;text-align:center;z-index:14999;
+    background:rgba(249, 243, 236, 0.85);padding:100px 10px 0;overflow-y:scroll;
+    &.opened{display:block;}
+    @media(min-width: $screen-m){display:block;position:relative;height:auto;width:auto;margin-top:3px;padding:0;background:none;font-size:22px;text-align:left;}
+    &-trigger{
+      & img{height:36px;width:36px;}
+      &-wrapper{
+        position:relative;z-index:15000;
+        @media(min-width: $screen-m){display:none;}
+      }
+    }
+    & li{
+      display:block;margin-bottom:15px;
+      @media(min-width: $screen-m){display:inline-block;margin:0;}
+    }
     & a{
-      padding:4px 10px;transition:none;
+      display:block;padding:6px 12px;transition:none;
+      @media(min-width: $screen-m){padding:4px 10px;}
       &.bg{
         color:#fff;background-color:$punch;border-radius:4px;
         &:hover,&:active{background-color:$carmine-pink;}

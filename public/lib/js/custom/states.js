@@ -4,6 +4,7 @@ const stateNames = require('../../json/states.json');
 
 function resizeMap(){
   const svgWidth = $('#usmap').width(), mapHeight = svgWidth * 2/3; // ratio w:h 3:2
+  // console.log(svgWidth, mapHeight);
   $('#usmap svg').attr('width', svgWidth).attr('height', mapHeight);
 };
 
@@ -25,7 +26,7 @@ function loadStateData(stateData){
   $(idStat+'-deaths').text(sd.data.deaths);
   $(idStat+'-recov').text(sd.data.recovered);
   // cases
-  console.log(sd.data.cases);
+  // console.log(sd.data.cases);
   $(idMap+'-cases').html('');
   sd.data.cases.forEach(sCase => $(idMap+'-cases').append(stateCaseTemplate(sCase)));
   // const ud = cdFetch.usa.data.compiled;
@@ -38,10 +39,10 @@ function stateCaseTemplate(data){
   // {location: S, recovered: N, confirmed: N, deaths: N}
   return '<div class="state-case">'+
   `<div class="state-case-item loc">${data.location}</div>`+
-  `<div class="state-case-item stat total"><span>${data.confirmed}</span> Cases</div>`+
-  `<div class="state-case-item stat deaths"><span>${data.deaths}</span> Deaths</div>`+
-  `<div class="state-case-item stat recov"><span>${data.recovered}</span> Recovered</div>`+
-  "</div>";
+  `<div class="state-case-item stat total">${data.confirmed}</div>`+
+  `<div class="state-case-item stat deaths">${data.deaths}</div>`+
+  `<div class="state-case-item stat recov">${data.recovered}</div>`+
+  '</div>';
 }
 
 (function($){
@@ -70,7 +71,7 @@ function stateCaseTemplate(data){
     dataType: 'json',
   });
   ajax.done(data => {
-    console.log(data);
+    // console.log(data);
     cdFetch = data;
   });
   ajax.fail((a, b, c) => console.error(a, b, c));

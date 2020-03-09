@@ -1,6 +1,7 @@
 'use strict';
 
 const apiBase = process.env.API_URL+'api/';
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 function geolocSuccess(pos){
   const lat = pos.coords.latitude, long = pos.coords.longitude;
@@ -35,6 +36,15 @@ function loadGeodata(data){
     // console.log('#geoloc-d'+dist);
     $('#geoloc-d'+dist+' .cases val').text(total);
   });
+}
+
+function formatDate(dObj){
+  let hrs = dObj.getHours(), mins = dObj.getMinutes(), ampm = hrs >= 12 ? 'pm' : 'am';
+  hrs = hrs % 12;
+  hrs = hrs ? hrs : 12; // the hour '0' should be '12'
+  mins = mins < 10 ? '0'+mins : mins;
+  const strTime = `${hrs}:${mins} ${ampm}`;
+  return `${months[dObj.getMonth()]} ${dObj.getDate()}, ${strTime}`;
 }
 
 (function($){
@@ -83,6 +93,7 @@ function loadGeodata(data){
     cdFetch = data;
     const {usa, stats, countries} = data;
     // stats
+    $('#stats-last-update span').text(formatDate(new Date(stats.ts)));
     $('#stats-total-total').text(stats.data.total);
     $('#stats-deaths-total').text(stats.data.deaths);
     $('#stats-recov-total').text(stats.data.recovered);

@@ -54,13 +54,14 @@
           <div class="container">
             <div class="hero-fc">
               <div class="hero-fc-head">
-                <div class="hero-fc-updated">Last updated - <span>March 27</span> (updated every five minutes)</div>
+                <div id="stats-last-update" class="hero-fc-updated">Last updated: <span></span> (updated every five minutes)</div>
               </div>
               <div class="hero-fc-body">
                 <div class="hero-fc-row total">
                   <div class="hero-fc-row-head">
                     <name>Total Cases</name>
                     <num id="stats-total-total">0</num>
+                    <name class="mobile">Cases</name>
                   </div>
                   <div class="hero-fc-row-body">
                     <div class="hero-fc-item">
@@ -81,6 +82,7 @@
                   <div class="hero-fc-row-head">
                     <name>Deaths</name>
                     <num id="stats-deaths-total">0</num>
+                    <name class="mobile">Deaths</name>
                   </div>
                   <div class="hero-fc-row-body">
                     <div class="hero-fc-item">
@@ -101,6 +103,7 @@
                   <div class="hero-fc-row-head">
                     <name>Recovered</name>
                     <num id="stats-recov-total">0</num>
+                    <name class="mobile">Recovered</name>
                   </div>
                   <div class="hero-fc-row-body">
                     <div class="hero-fc-item">
@@ -137,7 +140,7 @@
                 </ul>
                 <div class="hero-you-locs">
                   <div id="geoloc-d0-10" class="hero-you-loc d0-10">
-                    <div class="hero-you-loc-radius">within 10 mi</div>
+                    <div class="hero-you-loc-radius">~ 10 mi</div>
                     <ul>
                       <li class="cases"><val>0</val> <name>Cases</name></li>
                       <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>

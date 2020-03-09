@@ -6,61 +6,104 @@
   &-fc{
     background-color:$fantasy;
     &-head{background-color:$half-pearl-lusta;padding:7px 25px;}
-    &-body{display:flex;padding:25px;}
+    &-body{display:flex;padding:25px;flex-wrap:wrap;}
     // head
     &-updated{font-size:18px;}
     // body
     &-row,&-col,&-item{display:inline-block;}
     &-row{
-      flex:1 1 33.333333%;padding-right:5px;
+      flex:1 1 100%;padding-bottom:20px;padding-right:5px;text-align:center;
+      &:last-child{padding-bottom:0;}
+      @media (min-width: $screen-m){flex:1 1 33.333333%;padding-bottom:0;text-align:left;}
       &-head{
-        padding-bottom:20px;
-        & num{display:block;padding-top:5px;}
+        padding-bottom:14px;
+        @media (min-width: $screen-m){padding-bottom:20px;}
+        & name{
+          display:none;
+          @media (min-width: $screen-m){display:inline-block;}
+          &.mobile{
+            display:inline-block;padding-left:10px;
+            @media (min-width: $screen-m){display:none;}
+          }
+        }
+
+        & num{
+          padding-left:10px;
+          @media (min-width: $screen-m){display:block;padding-top:5px;padding-left:0;}
+        }
       }
       & name,& num{line-height:1;}
-      & name{font-size:34px;font-weight:700;text-transform:uppercase;}
-      & num{font-size:38px;font-weight:800;}
+      & name{
+        font-size:22px;font-weight:700;text-transform:uppercase;
+        @media (min-width: $screen-m){font-size:34px;}
+      }
+      & num{
+        font-size:26px;font-weight:800;
+        @media (min-width: $screen-m){font-size:38px;}
+      }
       &.total num{color:$yellowsea;}
       &.deaths num{color:$punch;}
       &.recovered num{color:$green;}
     }
     &-item{
-      display:flex;width:100%;padding-bottom:10px;
+      display:flex;width:100%;padding-bottom:5px;justify-content:center;
+      @media (min-width: $screen-m){padding-bottom:10px;justify-content:left;}
       &:last-child{padding-bottom:0;}
-      & name{flex:1;color:#777;padding-right:10px;letter-spacing:-0.5px;}
-      & num{flex:2;font-size:34px;}
+      & name{
+        color:#777;padding-right:10px;letter-spacing:-0.5px;
+        @media (min-width: $screen-m){flex:1;}
+      }
+      & num{
+        font-size:22px;
+        @media (min-width: $screen-m){flex:2;font-size:34px;}
+      }
     }
   }
   &-you{
-    padding:35px 0;
-    &-head{padding:0 25px 20px;}
+    padding:25px 0 10px;text-align:center;
+    @media (min-width: $screen-m){padding:35px 0;text-align:left;}
+    &-head{
+      padding:0 10px 20px;
+      @media (min-width: $screen-m){padding:0 25px 20px;}
+    }
     // head
-    &-title{font-size:30px;font-weight:800;}
+    &-title{
+      font-size:24px;font-weight:800;
+      @media (min-width: $screen-m){font-size:30px;}
+    }
     // body
     &-search{
       padding:0 25px 20px;
-      &-title{padding-bottom:2px;font-size:16px;}
+      &-title{
+        padding-bottom:5px;font-size:16px;
+        @media (min-width: $screen-m){padding-bottom:2px;}
+      }
       &-bar,&-btn{display:inline-block;font-size:18px;vertical-align:middle;}
       &-bar{
-        width:100%;max-width:300px;padding:5px 10px;margin-right:20px;border:1px solid #ddd;outline:0;
+        width:100%;max-width:300px;padding:5px 10px;margin-bottom:8px;border:1px solid #ddd;outline:0;
+        @media (min-width: $screen-m){margin-right:20px;margin-bottom:0;}
         &:focus,&:hover,&:active{border:1px solid $punch;}
       }
       &-btn{
         display:inline-block;color:$punch;border:1px solid $punch;border-radius:2px;
         &:hover,&:active{color:#fff;background-color:$punch;}
-        & span{display:block;padding:4px 12px;cursor:pointer;}
+        & span{display:block;padding:4px 15px;cursor:pointer;}
       }
     }
     &-home{
       padding:0 25px 5px;
-      & li{display:inline-block;padding-right:25px;font-size:20px;}
+      & li{
+        display:block;font-size:17px;
+        @media (min-width: $screen-m){display:inline-block;padding-right:25px;font-size:20px;}
+      }
       & val{padding-left:5px;font-weight:700;}
     }
     &-loc{
-      flex:1;padding-right:10px;font-size:16px;
+      flex:1 1 33.333333%;max-width:33.333333%;padding-right:10px;margin-top:20px;font-size:16px;
+      @media (min-width: $screen-m){flex:1 1 auto;max-width:none;margin-top:0;}
       &:last-child{padding-right:0;}
       &s{
-        display:flex;padding:10px 25px 0;text-align:center;
+        display:flex;padding:10px 25px 0;text-align:center;flex-wrap:wrap;justify-content:center;
         // background: /* gradient can be an image */
         // linear-gradient(to left, rga(219,64,49,1) 0%, rgb(241,75,70) 30%, rgb(241,75,70) 70%, rgb(223,80,103) 100%)
         // left bottom $fantasy no-repeat;
@@ -70,8 +113,14 @@
       & ul{padding-top:10px;}
       & li{
         & name,& val{display:block;}
-        & name{padding-top:4px;font-size:18px;}
-        & val{font-size:30px;font-weight:700;}
+        & name{
+          padding-top:4px;font-size:16px;
+          @media (min-width: $screen-m){font-size:18px;}
+        }
+        & val{
+          font-size:24px;font-weight:700;
+          @media (min-width: $screen-m){font-size:30px;}
+        }
       }
       // &.d0-10{flex-grow:1;}
       // &.d10-25{flex-grow:1;}
@@ -81,14 +130,19 @@
     }
   }
   &-linkbox{
-    flex:1 1 33.333333%;max-width:33.333333%;border-top:10px solid;
+    flex:1 1 100%;border-top:6px solid;
+    @media (min-width: $screen-m){flex:1 1 33.333333%;max-width:33.333333%;border-top-width:10px;}
     &es{display:flex;flex-wrap:wrap;padding:25px 0;}
     &-inner{
-      display:block;height:100%;padding:20px 25px 30px;background-color:$fantasy;
+      display:block;height:100%;padding:20px 25px;background-color:$fantasy;
+      @media (min-width: $screen-m){padding:20px 25px 30px;}
       &:hover,&:active{background-color:$half-pearl-lusta;}
     }
     &:nth-child(2n) &-inner{background-color:$quarter-white;}
-    &-name{color:inherit;font-size:26px;font-weight:800;}
+    &-name{
+      color:inherit;font-size:22px;font-weight:800;
+      @media (min-width: $screen-m){font-size:26px;}
+    }
     &-desc{padding-top:5px;color:#aaa;font-size:15px;font-weight:500;line-height:1.2;}
     &.states{color:$google-blue;border-color:$google-blue;}
     &.research{color:$google-yellow;border-color:$google-yellow;}
@@ -101,7 +155,10 @@
     padding:20px 25px;text-align:center;
     &-body{padding:20px 0;}
     // head
-    &-title{font-size:32px;font-weight:800;}
+    &-title{
+      font-size:24px;font-weight:800;
+      @media (min-width: $screen-m){font-size:32px;}
+    }
     // body
     &-cs{font-size:20px;}
   }

@@ -77,12 +77,20 @@
                 </div>
                 <div class="state-cases-wrapper">
                   <div class="state-cases-title">Reported Cases</div>
+                  <div class="state-cases">
+                    <div class="state-case header">
+                      <div class="state-case-item loc">Location</div>
+                      <div class="state-case-item stat-f">Cases</div>
+                      <div class="state-case-item stat-f">Deaths</div>
+                      <div class="state-case-item stat-f">Recovered</div>
+                    </div>
+                  </div>
                   <div id="usmap-state-cases" class="state-cases">
                     <!-- <div class="state-case">
                       <div class="state-case-item loc">Location</div>
-                      <div class="state-case-item stat total"><span>0</span> Cases</div>
-                      <div class="state-case-item stat deaths"><span>0</span> Deaths</div>
-                      <div class="state-case-item stat recov"><span>0</span> Recovered</div>
+                      <div class="state-case-item stat total">0</div>
+                      <div class="state-case-item stat deaths">0</div>
+                      <div class="state-case-item stat recov">0</div>
                     </div> -->
                   </div>
                 </div>
