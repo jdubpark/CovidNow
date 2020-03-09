@@ -1,0 +1,68 @@
+#doc {
+  position: relative;
+}
+
+.doc {
+  font-size: 0;
+}
+.doc-menu {
+  position: fixed;
+  height: 100vh;
+  width: 400px;
+  top: 0;
+  padding-top: 100px;
+  background-color: #f9f3ec;
+  z-index: 1000;
+}
+.doc-menu-inner {
+  padding: 30px 20px;
+}
+.doc-main {
+  padding-left: 400px;
+}
+.doc-main-inner {
+  padding: 30px 50px;
+}
+.doc-leads {
+  font-size: 16px;
+}
+.doc-leads li {
+  display: block;
+  margin-bottom: 20px;
+}
+.doc-leads a {
+  transition: none;
+}
+.doc-leads a:hover, .doc-leads a:active {
+  color: #db4031;
+}
+.doc-section {
+  padding: 25px 0;
+}
+.doc-section:first-child {
+  padding-top: 15px;
+}
+.doc-section:last-child {
+  padding-bottom: 15px;
+}
+
+.dsec-title {
+  font-size: 22px;
+  font-weight: 700;
+}
+.dsec-title a {
+  display: inline-block;
+}
+.dsec-title a:hover, .dsec-title a:active {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.dsec-content {
+  margin-top: 14px;
+  font-size: 17px;
+}
+.dsec-content p:first-child {
+  margin-top: 0;
+}
+
+/*# sourceMappingURL=read.css.map */

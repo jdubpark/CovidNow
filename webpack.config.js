@@ -22,6 +22,7 @@ module.exports = {
     'universal': `${libPath}js/custom/universal.js`,
     'home': `${libPath}js/custom/home.js`,
     'states': `${libPath}js/custom/states.js`,
+    'read': `${libPath}js/custom/read.js`,
   },
 
   devtool: 'inline-source-map',

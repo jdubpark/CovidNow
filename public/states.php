@@ -7,7 +7,7 @@
     <meta name="keywords" content="coronavirus, covid, covid-19" />
     <meta name="description" content="Live updates and information regarding COVID-19." />
     <meta name="author" content="StudioPark.io" />
-    <title>CovidNow</title>
+    <title>States - CovidNow</title>
     <!-- canonical: https://www.shopify.com/partners/blog/canonical-urls -->
     <link rel="canonical" href="https://covidnow.com/" />
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap"> -->

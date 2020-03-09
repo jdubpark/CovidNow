@@ -2,6 +2,41 @@
 
 const apiBase = process.env.API_URL+'api/';
 
+function geolocSuccess(pos){
+  const lat = pos.coords.latitude, long = pos.coords.longitude;
+  $('#you-search-lat val').html(lat);
+  $('#you-search-long val').html(long);
+  console.log(pos.coords);
+  const ajax1 = $.ajax({
+    method: 'GET',
+    url: apiBase+'my/geoDistances',
+    data: {lat, long},
+    dataType: 'json',
+  });
+  ajax1.done(data => {
+    console.log('auto geoloc', data);
+    loadGeodata(data);
+  });
+}
+
+function geolocError(){
+  $('#you-search-lat val').html('locating failed...');
+  $('#you-search-long val').html('locating failed...');
+}
+
+function loadGeodata(data){
+  const {geocoding: {lat, long}, distances: dists} = data;
+  $('#you-search-lat val').text(lat);
+  $('#you-search-long val').text(long);
+  // $('#you-search-name val').text(name);
+
+  Object.keys(dists).forEach(dist => {
+    const locs = dists[dist], total = locs.length;
+    // console.log('#geoloc-d'+dist);
+    $('#geoloc-d'+dist+' .cases val').text(total);
+  });
+}
+
 (function($){
   let cdFetch = undefined; // core data fetch
 
@@ -14,37 +49,29 @@ const apiBase = process.env.API_URL+'api/';
 
     const ajax1 = $.ajax({
       method: 'GET',
-      url: apiBase+'my/geocoding',
-      data: {address: val},
-      dataType: 'json',
-    });
-    const ajax2 = $.ajax({
-      method: 'GET',
       url: apiBase+'my/geoDistances',
       data: {address: val},
       dataType: 'json',
     });
-    ajax1.done(data => console.log(data));
+    ajax1.done(data => {
+      console.log(data);
+      loadGeodata(data);
+    });
     ajax1.fail((a, b, c) => console.err(a, b, c));
-    ajax2.done(data => console.log(data));
-    ajax2.fail((a, b, c) => console.err(a, b, c));
 
     youSearching = false;
     $t.removeClass('disabled');
   });
 
-  // function error(){
-  //   status.textContent = 'Unable to retrieve your location';
-  // }
-  //
-  //
-  //
-  // if (!navigator.geolocation){
-  //   status.textContent = 'Geolocation is not supported by your browser';
-  // } else {
-  //   status.textContent = 'Locating…';
-  //   navigator.geolocation.getCurrentPosition(success, error);
-  // }
+  if (!navigator.geolocation){
+    console.log('Geolocation is not supported by your browser');
+    $('#you-search-lat val').html('not supported');
+    $('#you-search-long val').html('not supported');
+  } else {
+    $('#you-search-lat val').html('locating...');
+    $('#you-search-long val').html('locating...');
+    navigator.geolocation.getCurrentPosition(geolocSuccess, geolocError);
+  }
 
   const ajax = $.ajax({
     method: 'GET',
@@ -54,6 +81,22 @@ const apiBase = process.env.API_URL+'api/';
   ajax.done(data => {
     console.log(data);
     cdFetch = data;
+    const {usa, stats, countries} = data;
+    // stats
+    $('#stats-total-total').text(stats.data.total);
+    $('#stats-deaths-total').text(stats.data.deaths);
+    $('#stats-recov-total').text(stats.data.recovered);
+    // usa
+    $('#stats-total-usa').text(usa.data.compiled.all.total);
+    $('#stats-deaths-usa').text(usa.data.compiled.all.deaths);
+    $('#stats-recov-usa').text(usa.data.compiled.all.recovered);
+    // china, other
+    $('#stats-total-china').text(countries.data.Mainland_China.total);
+    $('#stats-deaths-china').text(countries.data.Mainland_China.deaths);
+    $('#stats-recov-china').text(countries.data.Mainland_China.recovered);
+    $('#stats-total-other').text(countries.data._others.total);
+    $('#stats-deaths-other').text(countries.data._others.deaths);
+    $('#stats-recov-other').text(countries.data._others.recovered);
   });
   ajax.fail((a, b, c) => console.error(a, b, c));
 })(jQuery);

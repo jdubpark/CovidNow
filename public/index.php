@@ -7,7 +7,7 @@
     <meta name="keywords" content="coronavirus, covid, covid-19" />
     <meta name="description" content="Live updates and information regarding COVID-19." />
     <meta name="author" content="StudioPark.io" />
-    <title>CovidNow</title>
+    <title>COVID-19 - CovidNow</title>
     <!-- canonical: https://www.shopify.com/partners/blog/canonical-urls -->
     <link rel="canonical" href="https://covidnow.com/" />
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap"> -->
@@ -60,60 +60,60 @@
                 <div class="hero-fc-row total">
                   <div class="hero-fc-row-head">
                     <name>Total Cases</name>
-                    <num>102304</num>
+                    <num id="stats-total-total">0</num>
                   </div>
                   <div class="hero-fc-row-body">
                     <div class="hero-fc-item">
                       <name>USA</name>
-                      <num>405</num>
+                      <num id="stats-total-usa">0</num>
                     </div>
                     <div class="hero-fc-item">
                       <name>China</name>
-                      <num>80231</num>
+                      <num id="stats-total-china">0</num>
                     </div>
                     <div class="hero-fc-item">
                       <name>Other</name>
-                      <num>15032</num>
+                      <num id="stats-total-other">0</num>
                     </div>
                   </div>
                 </div>
                 <div class="hero-fc-row deaths">
                   <div class="hero-fc-row-head">
                     <name>Deaths</name>
-                    <num>3059</num>
+                    <num id="stats-deaths-total">0</num>
                   </div>
                   <div class="hero-fc-row-body">
                     <div class="hero-fc-item">
                       <name>USA</name>
-                      <num>19</num>
+                      <num id="stats-deaths-usa">0</num>
                     </div>
                     <div class="hero-fc-item">
                       <name>China</name>
-                      <num>2503</num>
+                      <num id="stats-deaths-china">0</num>
                     </div>
                     <div class="hero-fc-item">
                       <name>Other</name>
-                      <num>467</num>
+                      <num id="stats-deaths-other">0</num>
                     </div>
                   </div>
                 </div>
                 <div class="hero-fc-row recovered">
                   <div class="hero-fc-row-head">
                     <name>Recovered</name>
-                    <num>3059</num>
+                    <num id="stats-recov-total">0</num>
                   </div>
                   <div class="hero-fc-row-body">
                     <div class="hero-fc-item">
                       <name>USA</name>
-                      <num>19</num>
+                      <num id="stats-recov-usa">0</num>
                     </div>
                     <div class="hero-fc-item">
                       <name>China</name>
-                      <num>2503</num>
+                      <num id="stats-recov-china">0</num>
                     </div>
                     <div class="hero-fc-item">
                       <name>Other</name>
-                      <num>467</num>
+                      <num id="stats-recov-other">0</num>
                     </div>
                   </div>
                 </div>
@@ -127,53 +127,53 @@
               <div class="hero-you-body">
                 <div class="hero-you-search">
                   <div class="hero-you-search-title"><span>Look up address</span></div>
-                  <input id="you-search-bar" class="hero-you-search-bar" type="text"></input>
+                  <input id="you-search-bar" class="hero-you-search-bar" type="text" placeholder="Type in address with states abbr."></input>
                   <div id="you-search-btn" class="hero-you-search-btn"><span>Search</span></div>
                 </div>
                 <ul class="hero-you-home">
-                  <li class="hero-you-home-lat">Latitude: <val>43.0392</val></li>
-                  <li class="hero-you-home-long">Longtitude: <val>-72.4938</val></li>
-                  <li class="hero-you-home-prov">Location: <val>Boston, MA</val></li>
+                  <li id="you-search-lat" class="hero-you-home-lat">Latitude: <val>allow access...</val></li>
+                  <li id="you-search-long" class="hero-you-home-long">Longtitude: <val>allow access...</val></li>
+                  <!-- <li id="you-search-name" class="hero-you-home-prov">Location: <val>loading...</val></li> -->
                 </ul>
                 <div class="hero-you-locs">
                   <div id="geoloc-d0-10" class="hero-you-loc d0-10">
                     <div class="hero-you-loc-radius">within 10 mi</div>
                     <ul>
-                      <li class="cases"><name>Cases:</name> <val>0</val></li>
-                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                      <li class="cases"><val>0</val> <name>Cases</name></li>
+                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
                   <div id="geoloc-d10-25" class="hero-you-loc d10-25">
                     <div class="hero-you-loc-radius">10-25 mi</div>
                     <ul>
-                      <li class="cases"><name>Cases:</name> <val>0</val></li>
-                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                      <li class="cases"><val>0</val> <name>Cases</name></li>
+                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
                   <div id="geoloc-d25-50" class="hero-you-loc d25-50">
                     <div class="hero-you-loc-radius">25-50 mi</div>
                     <ul>
-                      <li class="cases"><name>Cases:</name> <val>0</val></li>
-                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                      <li class="cases"><val>0</val> <name>Cases</name></li>
+                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
                   <div id="geoloc-d50-100" class="hero-you-loc d50-100">
                     <div class="hero-you-loc-radius">50-100 mi</div>
                     <ul>
-                      <li class="cases"><name>Cases:</name> <val>0</val></li>
-                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                      <li class="cases"><val>0</val> <name>Cases</name></li>
+                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
-                  <div id="geoloc-d100" class="hero-you-loc d100">
-                    <div class="hero-you-loc-radius">100+ mi</div>
+                  <div id="geoloc-d100-500" class="hero-you-loc d100-500">
+                    <div class="hero-you-loc-radius">100-500 mi</div>
                     <ul>
-                      <li class="cases"><name>Cases:</name> <val>0</val></li>
-                      <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li>
+                      <li class="cases"><val>0</val> <name>Cases</name></li>
+                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
+                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
                 </div>
@@ -216,6 +216,15 @@
                   <div class="hero-linkbox-name">About &#8250;</div>
                   <div class="hero-linkbox-desc">Help us improve our website and data. Your voice matters.</div>
                 </a>
+              </div>
+            </div>
+
+            <div class="hero-countries">
+              <div class="hero-countries-head">
+                <div class="hero-countries-title">Stats by Countries</div>
+              </div>
+              <div class="hero-countries-body">
+                <div class="hero-countries-cs">Coming soon (organizing data right now)</div>
               </div>
             </div>
           </div>

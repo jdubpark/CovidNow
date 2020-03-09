@@ -92,7 +92,7 @@
 }
 .hero-you-search-bar {
   width: 100%;
-  max-width: 250px;
+  max-width: 300px;
   padding: 5px 10px;
   margin-right: 20px;
   border: 1px solid #ddd;
@@ -139,22 +139,23 @@
 .hero-you-locs {
   display: flex;
   padding: 10px 25px 0;
-  background: linear-gradient(to left, rga(219, 64, 49, 1) 0%, #f14b46 30%, #f14b46 70%, #df5067 100%) left bottom #f9f3ec no-repeat;
-  background-size: 100% 5px;
-  /* if linear-gradient, we need to resize it */
+  text-align: center;
 }
 .hero-you-loc-radius {
   font-weight: 700;
 }
-.hero-you-loc li {
-  display: flex;
+.hero-you-loc ul {
+  padding-top: 10px;
+}
+.hero-you-loc li name, .hero-you-loc li val {
+  display: block;
 }
 .hero-you-loc li name {
-  flex: 1;
+  padding-top: 4px;
+  font-size: 18px;
 }
 .hero-you-loc li val {
-  flex: 2;
-  padding-left: 5px;
+  font-size: 30px;
   font-weight: 700;
 }
 .hero-linkbox {
@@ -214,6 +215,20 @@
 .hero-linkbox.about {
   color: #868375;
   border-color: #868375;
+}
+.hero-countries {
+  padding: 20px 25px;
+  text-align: center;
+}
+.hero-countries-body {
+  padding: 20px 0;
+}
+.hero-countries-title {
+  font-size: 32px;
+  font-weight: 800;
+}
+.hero-countries-cs {
+  font-size: 20px;
 }
 
 /*# sourceMappingURL=home.css.map */

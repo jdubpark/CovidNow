@@ -20,7 +20,7 @@ let cacheCoreData = undefined;
 
 
 // sec, min, etc..
-const cacheCDJob = new CronJob('0 */3 * * * *', fnCacheCoreData, null, true, 'America/Los_Angeles');
+const cacheCDJob = new CronJob('0 */2 * * * *', fnCacheCoreData, null, true, 'America/Los_Angeles');
 fnCacheCoreData(); // init fn call
 cacheCDJob.start();
 function fnCacheCoreData(){
@@ -57,7 +57,7 @@ app.get('/api/core/:type', (req, res, next) => {
 });
 
 app.get('/api/my/:type', (req, res, next) => {
-  const {type} = req.params, allowed = ['geocoding', 'distances', 'geoDistances'];
+  const {type} = req.params, allowed = ['geocoding', 'distances', 'geoDistances', 'reverse'];
 
   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
 
@@ -74,8 +74,13 @@ app.get('/api/my/:type', (req, res, next) => {
     args = {homeLoc: [qs.lat, qs.long], locs: cacheCoreData.usa.data.geo.list, unit: qs.unit || 'mi'};
     runFn = Geo.core.distances;
   } else if (type === 'geoDistances'){
-    args = {address: qs.address, locs: cacheCoreData.usa.data.geo.list, unit: qs.unit || 'mi'};
+    if (qs.lat && qs.long) args = {homeLoc: {lat: qs.lat, long: qs.long}, locs: [], unit: qs.unit || 'mi'};
+    else args = {address: qs.address, locs: [], unit: qs.unit || 'mi'};
+    args.locs = cacheCoreData.usa.data.geo.list;
     runFn = Geo.core.geoDistances;
+  } else if (type === 'reverse'){
+    args = {lat: qs.lat, long: qs.long};
+    runFn = Geo.core.reverse;
   }
 
   // make sure args exist (not invalid)

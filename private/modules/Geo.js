@@ -7,16 +7,30 @@ module.exports = class Geo{ // no static to keep sharing fn easy
     return {
       geocoding: this.geocoding.bind(this),
       distances: this.distances.bind(this),
-      distance: this.distance.bind(this),
+      reverse: this.reverse.bind(this),
+      // distance: this.distance.bind(this),
       geoDistances: this.geoDistances.bind(this),
     };
   }
 
   // geocoding + distances
   geoDistances(address, locs, unit){
-    return this.geocoding(address).then(({lat, long}) => {
-      return this.distances([lat, long], locs, unit); // just calculations
-    }).catch(err => reject(err));
+    // use provided lat, long
+    console.log(address);
+    if (typeof address === 'object'){
+      return {
+        geocoding: address,
+        distances: this.distances([address.lat, address.long], locs, unit),
+      }; // just calculations
+    }
+    // use provided address
+    return this.geocoding(address).then(data => {
+      // console.log(data);
+      return {
+        geocoding: data,
+        distances: this.distances([data.lat, data.long], locs, unit),
+      }; // just calculations
+    }).catch(err => Promise.reject(err));
   }
 
   //
@@ -38,6 +52,19 @@ module.exports = class Geo{ // no static to keep sharing fn easy
     }).catch(err => Promise.reject(err));
   }
 
+  reverse(lat, long){
+    const
+      opts = {
+        method: 'GET',
+        url: `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${long}&zoom=18&addressdetails=1`,
+        headers: {'User-Agent': 'Mozilla/7.0'}, // requires user-agent
+      };
+    return rp(opts).then(res => {
+      const {address} = JSON.parse(res);
+      return {address};
+    }).catch(err => Promise.reject(err));
+  }
+
   //
   //  Distance
   //
@@ -54,10 +81,11 @@ module.exports = class Geo{ // no static to keep sharing fn easy
 
   // just calculations, NO PROMISE!
   distances(homeLoc, locs, unit){
-    const dists = {'0-10': [], '10-25': [], '25-50': [], '50-100': [], '100+': []};
+    const dists = {'0-10': [], '10-25': [], '25-50': [], '50-100': [], '100-500': []};
     locs.forEach(loc => {
       const dist = this.distance(homeLoc, loc, unit);
-      const group = dist <= 10 ? '0-10' : dist <= 25 ? '10-25' : dist <= 50 ? '25-50' : dist <= 100 ? '50-100' : '100+';
+      const group = dist <= 10 ? '0-10' : dist <= 25 ? '10-25' : dist <= 50 ? '25-50' : dist <= 100 ? '50-100' : dist <= 500 ? '100-500' : null;
+      if (!group) return; // ignore 500+
       dists[group].push({dist, loc});
     });
     return dists;

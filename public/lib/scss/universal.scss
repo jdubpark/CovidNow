@@ -3,7 +3,7 @@
 #wrapper{padding:20px 0;}
 
 .mnav{
-  position:relative;height:auto;width:100vw;
+  position:relative;height:auto;width:100vw;background-color:#fff;z-index:15000;
   &.moving{box-shadow:0 0 2px 20px rgba(30, 30, 30, 0.05);}
   &-wrapper{
     padding-top:30px;padding-bottom:30px;

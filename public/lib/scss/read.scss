@@ -1,0 +1,40 @@
+@import '_vars';
+
+#doc{position:relative;}
+.doc{
+  font-size:0;
+  &-menu{
+    position:fixed;height:100vh;width:400px;top:0;padding-top:100px;background-color:$fantasy;z-index:1000;
+    &-inner{padding:30px 20px;}
+  }
+  &-main{
+    padding-left:400px;
+    &-inner{padding:30px 50px;}
+  }
+  &-leads{
+    font-size:16px;
+    & li{display:block;margin-bottom:20px;}
+    & a{
+      transition:none;
+      &:hover,&:active{color:$punch;}
+    }
+  }
+  &-section{
+    padding:25px 0;
+    &:first-child{padding-top:15px;}
+    &:last-child{padding-bottom:15px;}
+  }
+}
+.dsec{
+  &-title{
+    font-size:22px;font-weight:700;
+    & a{
+      display:inline-block;
+      &:hover,&:active{text-decoration:underline;cursor:pointer;}
+    }
+  }
+  &-content{
+    margin-top:14px;font-size:17px;
+    & p:first-child{margin-top:0;}
+  }
+}

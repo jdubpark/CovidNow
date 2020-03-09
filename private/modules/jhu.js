@@ -60,7 +60,7 @@ module.exports = class JHU{
   process(res){
     const data = {
       usa: this.compileUSA(res.usa),
-      stats: this.compileStats({total: res.nTotal, death: res.nDeath, recov: res.nRecov}),
+      stats: this.compileStats({total: res.nTotal, deaths: res.nDeath, recovered: res.nRecov}),
       cases: this.compileCases(res.cases),
       countries: this.compileCountries(res.countries),
     };
@@ -100,11 +100,13 @@ module.exports = class JHU{
     });
 
     // compiled
-    const cmp = {total: 0, states: {total: 0, deaths: 0, recovered: 0}, non: {total: 0, deaths: 0, recovered: 0}};
+    const cmp = {all: {total: 0, deaths: 0, recovered: 0}, states: {total: 0, deaths: 0, recovered: 0}, non: {total: 0, deaths: 0, recovered: 0}};
     Object.keys(clt).forEach(state => {
       // is legitimate state
       const data = clt[state], cobj = state.length == 2 ? cmp.states : cmp.non;
-      cmp.total += data.total;
+      cmp.all.total += data.total;
+      cmp.all.deaths += data.deaths;
+      cmp.all.recovered += data.recovered;
       cobj.total += data.total;
       cobj.deaths += data.deaths;
       cobj.recovered += data.recovered;
@@ -189,10 +191,12 @@ module.exports = class JHU{
   }
 
   compileCountries(data){
-    const byCountry = {};
+    const byCountry = {_others: {total: 0, deaths: 0, recovered: 0, cases: []}};
     data.features.forEach(({attributes: cData}) => {
       const country = cData.Country_Region.split(' ').join('_');
-      if (!byCountry[country]) byCountry[country] = [];
+      // prepare country-specific object
+      if (!byCountry[country]) byCountry[country] = {total: 0, deaths: 0, recovered: 0, cases: []};
+      // reformat data
       const obj = {
         name: cData.Province_State,
         lat: cData.Lat,
@@ -202,9 +206,17 @@ module.exports = class JHU{
         recovered: cData.Recovered,
         updated: cData.Last_Update,
       };
-      byCountry[country].push(obj);
+      byCountry[country].total += obj.confirmed;
+      byCountry[country].deaths += obj.deaths;
+      byCountry[country].recovered += obj.recovered;
+      byCountry[country].cases.push(obj);
+      if (country !== 'Mainland_China' && country !== 'US'){
+        byCountry._others.total += obj.confirmed;
+        byCountry._others.deaths += obj.deaths;
+        byCountry._others.recovered += obj.recovered;
+      }
     });
-    return {byCountry};
+    return byCountry;
   }
 
   getDiff(newTotal, oldTotal, fixed=2){

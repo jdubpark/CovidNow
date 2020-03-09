@@ -7,7 +7,7 @@
     <meta name="keywords" content="coronavirus, covid, covid-19" />
     <meta name="description" content="Live updates and information regarding COVID-19." />
     <meta name="author" content="StudioPark.io" />
-    <title>CovidNow</title>
+    <title>FAQ - CovidNow</title>
     <!-- canonical: https://www.shopify.com/partners/blog/canonical-urls -->
     <link rel="canonical" href="https://covidnow.com/" />
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap"> -->
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="./lib/style/normalize.min.css" />
     <link rel="stylesheet" href="./lib/style/covidnow.css<?php echo "?v=".filemtime("./lib/style/covidnow.css"); ?>" />
     <link rel="stylesheet" href="./lib/style/universal.css<?php echo "?v=".filemtime("./lib/style/universal.css"); ?>" />
-    <link rel="stylesheet" href="./lib/style/states.css<?php echo "?v=".filemtime("./lib/style/states.css"); ?>" />
+    <link rel="stylesheet" href="./lib/style/read.css<?php echo "?v=".filemtime("./lib/style/read.css"); ?>" />
     <!-- Fonts -->
     <!-- <link rel="stylesheet" href="./lib/style/font/glyphicons/glyphicons.css" /> -->
     <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> -->
@@ -48,11 +48,19 @@
 
       <?php require_once './components/main_nav.php'; ?>
 
-      <div id="wrapper">
-        <div id="hero">
-          <div class="container">
-            <div id="map" style="width: 650px; height: 400px;"></div>
-            <div id="clicked-state"></div>
+      <div id="doc">
+        <div id="doc-menu" class="doc-menu">
+          <div class="doc-menu-inner">
+            <ul class="doc-leads">
+              <li><b>COVID-19 FAQ</b></li>
+              <li><b>Coming soon! (finding & answering questions online right now)</b></li>
+            </ul>
+          </div>
+        </div>
+        <div class="doc-main">
+          <div class="doc-main-inner">
+            <p style="margin-top:0;"><b style="font-size:24px;">In this section, we try to answer some of the most asked questions about COVID-19.</b></p>
+            <p><b style="font-size:24px;">Content is coming soon! Please come back later.</b></p>
           </div>
         </div>
       </div>
@@ -78,7 +86,7 @@
     <script src="./lib/js/src/raphael-2.0.js"></script>
     <script src="./lib/js/src/us-map-1.0.1.js"></script>
     <script src="./lib/js/dist/universal.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/universal.bundle.js"); ?>"></script>
-    <script src="./lib/js/dist/states.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/states.bundle.js"); ?>"></script>
+    <script src="./lib/js/dist/read.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/read.bundle.js"); ?>"></script>
 
   </body>
 </html>
