@@ -3,10 +3,10 @@ const
   Bluebird = require('bluebird'),
   config = require('../../config/aws-config.js');
 
-AWS.config.update({
-  region: 'us-east-2',
-  endpoint: 'http://localhost:8000',
-});
+// AWS.config.update({
+//   region: 'us-east-2',
+//   endpoint: 'http://localhost:8000',
+// });
 
 const
   ModDDB = require('./DynamoDB');

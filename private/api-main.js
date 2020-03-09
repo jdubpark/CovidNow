@@ -6,6 +6,7 @@ const
   helmet = require('helmet'),
   app = express(),
   server = http.createServer(app),
+  CronJob = require('cron').CronJob,
   ModAPIMain = require('./modules/APIMain'),
   ModGeo = require('./modules/Geo'),
   CustomError = require('./modules/CustomError');
@@ -16,10 +17,18 @@ const
   Geo = new ModGeo();
 
 let cacheCoreData = undefined;
-APIM.core.getAll().then(data => {
-  cacheCoreData = data;
-  console.log(Date.now(), ' :: Core Data Cached');
-}).catch(err => console.log(err));
+
+
+// sec, min, etc..
+const cacheCDJob = new CronJob('0 */3 * * * *', fnCacheCoreData, null, true, 'America/Los_Angeles');
+fnCacheCoreData(); // init fn call
+cacheCDJob.start();
+function fnCacheCoreData(){
+  APIM.core.getAll().then(data => {
+    cacheCoreData = data;
+    console.log(Date.now(), ' :: Core Data Cached');
+  }).catch(err => console.log(err));
+}
 
 app.use(helmet());
 app.use(express.json());
@@ -71,7 +80,7 @@ app.get('/api/my/:type', (req, res, next) => {
 
   // make sure args exist (not invalid)
   Object.keys(args).forEach(name => {
-    if (typeof args[name] === undefined) return allGood = false;
+    if (typeof args[name] === undefined || args[name] == '') return allGood = false;
   });
   if (!allGood) return next(new CustomError('422', 'Missing Argument'));
 

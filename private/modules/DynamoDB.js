@@ -8,6 +8,8 @@ module.exports = class DynamoDB{
     this.AWS = AWS;
     this.docClient = new AWS.DynamoDB.DocumentClient();
     this.tableName = opts.tableName;
+
+    // this.createTable();
   }
 
   createTable(){

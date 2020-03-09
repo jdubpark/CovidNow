@@ -69,7 +69,7 @@ module.exports = class JHU{
 
   compileUSA(dataUSA){
     // dataUSA: res.usa
-    const usaNon = jsonfile.readFileSync('./usa-non.json'); // update every read
+    const usaNon = jsonfile.readFileSync(__dirname+'/../usa-non.json'); // update every read
     const clt = {}; // collected
     const geo = {list: [], ref: {}}; // geo-location
     dataUSA.features.forEach(feature => {

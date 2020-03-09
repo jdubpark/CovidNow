@@ -125,13 +125,18 @@
                 <div class="hero-you-title">COVID-19 around ME</div>
               </div>
               <div class="hero-you-body">
+                <div class="hero-you-search">
+                  <div class="hero-you-search-title"><span>Look up address</span></div>
+                  <input id="you-search-bar" class="hero-you-search-bar" type="text"></input>
+                  <div id="you-search-btn" class="hero-you-search-btn"><span>Search</span></div>
+                </div>
                 <ul class="hero-you-home">
                   <li class="hero-you-home-lat">Latitude: <val>43.0392</val></li>
                   <li class="hero-you-home-long">Longtitude: <val>-72.4938</val></li>
                   <li class="hero-you-home-prov">Location: <val>Boston, MA</val></li>
                 </ul>
                 <div class="hero-you-locs">
-                  <div class="hero-you-loc d0-10">
+                  <div id="geoloc-d0-10" class="hero-you-loc d0-10">
                     <div class="hero-you-loc-radius">within 10 mi</div>
                     <ul>
                       <li class="cases"><name>Cases:</name> <val>0</val></li>
@@ -139,7 +144,7 @@
                       <li class="recov"><name>Recov:</name> <val>0</val></li>
                     </ul>
                   </div>
-                  <div class="hero-you-loc d10-25">
+                  <div id="geoloc-d10-25" class="hero-you-loc d10-25">
                     <div class="hero-you-loc-radius">10-25 mi</div>
                     <ul>
                       <li class="cases"><name>Cases:</name> <val>0</val></li>
@@ -147,7 +152,7 @@
                       <li class="recov"><name>Recov:</name> <val>0</val></li>
                     </ul>
                   </div>
-                  <div class="hero-you-loc d25-50">
+                  <div id="geoloc-d25-50" class="hero-you-loc d25-50">
                     <div class="hero-you-loc-radius">25-50 mi</div>
                     <ul>
                       <li class="cases"><name>Cases:</name> <val>0</val></li>
@@ -155,7 +160,7 @@
                       <li class="recov"><name>Recov:</name> <val>0</val></li>
                     </ul>
                   </div>
-                  <div class="hero-you-loc d50-100">
+                  <div id="geoloc-d50-100" class="hero-you-loc d50-100">
                     <div class="hero-you-loc-radius">50-100 mi</div>
                     <ul>
                       <li class="cases"><name>Cases:</name> <val>0</val></li>
@@ -163,7 +168,7 @@
                       <li class="recov"><name>Recov:</name> <val>0</val></li>
                     </ul>
                   </div>
-                  <div class="hero-you-loc d100">
+                  <div id="geoloc-d100" class="hero-you-loc d100">
                     <div class="hero-you-loc-radius">100+ mi</div>
                     <ul>
                       <li class="cases"><name>Cases:</name> <val>0</val></li>

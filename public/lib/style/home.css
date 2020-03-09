@@ -78,6 +78,44 @@
   font-size: 30px;
   font-weight: 800;
 }
+.hero-you-search {
+  padding: 0 25px 20px;
+}
+.hero-you-search-title {
+  padding-bottom: 2px;
+  font-size: 16px;
+}
+.hero-you-search-bar, .hero-you-search-btn {
+  display: inline-block;
+  font-size: 18px;
+  vertical-align: middle;
+}
+.hero-you-search-bar {
+  width: 100%;
+  max-width: 250px;
+  padding: 5px 10px;
+  margin-right: 20px;
+  border: 1px solid #ddd;
+  outline: 0;
+}
+.hero-you-search-bar:focus, .hero-you-search-bar:hover, .hero-you-search-bar:active {
+  border: 1px solid #db4031;
+}
+.hero-you-search-btn {
+  display: inline-block;
+  color: #db4031;
+  border: 1px solid #db4031;
+  border-radius: 2px;
+}
+.hero-you-search-btn:hover, .hero-you-search-btn:active {
+  color: #fff;
+  background-color: #db4031;
+}
+.hero-you-search-btn span {
+  display: block;
+  padding: 4px 12px;
+  cursor: pointer;
+}
 .hero-you-home {
   padding: 0 25px 5px;
 }
@@ -92,12 +130,15 @@
 }
 .hero-you-loc {
   flex: 1;
-  padding: 0 10px;
+  padding-right: 10px;
   font-size: 16px;
+}
+.hero-you-loc:last-child {
+  padding-right: 0;
 }
 .hero-you-locs {
   display: flex;
-  padding-top: 10px;
+  padding: 10px 25px 0;
   background: linear-gradient(to left, rga(219, 64, 49, 1) 0%, #f14b46 30%, #f14b46 70%, #df5067 100%) left bottom #f9f3ec no-repeat;
   background-size: 100% 5px;
   /* if linear-gradient, we need to resize it */
