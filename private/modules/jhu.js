@@ -8,13 +8,14 @@ module.exports = class JHU{
   constructor(){
     this.base = 'https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services';
     // &cacheHint=true
+    // const recordCount = 250; // over 250 doesn't work sometimes
     this.ext = {
-      countries: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&resultOffset=0&resultRecordCount=1000',
-      usa: '/ncov_cases/FeatureServer/1/query?f=json&where=(Confirmed%20%3E%200)%20AND%20(Country_Region%20=%20%27US%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&resultOffset=0&resultRecordCount=1000',
-      cases: '/cases_time_v3/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Report_Date_String%20asc&resultOffset=0&resultRecordCount=2000',
-      nTotal: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Confirmed%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D',
-      nDeath: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Deaths%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D',
-      nRecov: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Recovered%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D',
+      countries: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&outSR=102100&resultOffset=0&resultRecordCount=250&cacheHint=true',
+      usa: '/ncov_cases/FeatureServer/1/query?f=json&where=(Confirmed%20%3E%200)%20AND%20(Country_Region%3D%27US%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&outSR=102100&resultOffset=0&resultRecordCount=250&cacheHint=true',
+      cases: '/cases_time_v3/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Report_Date_String%20asc&resultOffset=0&resultRecordCount=250',
+      nTotal: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Confirmed%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true',
+      nDeath: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Deaths%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true',
+      nRecov: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Recovered%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true',
     };
   }
 
@@ -46,6 +47,7 @@ module.exports = class JHU{
         .spread((...res) => {
           // all requests succeeded
           const mapped = {};
+          console.log(res);
           res.forEach((val, key) => mapped[exts[key]] = JSON.parse(val));
           resolve(mapped);
         })
@@ -64,6 +66,7 @@ module.exports = class JHU{
       cases: this.compileCases(res.cases),
       countries: this.compileCountries(res.countries),
     };
+    // console.log(res.usa.features);
     return data;
   }
 
@@ -196,6 +199,7 @@ module.exports = class JHU{
       const country = cData.Country_Region.split(' ').join('_');
       // prepare country-specific object
       if (!byCountry[country]) byCountry[country] = {total: 0, deaths: 0, recovered: 0, cases: []};
+      if (country === 'Mainland_China') country = 'China';
       // reformat data
       const obj = {
         name: cData.Province_State,
@@ -210,7 +214,7 @@ module.exports = class JHU{
       byCountry[country].deaths += obj.deaths;
       byCountry[country].recovered += obj.recovered;
       byCountry[country].cases.push(obj);
-      if (country !== 'Mainland_China' && country !== 'US'){
+      if (country !== 'China' && country !== 'US'){
         byCountry._others.total += obj.confirmed;
         byCountry._others.deaths += obj.deaths;
         byCountry._others.recovered += obj.recovered;

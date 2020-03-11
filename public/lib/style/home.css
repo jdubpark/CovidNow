@@ -370,8 +370,96 @@
     font-size: 32px;
   }
 }
-.hero-countries-cs {
+.hero-countries-loading {
   font-size: 20px;
+}
+.hero-countries-loading.loaded {
+  display: none;
+}
+.hero-countries-labels {
+  font-size: 20px;
+}
+.hero-countries-table {
+  font-size: 0;
+}
+.hero-countries-table-head, .hero-countries-table-body {
+  display: flex;
+  flex-wrap: wrap;
+}
+.hero-countries-table-head {
+  padding-bottom: 2px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  font-weight: 700;
+}
+.hero-country {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 100%;
+}
+@media (min-width: 1024px) {
+  .hero-country {
+    flex: 1 1 50%;
+    max-width: 50%;
+  }
+}
+@media (max-width: 1023px) {
+  .hero-country:nth-child(2n) {
+    background-color: #f4f5f6;
+  }
+}
+@media (min-width: 1024px) {
+  .hero-country:nth-child(4n), .hero-country:nth-child(4n-1) {
+    background-color: #f4f5f6;
+  }
+}
+.hero-country.hd {
+  display: none;
+  background-color: inherit;
+}
+.hero-country.hd.mobile {
+  display: flex;
+}
+@media (min-width: 1024px) {
+  .hero-country.hd {
+    display: flex;
+  }
+}
+.hero-country-name, .hero-country-val {
+  flex: 2 1;
+  padding: 3px;
+  font-size: 16px;
+}
+@media (min-width: 1024px) {
+  .hero-country-name, .hero-country-val {
+    padding: 4px;
+    font-size: 20px;
+  }
+}
+.hero-country-name {
+  text-align: center;
+}
+@media (min-width: 1024px) {
+  .hero-country-name {
+    text-align: right;
+  }
+}
+.hero-country-dummy {
+  flex: 0;
+}
+@media (min-width: 1024px) {
+  .hero-country-dummy {
+    flex: 1;
+  }
+}
+.hero-country .total {
+  color: #f2a543;
+}
+.hero-country .deaths {
+  color: #db4031;
+}
+.hero-country .recov {
+  color: #22a39f;
 }
 
 /*# sourceMappingURL=home.css.map */

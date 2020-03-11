@@ -12,6 +12,7 @@
         <li><a href="./states">States</a></li>
         <li><a href="./myths">Myths</a></li>
         <li><a href="./faq">FAQ</a></li>
+        <li><a href="./research">Facts</a></li>
         <li><a href="./research">Research</a></li>
         <li><a href="./about">About</a></li>
         <li><a class="bg" href="./prevention">Prevention</a></li>

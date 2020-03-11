@@ -28,10 +28,9 @@ function adjustMenuPad(navht, wintop){
 
   $(document).on('click', function(e){
     const $trigger = $('#doc-menu-trigger'), $inner = $('#doc-menu-inner');
-    console.log(e.target);
     if (
-      $inner !== e.target && !$inner.has(e.target).length &&
-      $trigger !== e.target && !$trigger.has(e.target).length
+      $inner[0] !== e.target && !$inner.has(e.target).length &&
+      $trigger[0] !== e.target && !$trigger.has(e.target).length
     ){
       $trigger.removeClass('active');
       $inner.removeClass('opened');

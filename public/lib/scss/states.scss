@@ -46,6 +46,7 @@
         font-size:22px;font-weight:800;
         @media (min-width: $screen-m){font-size:28px;}
       }
+      &-info{max-width:800px;padding:5px 0;margin:0 auto;}
       &-wrapper{padding:20px 0;}
     }
     &.header{font-weight:700;}

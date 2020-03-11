@@ -1,3 +1,8 @@
+body.paused {
+  height: calc(100vh - 99px);
+  overflow: hidden;
+}
+
 #wrapper {
   padding: 10px 0;
 }
@@ -5,10 +10,6 @@
   #wrapper {
     padding: 20px 0;
   }
-}
-#wrapper.paused {
-  height: calc(100vh - 99px);
-  overflow: hidden;
 }
 
 .mnav {
@@ -88,6 +89,7 @@
 .mnav-menu-trigger img {
   height: 36px;
   width: 36px;
+  cursor: pointer;
 }
 .mnav-menu-trigger-wrapper {
   position: relative;

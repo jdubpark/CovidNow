@@ -1,1 +1,38 @@
 @import '_vars';
+
+.about{
+  & a{
+    color:$blue-green;transition:none;
+    & span{display:inline-block;border-bottom:1px dotted $sea-blue;}
+    &:hover,&:active{
+      color:$sea-blue;transition:none;
+      & span{border-bottom-style:solid;}
+    }
+  }
+  &-section{
+    padding-bottom:30px;text-align:center;
+    &-head{padding-bottom:20px;}
+    // head
+    &-title{
+      font-size:24px;font-weight:700;
+      @media (min-width: $screen-m){font-size:30px;}
+      & span{font-weight:800;letter-spacing:-0.5px;}
+      & r{color:$punch;}
+    }
+  }
+  &-member{
+    padding:0 10px;
+    &-img{
+      padding-bottom:15px;
+      & img{height:150px;width:150px;border-radius:100px;}
+    }
+    &-name{font-size:22px;font-weight:700;}
+    &-desc{
+      max-width:650px;margin:0 auto;
+    }
+  }
+  &-contribute{
+    max-width:650px;margin:0 auto;text-align:center;
+    & p{font-size:18px;}
+  }
+}

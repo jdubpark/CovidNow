@@ -2,6 +2,8 @@
 
 const apiBase = process.env.API_URL+'api/';
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const countriesJSON = require('../../json/countries.json');
+const countriesJSON_ = Object.keys(countriesJSON);
 
 function geolocSuccess(pos){
   const lat = pos.coords.latitude, long = pos.coords.longitude;
@@ -102,12 +104,34 @@ function formatDate(dObj){
     $('#stats-deaths-usa').text(usa.data.compiled.all.deaths);
     $('#stats-recov-usa').text(usa.data.compiled.all.recovered);
     // china, other
-    $('#stats-total-china').text(countries.data.Mainland_China.total);
-    $('#stats-deaths-china').text(countries.data.Mainland_China.deaths);
-    $('#stats-recov-china').text(countries.data.Mainland_China.recovered);
+    $('#stats-total-china').text(countries.data.China.total);
+    $('#stats-deaths-china').text(countries.data.China.deaths);
+    $('#stats-recov-china').text(countries.data.China.recovered);
     $('#stats-total-other').text(countries.data._others.total);
     $('#stats-deaths-other').text(countries.data._others.deaths);
     $('#stats-recov-other').text(countries.data._others.recovered);
+
+    // countries
+    const ctData = countries.data, $table = $('#hero-countries-table-body');
+    // sort desc (highest to lowest)
+    const countryNames_ = Object.keys(ctData).sort((a, b) => ctData[a].total < ctData[b].total ? 1 : ctData[a].total > ctData[b].total ? -1 : 0);
+    $('#hero-countries-loading').addClass('loaded');
+    $table.html('');
+    countryNames_.forEach(countryName_ => {
+      if (countryName_[0] === '_') return; // ignore starting with _
+
+      let countryName = countryName_.split('_').join(' ');
+      if (countriesJSON_.includes(countryName)) countryName = countriesJSON[countryName];
+      console.log(countryName);
+      const template = '<div class="hero-country">'+
+        `<div class="hero-country-name">${countryName}</div>`+
+        `<div class="hero-country-val total">${ctData[countryName_].total}</div>`+
+        `<div class="hero-country-val deaths">${ctData[countryName_].deaths}</div>`+
+        `<div class="hero-country-val recov">${ctData[countryName_].recovered}</div>`+
+        '<div class="hero-country-dummy"></div>'+ // dummy
+      '</div>';
+      $table.append(template);
+    });
   });
   ajax.fail((a, b, c) => console.error(a, b, c));
 })(jQuery);

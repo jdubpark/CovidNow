@@ -1,9 +1,12 @@
 @import '_vars';
 
+body{
+  &.paused{height:calc(100vh - 99px);overflow:hidden;} // 99px is nav height
+}
+
 #wrapper{
   padding:10px 0;
   @media (min-width: $screen-m){padding:20px 0;}
-  &.paused{height:calc(100vh - 99px);overflow:hidden;} // 99px is nav height
 }
 
 .mnav{
@@ -28,7 +31,7 @@
     &.opened{display:block;}
     @media(min-width: $screen-m){display:block;position:relative;height:auto;width:auto;margin-top:3px;padding:0;background:none;font-size:22px;text-align:left;}
     &-trigger{
-      & img{height:36px;width:36px;}
+      & img{height:36px;width:36px;cursor:pointer;}
       &-wrapper{
         position:relative;z-index:15000;
         @media(min-width: $screen-m){display:none;}

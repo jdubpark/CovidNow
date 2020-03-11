@@ -36,6 +36,14 @@
     <![endif]-->
     <!-- Track -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103973100-4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-103973100-4');
+    </script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <!-- <noscript>
       You need to enable JavaScript to run this app.
@@ -77,6 +85,7 @@
                 </div>
                 <div class="state-cases-wrapper">
                   <div class="state-cases-title">Reported Cases</div>
+                  <div class="state-cases-info">Currently, we are trying our best to collect accurate data for cases within each state. Please bear with us while we sort our data through! Thank you!</div>
                   <div class="state-cases">
                     <div class="state-case header">
                       <div class="state-case-item loc">Location</div>

@@ -1,5 +1,6 @@
 'use strict';
 
+const apiBase = process.env.API_URL+'api/';
 const stateNames = require('../../json/states.json');
 
 function resizeMap(){
@@ -11,11 +12,12 @@ function resizeMap(){
 let cdFetch = undefined; // core data fetch
 function getStateData(abbr){
   if (!cdFetch || !stateNames[abbr]) return undefined;
-  let coll = cdFetch.usa.data.collected[abbr];
+  const name = stateNames[abbr];
+  let coll = cdFetch.usa.data.collected[name];
   if (!coll){ // no reports! good
     coll = {total: 0, deaths: 0, recovered: 0};
   }
-  return {abbr, name: stateNames[abbr], data: coll};
+  return {abbr, name: name, data: coll};
 }
 
 function loadStateData(stateData){
@@ -67,7 +69,7 @@ function stateCaseTemplate(data){
 
   const ajax = $.ajax({
     method: 'GET',
-    url: 'http://localhost:8012/api/core/all',
+    url: apiBase+'core/all',
     dataType: 'json',
   });
   ajax.done(data => {

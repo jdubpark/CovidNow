@@ -115,6 +115,11 @@
     font-size: 28px;
   }
 }
+.state-cases-info {
+  max-width: 800px;
+  padding: 5px 0;
+  margin: 0 auto;
+}
 .state-cases-wrapper {
   padding: 20px 0;
 }

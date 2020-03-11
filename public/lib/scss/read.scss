@@ -7,7 +7,7 @@
     position:fixed;height:auto;max-height:100vh;width:100vw;top:0;padding-top:89px;background-color:$fantasy;overflow-y:scroll;z-index:1000;
     @media (min-width: $screen-m){height:100vh;width:400px;padding-top:99px;}
     &-trigger{
-      display:block;padding:10px 0;font-size:0;text-align:center;
+      display:block;padding:10px 0;font-size:0;text-align:center;cursor:pointer;
       &:hover,&:active{background-color:$albescent-white;}
       @media (min-width: $screen-m){display:none;}
       & img,& span{display:inline-block;vertical-align:middle;}

@@ -28,6 +28,7 @@
   padding: 10px 0;
   font-size: 0;
   text-align: center;
+  cursor: pointer;
 }
 .doc-menu-trigger:hover, .doc-menu-trigger:active {
   background-color: #f5e1ca;

@@ -1,3 +1,67 @@
-
+.about a {
+  color: #118fb6;
+  transition: none;
+}
+.about a span {
+  display: inline-block;
+  border-bottom: 1px dotted #0c7393;
+}
+.about a:hover, .about a:active {
+  color: #0c7393;
+  transition: none;
+}
+.about a:hover span, .about a:active span {
+  border-bottom-style: solid;
+}
+.about-section {
+  padding-bottom: 30px;
+  text-align: center;
+}
+.about-section-head {
+  padding-bottom: 20px;
+}
+.about-section-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+@media (min-width: 1024px) {
+  .about-section-title {
+    font-size: 30px;
+  }
+}
+.about-section-title span {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.about-section-title r {
+  color: #db4031;
+}
+.about-member {
+  padding: 0 10px;
+}
+.about-member-img {
+  padding-bottom: 15px;
+}
+.about-member-img img {
+  height: 150px;
+  width: 150px;
+  border-radius: 100px;
+}
+.about-member-name {
+  font-size: 22px;
+  font-weight: 700;
+}
+.about-member-desc {
+  max-width: 650px;
+  margin: 0 auto;
+}
+.about-contribute {
+  max-width: 650px;
+  margin: 0 auto;
+  text-align: center;
+}
+.about-contribute p {
+  font-size: 18px;
+}
 
 /*# sourceMappingURL=about.css.map */

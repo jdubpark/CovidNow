@@ -36,6 +36,14 @@
     <![endif]-->
     <!-- Track -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103973100-4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-103973100-4');
+    </script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <!-- <noscript>
       You need to enable JavaScript to run this app.
@@ -54,7 +62,7 @@
           <div class="container">
             <div class="hero-fc">
               <div class="hero-fc-head">
-                <div id="stats-last-update" class="hero-fc-updated">Last updated: <span></span> (updated every five minutes)</div>
+                <div id="stats-last-update" class="hero-fc-updated">Last updated: <span></span></div>
               </div>
               <div class="hero-fc-body">
                 <div class="hero-fc-row total">
@@ -227,7 +235,51 @@
                 <div class="hero-countries-title">Stats by Countries</div>
               </div>
               <div class="hero-countries-body">
-                <div class="hero-countries-cs">Coming soon (organizing data right now)</div>
+                <div id="hero-countries-loading" class="hero-countries-loading">Loading...</div>
+                <div id="hero-countries-table" class="hero-countries-table">
+                  <div class="hero-countries-table-head">
+                    <div class="hero-country hd mobile">
+                      <div class="hero-country-name">Country</div>
+                      <div class="hero-country-val">Total</div>
+                      <div class="hero-country-val">Deaths</div>
+                      <div class="hero-country-val">Recov.</div>
+                      <div class="hero-country-dummy"></div>
+                    </div>
+                    <div class="hero-country hd">
+                      <div class="hero-country-name">Country</div>
+                      <div class="hero-country-val">Total</div>
+                      <div class="hero-country-val">Deaths</div>
+                      <div class="hero-country-val">Recov.</div>
+                      <div class="hero-country-dummy"></div>
+                    </div>
+                  </div>
+                  <div id="hero-countries-table-body" class="hero-countries-table-body">
+                    <!-- <div class="hero-country">
+                      <div class="hero-country-name">China</div>
+                      <div class="hero-country-val total">20310</div>
+                      <div class="hero-country-val deaths">20310</div>
+                      <div class="hero-country-val recov">20310</div>
+                    </div>
+                    <div class="hero-country">
+                      <div class="hero-country-name">United States</div>
+                      <div class="hero-country-val total">20310</div>
+                      <div class="hero-country-val deaths">20310</div>
+                      <div class="hero-country-val recov">20310</div>
+                    </div>
+                    <div class="hero-country">
+                      <div class="hero-country-name">United Kingdom</div>
+                      <div class="hero-country-val total">20310</div>
+                      <div class="hero-country-val deaths">20310</div>
+                      <div class="hero-country-val recov">20310</div>
+                    </div>
+                    <div class="hero-country">
+                      <div class="hero-country-name">Russia</div>
+                      <div class="hero-country-val total">20310</div>
+                      <div class="hero-country-val deaths">20310</div>
+                      <div class="hero-country-val recov">20310</div>
+                    </div> -->
+                  </div>
+                </div>
               </div>
             </div>
           </div>
