@@ -15,9 +15,10 @@ module.exports = class Geo{ // no static to keep sharing fn easy
 
   // geocoding + distances
   geoDistances(address, locs, unit){
+    if (typeof address === 'array') console.log(address);
+    else console.log(Date.now()+' :: '+address);
     // use provided lat, long
-    console.log(address);
-    if (typeof address === 'object'){
+    if (typeof address === 'array'){
       return {
         geocoding: address,
         distances: this.distances([address.lat, address.long], locs, unit),
@@ -25,7 +26,13 @@ module.exports = class Geo{ // no static to keep sharing fn easy
     }
     // use provided address
     return this.geocoding(address).then(data => {
-      // console.log(data);
+      console.log(data);
+      if (data.lat === null || data.long === null){
+        return {
+          geocoding: {lat: 0, long: 0},
+          distances: {'0-10': [], '10-25': [], '25-50': [], '50-100': [], '100-500': []},
+        }; // just calculations
+      }
       return {
         geocoding: data,
         distances: this.distances([data.lat, data.long], locs, unit),
@@ -39,16 +46,39 @@ module.exports = class Geo{ // no static to keep sharing fn easy
   geocoding(address){
     // https://nominatim.org/release-docs/develop/api/Search/
     // e.g. https://nominatim.openstreetmap.org/search/15%20Scottfield%20Rd?format=json&limit=1
+    // console.log(address);
     const
       _address = encodeURIComponent(address),
       opts = {
         method: 'GET',
-        url: `https://nominatim.openstreetmap.org/search/${_address}?format=json&limit=1`,
-        headers: {'User-Agent': 'Mozilla/5.0'}, // requires user-agent
+        // url: `https://nominatim.openstreetmap.org/search/${_address}?format=json&limit=1`,
+        url: `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.CN_GMAPS_API_KEY}`
+        // headers: {'User-Agent': 'Mozilla/5.0'}, // requires user-agent
       };
+
+    // return new Promise((resolve, reject) => {
+    //   resolve({lat: 10, long: 10});
+    // });
+
     return rp(opts).then(res => {
-      const {lat, lon} = JSON.parse(res)[0];
-      return {lat, long: lon};
+      const parsed = JSON.parse(res);
+      // console.log(parsed);
+      // console.log(res);
+      if (!parsed.results.length) return {lat: null, long: null, county: ''};
+      const {lat, lng: long} = parsed.results[0].geometry.location;
+      let locality = '', county = '', state = '';
+      parsed.results[0].address_components.forEach(component => {
+        const type = component.types[0];
+        if (type == 'administrative_area_level_2') county = component.short_name.replace(/ County/i, '');
+        else if (type == 'administrative_area_level_1') state = component.short_name;
+        else if (type == 'locality') locality = component.short_name;
+      });
+      if (county == '') county == locality;
+      return {lat, long, county, state};
+      // else {
+      //   const {lat, lon} = parsed[0];
+      //   return {lat, long: lon};
+      // }
     }).catch(err => Promise.reject(err));
   }
 

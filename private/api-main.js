@@ -41,7 +41,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/api/core/:type', (req, res, next) => {
-  const {type} = req.params, allowed = ['all', 'usa', 'countries', 'cases', 'stats'];
+  const {type} = req.params, allowed = ['all', 'usa', 'countries', 'cases', 'stats', 'states'];
 
   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
 

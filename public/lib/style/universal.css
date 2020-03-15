@@ -12,6 +12,30 @@ body.paused {
   }
 }
 
+.help-us {
+  position: absolute;
+  top: 38px;
+  right: 0;
+  text-align: center;
+}
+.help-us a {
+  display: block;
+  width: 80px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  color: #fff;
+  background-color: #22a39f;
+  border-radius: 2px;
+}
+.help-us a:hover, .help-us a:active {
+  background-color: #27aa80;
+}
+@media (min-width: 1024px) {
+  .help-us {
+    display: none;
+  }
+}
+
 .mnav {
   position: relative;
   height: auto;
@@ -82,7 +106,7 @@ body.paused {
     margin-top: 3px;
     padding: 0;
     background: none;
-    font-size: 22px;
+    font-size: 20px;
     text-align: left;
   }
 }
@@ -127,6 +151,12 @@ body.paused {
 }
 .mnav-menu a.bg:hover, .mnav-menu a.bg:active {
   background-color: #f14b46;
+}
+.mnav-menu a.bg.green {
+  background-color: #22a39f;
+}
+.mnav-menu a.bg.green:hover, .mnav-menu a.bg.green:active {
+  background-color: #27aa80;
 }
 .mnav-menu a:not(.bg):hover, .mnav-menu a:not(.bg):active {
   color: #db4031;

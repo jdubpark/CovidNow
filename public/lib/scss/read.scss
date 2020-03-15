@@ -54,14 +54,30 @@
 }
 .dsec{
   &-title{
-    font-size:22px;font-weight:700;
+    font-size:21px;font-weight:700;
     & a{
       display:inline-block;
       &:hover,&:active{text-decoration:underline;cursor:pointer;}
     }
   }
   &-content{
-    margin-top:14px;font-size:17px;
+    margin-top:14px;font-size:16px;
     & p:first-child{margin-top:0;}
+    & p:last-child{margin-bottom:0;}
+  }
+}
+// part of .dsec
+.short-answer{
+  padding-bottom:20px;
+  & span{font-weight:700;}
+}
+.sources{
+  display:block;padding-top:20px;font-size:0;
+  & li{
+    display:inline-block;padding-right:8px;font-size:16px;
+    & a{
+      display:inline-block;color:$blue-green;border-bottom:1px dotted $blue-green;transition:none;
+      &:hover,&:active{color:$sea-blue;border-bottom:1px solid $sea-blue;cursor:pointer;}
+    }
   }
 }

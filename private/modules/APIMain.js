@@ -18,7 +18,7 @@ module.exports = class APIMain{
     this.DDB = new ModDDB({}, AWS);
 
     // core
-    this.coreGetTypes = ['usa', 'countries', 'cases', 'stats'];
+    this.coreGetTypes = ['usa', 'countries', 'cases', 'stats', 'states'];
   }
 
   get core(){

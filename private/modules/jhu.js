@@ -17,6 +17,9 @@ module.exports = class JHU{
       nDeath: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Deaths%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true',
       nRecov: '/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed%20%3E%200&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22Recovered%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&cacheHint=true',
     };
+    this.urls = {
+      states: 'https://infection2020.netlify.com/z.json',
+    };
   }
 
   get(){
@@ -34,10 +37,10 @@ module.exports = class JHU{
   }
 
   fetch(){
-    const
-      exts = Object.keys(this.ext),
-      links = exts.map(key => this.base+this.ext[key]),
-      reqs = links.map(link => rp(link));
+    const exts = Object.keys(this.ext), urls = Object.keys(this.urls), alls = [...exts, ...urls];
+    let links = exts.map(key => this.base+this.ext[key]);
+    links = [...links, ...urls.map(key => this.urls[key])];
+    const reqs = links.map(link => rp(link));
 
     //
     // do i need to wrap Bluebird?
@@ -47,8 +50,10 @@ module.exports = class JHU{
         .spread((...res) => {
           // all requests succeeded
           const mapped = {};
-          console.log(res);
-          res.forEach((val, key) => mapped[exts[key]] = JSON.parse(val));
+          // console.log(res);
+          res.forEach((val, key) => {
+            mapped[alls[key]] = JSON.parse(val);
+          });
           resolve(mapped);
         })
         .catch(err => {
@@ -60,11 +65,13 @@ module.exports = class JHU{
   }
 
   process(res){
+    // console.log(res);
     const data = {
       usa: this.compileUSA(res.usa),
       stats: this.compileStats({total: res.nTotal, deaths: res.nDeath, recovered: res.nRecov}),
       cases: this.compileCases(res.cases),
       countries: this.compileCountries(res.countries),
+      states: this.compileStates(res.states),
     };
     // console.log(res.usa.features);
     return data;
@@ -221,6 +228,24 @@ module.exports = class JHU{
       }
     });
     return byCountry;
+  }
+
+  compileStates(data){
+    const byStates = {};
+    Object.keys(data.stateToCountyToData).forEach(state => {
+      const stData = data.stateToCountyToData[state];
+      byStates[state] = {_statewide: {total: 0, deaths: 0}};
+      Object.keys(stData.countyToData).forEach(county => {
+        const ctData = stData.countyToData[county];
+        byStates[state][county] = {
+          total: ctData.countyConfirmed,
+          deaths: ctData.countyDeaths || 0,
+        };
+        byStates[state]._statewide.total += ctData.countyConfirmed;
+        if (ctData.countyDeaths) byStates[state]._statewide.deaths = ctData.countyDeaths;
+      });
+    });
+    return byStates;
   }
 
   getDiff(newTotal, oldTotal, fixed=2){

@@ -20,30 +20,37 @@ function getStateData(abbr){
   return {abbr, name: name, data: coll};
 }
 
-function loadStateData(stateData){
+function loadStateData(stateData, abbr){
   const sd = stateData, idMap = '#usmap-state', idStat = idMap+'-stat';
   // stats
   $(idMap+'-name').text(sd.name);
   $(idStat+'-total').text(sd.data.total);
   $(idStat+'-deaths').text(sd.data.deaths);
   $(idStat+'-recov').text(sd.data.recovered);
-  // cases
-  // console.log(sd.data.cases);
-  $(idMap+'-cases').html('');
-  sd.data.cases.forEach(sCase => $(idMap+'-cases').append(stateCaseTemplate(sCase)));
+  // counties
+  $(idMap+'-counties').html('');
+  if (!cdFetch.states || !cdFetch.states.data || !cdFetch.states.data[abbr]) return;
+  const countyData = cdFetch.states.data[abbr], countyNames = Object.keys(countyData);
+  countyNames.sort((a, b) => countyData[a].total < countyData[b].total ? 1 : countyData[a].total > countyData[b].total ? -1 : 0);
+  countyNames.splice(countyNames.indexOf('_statewide'), 1);
+
+  if (countyData._statewide.total > sd.data.total) $(idStat+'-total').text(countyData._statewide.total);
+  if (countyData._statewide.deaths > sd.data.deaths) $(idStat+'-deaths').text(countyData._statewide.deaths);
+
+  countyNames.forEach(county => $(idMap+'-counties').append(stateCaseTemplate(county, countyData[county])));
   // const ud = cdFetch.usa.data.compiled;
   // $(idStat+'-total').text(ud.total);
   // $(idStat+'-so').text(ud.states.total);
   // $(idStat+'-ns').text(ud.non.total);
 }
 
-function stateCaseTemplate(data){
-  // {location: S, recovered: N, confirmed: N, deaths: N}
-  return '<div class="state-case">'+
-  `<div class="state-case-item loc">${data.location}</div>`+
-  `<div class="state-case-item stat total">${data.confirmed}</div>`+
-  `<div class="state-case-item stat deaths">${data.deaths}</div>`+
-  `<div class="state-case-item stat recov">${data.recovered}</div>`+
+function stateCaseTemplate(name, data){
+  // {location: S, recovered: N, total: N, deaths: N}
+  return '<div class="state-county">'+
+  `<div class="state-county-item loc">${name}</div>`+
+  `<div class="state-county-item stat total">${data.total}</div>`+
+  `<div class="state-county-item stat deaths">${data.deaths}</div>`+
+  `<div class="state-county-item stat recov">${data.recovered || '?'}</div>`+
   '</div>';
 }
 
@@ -59,7 +66,7 @@ function stateCaseTemplate(data){
       const {name: abbr} = data;
       const stateData = getStateData(abbr);
       console.log(stateData);
-      loadStateData(stateData);
+      loadStateData(stateData, abbr);
     },
   });
 

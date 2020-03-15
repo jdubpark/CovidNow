@@ -37,18 +37,8 @@
     &.deaths .val{color:$punch;}
     &.recov .val{color:$green;}
   }
-  &-case{
+  &-county{
     display:flex;padding:5px;
-    &s{
-      padding-top:20px;max-width:800px;margin:0 auto;font-size:16px;
-      @media (min-width: $screen-m){font-size:20px;}
-      &-title{
-        font-size:22px;font-weight:800;
-        @media (min-width: $screen-m){font-size:28px;}
-      }
-      &-info{max-width:800px;padding:5px 0;margin:0 auto;}
-      &-wrapper{padding:20px 0;}
-    }
     &.header{font-weight:700;}
     &-item{
       flex:1;
@@ -62,5 +52,15 @@
       }
       &.stat{font-size:20px;}
     }
+  }
+  &-counties{
+    padding-top:20px;max-width:800px;margin:0 auto;font-size:16px;
+    @media (min-width: $screen-m){font-size:20px;}
+    &-title{
+      font-size:22px;font-weight:800;
+      @media (min-width: $screen-m){font-size:28px;}
+    }
+    &-info{max-width:800px;padding:5px 0;margin:0 auto;}
+    &-wrapper{padding:20px 0;}
   }
 }

@@ -83,23 +83,23 @@
                     <div class="name">Recovered</div>
                   </div>
                 </div>
-                <div class="state-cases-wrapper">
-                  <div class="state-cases-title">Reported Cases</div>
-                  <div class="state-cases-info">Currently, we are trying our best to collect accurate data for cases within each state. Please bear with us while we sort our data through! Thank you!</div>
-                  <div class="state-cases">
-                    <div class="state-case header">
-                      <div class="state-case-item loc">Location</div>
-                      <div class="state-case-item stat-f">Cases</div>
-                      <div class="state-case-item stat-f">Deaths</div>
-                      <div class="state-case-item stat-f">Recovered</div>
+                <div class="state-counties-wrapper">
+                  <div class="state-counties-title">Reported Counties</div>
+                  <div class="state-counties-info">Currently, we are trying our best to collect accurate data for each state counties. Please bear with us while we sort our data through! Thank you!</div>
+                  <div class="state-counties">
+                    <div class="state-county header">
+                      <div class="state-county-item loc">County</div>
+                      <div class="state-county-item stat-f">Cases</div>
+                      <div class="state-county-item stat-f">Deaths</div>
+                      <div class="state-county-item stat-f">Recovered</div>
                     </div>
                   </div>
-                  <div id="usmap-state-cases" class="state-cases">
-                    <!-- <div class="state-case">
-                      <div class="state-case-item loc">Location</div>
-                      <div class="state-case-item stat total">0</div>
-                      <div class="state-case-item stat deaths">0</div>
-                      <div class="state-case-item stat recov">0</div>
+                  <div id="usmap-state-counties" class="state-counties">
+                    <!-- <div class="state-county">
+                      <div class="state-county-item loc">Location</div>
+                      <div class="state-county-item stat total">0</div>
+                      <div class="state-county-item stat deaths">0</div>
+                      <div class="state-county-item stat recov">0</div>
                     </div> -->
                   </div>
                 </div>

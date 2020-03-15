@@ -9,6 +9,15 @@ body{
   @media (min-width: $screen-m){padding:20px 0;}
 }
 
+.help-us{
+  position:absolute;top:38px;right:0;text-align:center;
+  & a{
+    display:block;width:80px;padding-top:4px;padding-bottom:4px;color:#fff;background-color:$green;border-radius:2px;
+    &:hover,&:active{background-color:$jungle-green;}
+  }
+  @media (min-width: $screen-m){display:none;}
+}
+
 .mnav{
   position:relative;height:auto;width:100vw;background-color:#fff;z-index:15000;
   &.moving{box-shadow:0 0 2px 20px rgba(30, 30, 30, 0.05);}
@@ -29,7 +38,7 @@ body{
     display:none;position:fixed;height:100vh;width:100vw;top:0;left:0;font-size:24px;font-weight:700;text-align:center;z-index:14999;
     background:rgba(249, 243, 236, 0.85);padding:100px 10px 0;overflow-y:scroll;
     &.opened{display:block;}
-    @media(min-width: $screen-m){display:block;position:relative;height:auto;width:auto;margin-top:3px;padding:0;background:none;font-size:22px;text-align:left;}
+    @media(min-width: $screen-m){display:block;position:relative;height:auto;width:auto;margin-top:3px;padding:0;background:none;font-size:20px;text-align:left;}
     &-trigger{
       & img{height:36px;width:36px;cursor:pointer;}
       &-wrapper{
@@ -47,6 +56,10 @@ body{
       &.bg{
         color:#fff;background-color:$punch;border-radius:4px;
         &:hover,&:active{background-color:$carmine-pink;}
+        &.green{
+          background-color:$green;
+          &:hover,&:active{background-color:$jungle-green;}
+        }
       }
       &:not(.bg){
         &:hover,&:active{color:$punch;}

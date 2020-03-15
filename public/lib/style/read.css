@@ -128,7 +128,7 @@
 }
 
 .dsec-title {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 700;
 }
 .dsec-title a {
@@ -140,10 +140,42 @@
 }
 .dsec-content {
   margin-top: 14px;
-  font-size: 17px;
+  font-size: 16px;
 }
 .dsec-content p:first-child {
   margin-top: 0;
+}
+.dsec-content p:last-child {
+  margin-bottom: 0;
+}
+
+.short-answer {
+  padding-bottom: 20px;
+}
+.short-answer span {
+  font-weight: 700;
+}
+
+.sources {
+  display: block;
+  padding-top: 20px;
+  font-size: 0;
+}
+.sources li {
+  display: inline-block;
+  padding-right: 8px;
+  font-size: 16px;
+}
+.sources li a {
+  display: inline-block;
+  color: #118fb6;
+  border-bottom: 1px dotted #118fb6;
+  transition: none;
+}
+.sources li a:hover, .sources li a:active {
+  color: #0c7393;
+  border-bottom: 1px solid #0c7393;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=read.css.map */

@@ -17,7 +17,7 @@ const
 
 function fetchJHU(){
   console.log(Date.now(), ' :: JHU fetching job running...');
-  JHU.get()
+  JHU.get(DDB)
     .then(data => {
       // console.log(data);
       // console.log(data.usa);

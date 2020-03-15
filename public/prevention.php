@@ -56,11 +56,63 @@
 
       <?php require_once './components/main_nav.php'; ?>
 
-      <div id="wrapper">
-        <div id="hero">
-          <div class="container">
-            <div id="map" style="width: 650px; height: 400px;"></div>
-            <div id="clicked-state"></div>
+      <div id="doc">
+        <div id="doc-menu" class="doc-menu">
+          <div id="doc-menu-trigger" class="doc-menu-trigger"><img src="./lib/svg/doc-menu-trigger.svg" /> <span>Menu</span></div>
+          <div id="doc-menu-inner" class="doc-menu-inner">
+            <ul class="doc-leads">
+              <li><b>Prevent/Mitigate COVID-19</b></li>
+              <li><a href="#wash-hands">Wash your hands!</a></li>
+              <li><a href="#stay-away">Stay away from any coughs or sneezes</a></li>
+              <li><a href="#avoid-crowd">No crowded events / Stay away from crowded places</a></li>
+              <li><a href="#wear-mask">If possible, wear a mask near people</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="doc-main">
+          <div class="doc-main-inner">
+
+            <div id="wash-hands" class="doc-section">
+              <div class="dsec-title"><a href="#wash-hands">Wash your hands!</a></div>
+              <div class="dsec-content">
+                <div class="elaborate">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+
+            <div id="stay-away" class="doc-section">
+              <div class="dsec-title"><a href="#stay-away">Stay away from any coughs or sneezes</a></div>
+              <div class="dsec-content">
+                <div class="elaborate">
+                  <p></p>
+                  <p>Sneezes are very effective at spreading the virus, since the sneeze droplets can travel up to 64 mph.</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="avoid-crowd" class="doc-section">
+              <div class="dsec-title"><a href="#avoid-crowd">No crowded events / Stay away from crowded places</a></div>
+              <div class="dsec-content">
+                <div class="elaborate">
+                  <p></p>
+                </div>
+              </div>
+            </div>
+
+            <div id="wear-mask" class="doc-section">
+              <div class="dsec-title"><a href="#wear-mask">If possible, wear a mask near people</a></div>
+              <div class="dsec-content">
+                <div class="elaborate">
+                  <p></p>
+                </div>
+                <ul class="sources">
+                  <li>Sources:</li>
+                  <li><a href="" target="_blank" rel="noopener"></a></li>
+                </ul>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

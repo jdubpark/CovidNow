@@ -91,66 +91,66 @@
 .state-stat.recov .val {
   color: #22a39f;
 }
-.state-case {
+.state-county {
   display: flex;
   padding: 5px;
 }
-.state-cases {
+.state-county.header {
+  font-weight: 700;
+}
+.state-county-item {
+  flex: 1;
+}
+.state-county-item.loc {
+  flex: 2;
+  text-align: left;
+}
+.state-county-item.stat, .state-county-item.stat-f {
+  padding: 0 5px;
+  font-weight: 700;
+}
+.state-county-item.stat:last-child, .state-county-item.stat-f:last-child {
+  padding-right: 0;
+}
+.state-county-item.stat.total, .state-county-item.stat-f.total {
+  color: #f2a543;
+}
+.state-county-item.stat.deaths, .state-county-item.stat-f.deaths {
+  color: #db4031;
+}
+.state-county-item.stat.recov, .state-county-item.stat-f.recov {
+  color: #22a39f;
+}
+.state-county-item.stat {
+  font-size: 20px;
+}
+.state-counties {
   padding-top: 20px;
   max-width: 800px;
   margin: 0 auto;
   font-size: 16px;
 }
 @media (min-width: 1024px) {
-  .state-cases {
+  .state-counties {
     font-size: 20px;
   }
 }
-.state-cases-title {
+.state-counties-title {
   font-size: 22px;
   font-weight: 800;
 }
 @media (min-width: 1024px) {
-  .state-cases-title {
+  .state-counties-title {
     font-size: 28px;
   }
 }
-.state-cases-info {
+.state-counties-info {
   max-width: 800px;
   padding: 5px 0;
   margin: 0 auto;
 }
-.state-cases-wrapper {
+.state-counties-wrapper {
   padding: 20px 0;
-}
-.state-case.header {
-  font-weight: 700;
-}
-.state-case-item {
-  flex: 1;
-}
-.state-case-item.loc {
-  flex: 2;
-  text-align: left;
-}
-.state-case-item.stat, .state-case-item.stat-f {
-  padding: 0 5px;
-  font-weight: 700;
-}
-.state-case-item.stat:last-child, .state-case-item.stat-f:last-child {
-  padding-right: 0;
-}
-.state-case-item.stat.total, .state-case-item.stat-f.total {
-  color: #f2a543;
-}
-.state-case-item.stat.deaths, .state-case-item.stat-f.deaths {
-  color: #db4031;
-}
-.state-case-item.stat.recov, .state-case-item.stat-f.recov {
-  color: #22a39f;
-}
-.state-case-item.stat {
-  font-size: 20px;
 }
 
 /*# sourceMappingURL=states.css.map */

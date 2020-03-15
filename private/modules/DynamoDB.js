@@ -119,7 +119,23 @@ module.exports = class DynamoDB{
     });
   }
 
-  delete(items){
+  deleteByKey(keys){
+    keys.forEach(key => {
+      const parms = {
+        TableName: 'TempCoreData',
+        Key: {type: key},
+        ReturnValues: 'NONE', // optional (NONE | ALL_OLD)
+        ReturnConsumedCapacity: 'NONE', // optional (NONE | TOTAL | INDEXES)
+        ReturnItemCollectionMetrics: 'NONE', // optional (NONE | SIZE)
+      };
+      this.docClient.delete(parms, function(err, res){
+        if (err) console.log(err); // an error occurred
+        else console.log(res); // successful response
+      });
+    });
+  }
+
+  deleteItems(items){
     // items: {Items} = data
     const buildKey = obj => ({'type': obj['type']}); // hash key, range key
     items.forEach((val, key) => {

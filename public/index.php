@@ -137,56 +137,66 @@
               </div>
               <div class="hero-you-body">
                 <div class="hero-you-search">
-                  <div class="hero-you-search-title"><span>Look up address</span></div>
+                  <div class="hero-you-search-title"><span>Look up address (use your Google maps address for best accuracy)</span></div>
                   <input id="you-search-bar" class="hero-you-search-bar" type="text" placeholder="Type in address with states abbr."></input>
                   <div id="you-search-btn" class="hero-you-search-btn"><span>Search</span></div>
+                  <div class="hero-you-search-title" style="padding:20px 0 5px;max-width:600px;margin:0 auto;"><span>To deliver the most accurate data, we have temporary paused showing distance. Don't worry, it will come back in a few days.</span></div>
                 </div>
                 <ul class="hero-you-home">
                   <li id="you-search-lat" class="hero-you-home-lat">Latitude: <val>allow access...</val></li>
                   <li id="you-search-long" class="hero-you-home-long">Longtitude: <val>allow access...</val></li>
                   <!-- <li id="you-search-name" class="hero-you-home-prov">Location: <val>loading...</val></li> -->
+                  <li id="you-search-invalid" class="hero-you-home-invalid">Sorry, we couldn't grab location data for the provided address. Please include the city/state or use the Google Maps address for better accuracy!</li>
                 </ul>
                 <div class="hero-you-locs">
-                  <div id="geoloc-d0-10" class="hero-you-loc d0-10">
+                  <div id="geoloc-city" class="hero-you-loc">
+                    <div id="geoloc-city-name" class="hero-you-loc-radius">City</div>
+                    <ul>
+                      <li class="cases"><val>?</val> preparing data</li>
+                    </ul>
+                  </div>
+                  <div id="geoloc-county" class="hero-you-loc">
+                    <div id="geoloc-county-name" class="hero-you-loc-radius">County</div>
+                    <ul>
+                      <li class="cases"><val>0</val> <name>Cases</name></li>
+                    </ul>
+                  </div>
+                  <div id="geoloc-state" class="hero-you-loc">
+                    <div id="geoloc-state-name" class="hero-you-loc-radius">State: <span></span></div>
+                    <ul>
+                      <li class="cases"><val>0</val> <name>Cases</name></li>
+                    </ul>
+                  </div>
+                  <!-- <div id="geoloc-d0-10" class="hero-you-loc d0-10">
                     <div class="hero-you-loc-radius">~ 10 mi</div>
                     <ul>
                       <li class="cases"><val>0</val> <name>Cases</name></li>
-                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
                   <div id="geoloc-d10-25" class="hero-you-loc d10-25">
                     <div class="hero-you-loc-radius">10-25 mi</div>
                     <ul>
                       <li class="cases"><val>0</val> <name>Cases</name></li>
-                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
                   <div id="geoloc-d25-50" class="hero-you-loc d25-50">
                     <div class="hero-you-loc-radius">25-50 mi</div>
                     <ul>
                       <li class="cases"><val>0</val> <name>Cases</name></li>
-                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
                   <div id="geoloc-d50-100" class="hero-you-loc d50-100">
                     <div class="hero-you-loc-radius">50-100 mi</div>
                     <ul>
                       <li class="cases"><val>0</val> <name>Cases</name></li>
-                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
                   </div>
                   <div id="geoloc-d100-500" class="hero-you-loc d100-500">
                     <div class="hero-you-loc-radius">100-500 mi</div>
                     <ul>
                       <li class="cases"><val>0</val> <name>Cases</name></li>
-                      <!-- <li class="deaths"><name>Deaths:</name> <val>0</val></li>
-                      <li class="recov"><name>Recov:</name> <val>0</val></li> -->
                     </ul>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
