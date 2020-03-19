@@ -27,12 +27,14 @@
     "helmet": "^3.21.3",
     "jsonfile": "^6.0.1",
     "mammoth": "^1.4.9",
+    "pdf-parse": "^1.1.1",
     "pdfreader": "^1.0.6",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "rss-parser": "^3.7.5",
     "shortid": "^2.2.15",
-    "superagent": "^5.2.2"
+    "superagent": "^5.2.2",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

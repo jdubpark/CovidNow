@@ -209,33 +209,33 @@
                 </a>
               </div>
               <div class="hero-linkbox research">
-                <a class="hero-linkbox-inner" href="./research">
-                  <div class="hero-linkbox-name">Information &#8250;</div>
-                  <div class="hero-linkbox-desc">Learn more about COVID-19 and current researches.</div>
+                <a class="hero-linkbox-inner" href="./flu">
+                  <div class="hero-linkbox-name">COVID-19 vs. Flu &#8250;</div>
+                  <div class="hero-linkbox-desc">Learn more about how COVID-19 differs from the seasonal flu.</div>
                 </a>
               </div>
               <div class="hero-linkbox prevention">
-                <a class="hero-linkbox-inner" href="./prevention">
-                  <div class="hero-linkbox-name">Prevention &#8250;</div>
-                  <div class="hero-linkbox-desc">How you can minimize your exposure to COVID-19.</div>
+                <a class="hero-linkbox-inner" href="./economy">
+                  <div class="hero-linkbox-name">Economy &#8250;</div>
+                  <div class="hero-linkbox-desc">See how the virus has impacted the economy, in live data.</div>
                 </a>
               </div>
               <div class="hero-linkbox myths">
-                <a class="hero-linkbox-inner" href="./myths">
-                  <div class="hero-linkbox-name">Myths &#8250;</div>
-                  <div class="hero-linkbox-desc">Expert-backed facts to disprove COVID-19 myths and rumors.</div>
+                <a class="hero-linkbox-inner" href="./wiki">
+                  <div class="hero-linkbox-name">Wiki &#8250;</div>
+                  <div class="hero-linkbox-desc">Learn more about COVID-19, with expert-backed facts and evidence.</div>
                 </a>
               </div>
               <div class="hero-linkbox faq">
-                <a class="hero-linkbox-inner" href="./faq">
-                  <div class="hero-linkbox-name">FAQ &#8250;</div>
-                  <div class="hero-linkbox-desc">We answered some of the most asked questions about COVID-19.</div>
+                <a class="hero-linkbox-inner" href="./about">
+                  <div class="hero-linkbox-name">About &#8250;</div>
+                  <div class="hero-linkbox-desc">Learn about the developers behind the website and contribute. Your voice matters.</div>
                 </a>
               </div>
               <div class="hero-linkbox about">
-                <a class="hero-linkbox-inner" href="./about">
-                  <div class="hero-linkbox-name">About &#8250;</div>
-                  <div class="hero-linkbox-desc">Help us improve our website and data. Your voice matters.</div>
+                <a class="hero-linkbox-inner" href="https://ko-fi.com/covidnow" target="_blank" rel="noopener">
+                  <div class="hero-linkbox-name">Help us &#8250;</div>
+                  <div class="hero-linkbox-desc">Help us maintain the website and present you factual information!</div>
                 </a>
               </div>
             </div>
@@ -315,8 +315,6 @@
     // pointercancel: a pointer will no longer generate events.
     </script>
     <script src="./lib/js/src/jquery-3.2.1.min.js"></script>
-    <script src="./lib/js/src/raphael-2.0.js"></script>
-    <script src="./lib/js/src/us-map-1.0.1.js"></script>
     <script src="./lib/js/dist/universal.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/universal.bundle.js"); ?>"></script>
     <script src="./lib/js/dist/home.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/home.bundle.js"); ?>"></script>
 

@@ -7,7 +7,11 @@ module.exports = class Riverside extends Standard{
         const obj = this.defaultStructure;
 
         const $content = $('#dnn_RightPane .dc_content p');
-        console.log($content.text().split('\n'));
+        const split = $content.text().split('\n').filter(e => !e == '');
+
+        const cases = split[0];
+
+        obj.total = Number(cases.match(/\d+/)[0]);
 
         return obj;
       })

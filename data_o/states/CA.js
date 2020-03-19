@@ -11,7 +11,7 @@ module.exports = class CA extends Standard{
   request(){
     const proms = [];
 
-    const _county = 'Riverside';
+    const _county = 'Alameda';
     const fetch = County[_county].fetch();
     fetch.then(res => console.log(res)).catch(err => console.log(err));
     // this.getCounties().forEach(county => {

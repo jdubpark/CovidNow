@@ -7,27 +7,27 @@
     <meta name="keywords" content="coronavirus, covid, covid-19" />
     <meta name="description" content="Live updates and information regarding COVID-19." />
     <meta name="author" content="StudioPark.io" />
-    <title>Prevention - CovidNow</title>
+    <title>Facts - CovidNow</title>
     <!-- canonical: https://www.shopify.com/partners/blog/canonical-urls -->
     <link rel="canonical" href="https://covidnow.com/" />
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap"> -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700,800&display=swap">
-    <link rel="stylesheet" href="./lib/style/normalize.min.css" />
-    <link rel="stylesheet" href="./lib/style/covidnow.css<?php echo "?v=".filemtime("./lib/style/covidnow.css"); ?>" />
-    <link rel="stylesheet" href="./lib/style/universal.css<?php echo "?v=".filemtime("./lib/style/universal.css"); ?>" />
-    <link rel="stylesheet" href="./lib/style/states.css<?php echo "?v=".filemtime("./lib/style/states.css"); ?>" />
+    <link rel="stylesheet" href="../lib/style/normalize.min.css" />
+    <link rel="stylesheet" href="../lib/style/covidnow.css<?php echo "?v=".filemtime("../lib/style/covidnow.css"); ?>" />
+    <link rel="stylesheet" href="../lib/style/universal.css<?php echo "?v=".filemtime("../lib/style/universal.css"); ?>" />
+    <link rel="stylesheet" href="../lib/style/read.css<?php echo "?v=".filemtime("../lib/style/read.css"); ?>" />
     <!-- Fonts -->
-    <!-- <link rel="stylesheet" href="./lib/style/font/glyphicons/glyphicons.css" /> -->
+    <!-- <link rel="stylesheet" href="../lib/style/font/glyphicons/glyphicons.css" /> -->
     <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> -->
     <!-- Social Media -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="CovidNow" />
     <meta property="og:title" content="COVID-19 Live Updates" />
     <meta property="og:description" content="Live updates and information regarding COVID-19." />
-    <meta property="og:image" content="./lib/img/covid-19-1330px.jpg" />
+    <meta property="og:image" content="../lib/img/covid-19-1330px.jpg" />
     <meta property="og:url" content="https://covidnow.com" />
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image:alt" content="./lib/img/covid-19-1330px.jpg" />
+    <meta name="twitter:image:alt" content="../lib/img/covid-19-1330px.jpg" />
     <!-- 1. JavaScript workaround to enable styling of HTML5 elements in versions of Internet Explorer prior to version 9 (must be placed in the <head> element, after any stylesheets) -->
     <!-- 2. A fast & lightweight polyfill for min/max-width CSS3 Media Queries (for IE 6-8, and more) -->
     <!--[if lt IE 9]>
@@ -54,65 +54,21 @@
 
     <div id="page">
 
-      <?php require_once './components/main_nav.php'; ?>
+      <?php require_once '../components/main_nav_sub.php'; ?>
 
       <div id="doc">
         <div id="doc-menu" class="doc-menu">
-          <div id="doc-menu-trigger" class="doc-menu-trigger"><img src="./lib/svg/doc-menu-trigger.svg" /> <span>Menu</span></div>
-          <div id="doc-menu-inner" class="doc-menu-inner">
+          <div class="doc-menu-inner">
             <ul class="doc-leads">
-              <li><b>Prevent/Mitigate COVID-19</b></li>
-              <li><a href="#wash-hands">Wash your hands!</a></li>
-              <li><a href="#stay-away">Stay away from any coughs or sneezes</a></li>
-              <li><a href="#avoid-crowd">No crowded events / Stay away from crowded places</a></li>
-              <li><a href="#wear-mask">If possible, wear a mask near people</a></li>
+              <li><b>COVID-19 Research</b></li>
+              <li><b>Coming soon! (searching bioRxiv for researches and content)</b></li>
             </ul>
           </div>
         </div>
         <div class="doc-main">
           <div class="doc-main-inner">
-
-            <div id="wash-hands" class="doc-section">
-              <div class="dsec-title"><a href="#wash-hands">Wash your hands!</a></div>
-              <div class="dsec-content">
-                <div class="elaborate">
-                  <p></p>
-                </div>
-              </div>
-            </div>
-
-            <div id="stay-away" class="doc-section">
-              <div class="dsec-title"><a href="#stay-away">Stay away from any coughs or sneezes</a></div>
-              <div class="dsec-content">
-                <div class="elaborate">
-                  <p></p>
-                  <p>Sneezes are very effective at spreading the virus, since the sneeze droplets can travel up to 64 mph.</p>
-                </div>
-              </div>
-            </div>
-
-            <div id="avoid-crowd" class="doc-section">
-              <div class="dsec-title"><a href="#avoid-crowd">No crowded events / Stay away from crowded places</a></div>
-              <div class="dsec-content">
-                <div class="elaborate">
-                  <p></p>
-                </div>
-              </div>
-            </div>
-
-            <div id="wear-mask" class="doc-section">
-              <div class="dsec-title"><a href="#wear-mask">If possible, wear a mask near people</a></div>
-              <div class="dsec-content">
-                <div class="elaborate">
-                  <p></p>
-                </div>
-                <ul class="sources">
-                  <li>Sources:</li>
-                  <li><a href="" target="_blank" rel="noopener"></a></li>
-                </ul>
-              </div>
-            </div>
-
+            <p style="margin-top:0;"><b style="font-size:24px;">We discuss some of the recent researches on COVID-19, including vaccines, causes, and symptoms, through expert research papers.</b></p>
+            <p><b style="font-size:24px;">Content is coming soon! Please come back later.</b></p>
           </div>
         </div>
       </div>
@@ -123,7 +79,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script> -->
     <!-- <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script> -->
     <!-- load from local for dev. -->
-    <script src="./lib/js/src/pep-0.4.3.js">
+    <script src="../lib/js/src/pep-0.4.3.js">
     // universal use
     // pointermove: a pointer moves, similar to touchmove or mousemove.
     // pointerdown: a pointer is activated, or a device button held.
@@ -134,11 +90,9 @@
     // pointerleave: a pointer leaves the bounding box of an element.
     // pointercancel: a pointer will no longer generate events.
     </script>
-    <script src="./lib/js/src/jquery-3.2.1.min.js"></script>
-    <script src="./lib/js/src/raphael-2.0.js"></script>
-    <script src="./lib/js/src/us-map-1.0.1.js"></script>
-    <script src="./lib/js/dist/universal.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/universal.bundle.js"); ?>"></script>
-    <script src="./lib/js/dist/states.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/states.bundle.js"); ?>"></script>
+    <script src="../lib/js/src/jquery-3.2.1.min.js"></script>
+    <script src="../lib/js/dist/universal.bundle.js<?php echo "?v=".filemtime("../lib/js/dist/universal.bundle.js"); ?>"></script>
+    <script src="../lib/js/dist/read.bundle.js<?php echo "?v=".filemtime("../lib/js/dist/read.bundle.js"); ?>"></script>
 
   </body>
 </html>

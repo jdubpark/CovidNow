@@ -1,0 +1,28 @@
+.elaborate .markets-table th, .elaborate .markets-table td {
+  padding: 4px 8px;
+}
+@media (min-width: 1024px) {
+  .elaborate .markets-table th, .elaborate .markets-table td {
+    padding: 4px 12px;
+  }
+}
+.elaborate .markets-table .name {
+  text-align: left;
+}
+.elaborate .markets-table .change.down, .elaborate .markets-table .ytd-change.down {
+  color: #db4031;
+}
+.elaborate .markets-table .change.up, .elaborate .markets-table .ytd-change.up {
+  color: #22a39f;
+}
+.elaborate .markets-table .change-perc.down, .elaborate .markets-table .change-perc.up, .elaborate .markets-table .ytd-change-perc.down, .elaborate .markets-table .ytd-change-perc.up {
+  color: #fff;
+}
+.elaborate .markets-table .change-perc.down, .elaborate .markets-table .ytd-change-perc.down {
+  background-color: #db4031;
+}
+.elaborate .markets-table .change-perc.up, .elaborate .markets-table .ytd-change-perc.up {
+  background-color: #22a39f;
+}
+
+/*# sourceMappingURL=economy.css.map */

@@ -1,0 +1,13 @@
+{
+  "TableName": "WorldData",
+  "KeySchema": [
+    {"AttributeName": "time", "KeyType": "HASH"}
+  ],
+  "AttributeDefinitions": [
+    {"AttributeName": "time", "AttributeType": "S"}
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "TableName": "News",
+  "KeySchema": [
+    {"AttributeName": "lang", "KeyType": "HASH"}
+  ],
+  "AttributeDefinitions": [
+    {"AttributeName": "lang", "AttributeType": "S"}
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

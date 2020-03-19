@@ -23,6 +23,7 @@ module.exports = {
     'home': `${libPath}js/custom/home.js`,
     'states': `${libPath}js/custom/states.js`,
     'read': `${libPath}js/custom/read.js`,
+    'markets': `${libPath}js/custom/markets.js`,
   },
 
   devtool: 'inline-source-map',

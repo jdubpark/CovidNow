@@ -1,0 +1,20 @@
+@import '_vars';
+
+.elaborate{
+  .markets-table{
+    & th,& td{
+      padding:4px 8px;
+      @media (min-width: $screen-m){padding:4px 12px;}
+    }
+    & .name{text-align:left;}
+    & .change,& .ytd-change{
+      &.down{color:$punch;}
+      &.up{color:$green;}
+    }
+    & .change-perc,& .ytd-change-perc{
+      &.down,&.up{color:#fff;}
+      &.down{background-color:$punch;}
+      &.up{background-color:$green;}
+    }
+  }
+}

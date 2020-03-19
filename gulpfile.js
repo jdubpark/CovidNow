@@ -26,7 +26,7 @@ gulp.task("bs", function(){
     notify: false,
     watch: true,
     files: [
-      "./public/*.php",
+      "./public/**/*.php",
       "./public/components/**/*.php",
       lib.concat("style/*.css"),
       lib.concat("img/*.[jpg,png]"),

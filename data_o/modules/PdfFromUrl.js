@@ -1,9 +1,15 @@
 const https = require('https');
+// const pdf = require('pdf-parse');
 const pdfreader = require('pdfreader');
 
-// https://github.com/adrienjoly/npm-pdfreader
+function printRows(rows){
+  Object.keys(rows) // => array of y-positions (type: float)
+    .sort((y1, y2) => parseFloat(y1) - parseFloat(y2)) // sort float positions
+    .forEach(y => console.log(rows[y]));
+}
 
 module.exports = class PdfFromUrl{
+  // https://github.com/adrienjoly/npm-pdfreader#example-reading-from-a-buffer-of-an-online-pdf
   static get(url){
     return new Promise((resolve, reject) => {
       (async() => {
@@ -11,7 +17,7 @@ module.exports = class PdfFromUrl{
           const buffer = await this.bufferize(url);
           let lines = await this.readlines(buffer);
           lines = await JSON.parse(JSON.stringify(lines));
-          resolve(lines[0]); // lines = [[lines]]; so return lines[0]
+          resolve(lines);
         } catch (err){
           reject(err);
         }
@@ -57,6 +63,7 @@ module.exports = class PdfFromUrl{
     return new Promise((resolve, reject) => {
       let pdftxt = [], pg = 0;
       new pdfreader.PdfReader().parseBuffer(buffer, (err, item) => {
+        // console.log(item.page);
         if (err) console.log('pdf reader error: ' + err);
         else if (!item){
           pdftxt.forEach((a, idx) => {
@@ -74,7 +81,8 @@ module.exports = class PdfFromUrl{
             if (val[1] == item.y){
               if (xwidth && item.x - val[2] > xwidth) sp += ' ';
               else sp = '';
-              pdftxt[pg][idx][0] += sp + item.text;
+              pdftxt[pg][idx].push(item.text);
+              // pdftxt[pg][idx][0] += sp + ',' + item.text;
               t = 1;
             }
           });

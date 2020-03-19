@@ -156,6 +156,18 @@
   font-weight: 700;
 }
 
+.elaborate table {
+  margin-bottom: 15px;
+  border-collapse: collapse;
+  text-align: center;
+}
+.elaborate table, .elaborate table th, .elaborate table td {
+  border: 1px solid #333;
+}
+.elaborate table th, .elaborate table td {
+  padding: 3px 8px;
+}
+
 .sources {
   display: block;
   padding-top: 20px;

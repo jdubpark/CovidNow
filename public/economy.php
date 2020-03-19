@@ -7,7 +7,7 @@
     <meta name="keywords" content="coronavirus, covid, covid-19" />
     <meta name="description" content="Live updates and information regarding COVID-19." />
     <meta name="author" content="StudioPark.io" />
-    <title>Research - CovidNow</title>
+    <title>COVID-19 vs. Seasonal Flu - CovidNow</title>
     <!-- canonical: https://www.shopify.com/partners/blog/canonical-urls -->
     <link rel="canonical" href="https://covidnow.com/" />
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap"> -->
@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./lib/style/covidnow.css<?php echo "?v=".filemtime("./lib/style/covidnow.css"); ?>" />
     <link rel="stylesheet" href="./lib/style/universal.css<?php echo "?v=".filemtime("./lib/style/universal.css"); ?>" />
     <link rel="stylesheet" href="./lib/style/read.css<?php echo "?v=".filemtime("./lib/style/read.css"); ?>" />
+    <link rel="stylesheet" href="./lib/style/economy.css<?php echo "?v=".filemtime("./lib/style/economy.css"); ?>" />
     <!-- Fonts -->
     <!-- <link rel="stylesheet" href="./lib/style/font/glyphicons/glyphicons.css" /> -->
     <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> -->
@@ -58,17 +59,97 @@
 
       <div id="doc">
         <div id="doc-menu" class="doc-menu">
-          <div class="doc-menu-inner">
+          <div id="doc-menu-trigger" class="doc-menu-trigger"><img src="./lib/svg/doc-menu-trigger.svg" /> <span>Menu</span></div>
+          <div id="doc-menu-inner" class="doc-menu-inner">
             <ul class="doc-leads">
-              <li><b>COVID-19 Research</b></li>
-              <li><b>Coming soon! (searching bioRxiv for researches and content)</b></li>
+              <li><b>Economy</b></li>
+              <li><a href="#markets">Live Markets</a></li>
+              <li><a href="#news">Live News</a></li>
             </ul>
           </div>
         </div>
         <div class="doc-main">
           <div class="doc-main-inner">
-            <p style="margin-top:0;"><b style="font-size:24px;">We discuss some of the recent researches on COVID-19, including vaccines, causes, and symptoms, through expert research papers.</b></p>
-            <p><b style="font-size:24px;">Content is coming soon! Please come back later.</b></p>
+
+            <div id="markets" class="doc-section">
+              <div class="dsec-title"><a href="#markets">Markets</a></div>
+              <div class="dsec-content">
+                <div class="elaborate">
+                  <p>Refresh for live-update (up to 15 minutes delay)</p>
+                  <table class="markets-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Daily Change</th>
+                        <th>%</th>
+                        <!-- <th>YTD Highest</th> -->
+                        <th>YTD Change</th>
+                        <th>%</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="market-DJI">
+                        <td class="name">Dow Jones</td>
+                        <td class="price">loading...</td>
+                        <td class="change">loading...</td>
+                        <td class="change-perc">loading...</td>
+                        <!-- <td class="highest">29,568.57</td> -->
+                        <td class="ytd-change">loading...</td>
+                        <td class="ytd-change-perc">loading...</td>
+                      </tr>
+                      <tr id="market-SPX">
+                        <td class="name">S&P 500</td>
+                        <td class="price">loading...</td>
+                        <td class="change">loading...</td>
+                        <td class="change-perc">loading...</td>
+                        <!-- <td class="highest">3,393.52</td> -->
+                        <td class="ytd-change">loading...</td>
+                        <td class="ytd-change-perc">loading...</td>
+                      </tr>
+                      <tr id="market-NYA">
+                        <td class="name">NYSE Composite</td>
+                        <td class="price">loading...</td>
+                        <td class="change">loading...</td>
+                        <td class="change-perc">loading...</td>
+                        <!-- <td class="highest">14,183.26</td> -->
+                        <td class="ytd-change">loading...</td>
+                        <td class="ytd-change-perc">loading...</td>
+                      </tr>
+                      <tr id="market-RUT">
+                        <td class="name">Russell 2000</td>
+                        <td class="price">loading...</td>
+                        <td class="change">loading...</td>
+                        <td class="change-perc">loading...</td>
+                        <!-- <td class="highest">1,715.08</td> -->
+                        <td class="ytd-change">loading...</td>
+                        <td class="ytd-change-perc">loading...</td>
+                      </tr>
+                      <tr id="market-TNX">
+                        <td class="name">Treasury 10Y</td>
+                        <td class="price">loading...</td>
+                        <td class="change">loading...</td>
+                        <td class="change-perc">loading...</td>
+                        <!-- <td class="highest">1.9030</td> -->
+                        <td class="ytd-change">loading...</td>
+                        <td class="ytd-change-perc">loading...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div id="news" class="doc-section">
+              <div class="dsec-title"><a href="#news">News</a></div>
+              <div class="dsec-content">
+                <div class="elaborate">
+                  <p>Coming soon...</p>
+                  <p>Please help us get maintain the website better data! <a href="https://ko-fi.com/covidnow" target="_blank" rel="noopener">Donate to show your help!</a></p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -91,10 +172,9 @@
     // pointercancel: a pointer will no longer generate events.
     </script>
     <script src="./lib/js/src/jquery-3.2.1.min.js"></script>
-    <script src="./lib/js/src/raphael-2.0.js"></script>
-    <script src="./lib/js/src/us-map-1.0.1.js"></script>
     <script src="./lib/js/dist/universal.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/universal.bundle.js"); ?>"></script>
     <script src="./lib/js/dist/read.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/read.bundle.js"); ?>"></script>
+    <script src="./lib/js/dist/markets.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/markets.bundle.js"); ?>"></script>
 
   </body>
 </html>

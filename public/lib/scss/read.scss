@@ -71,6 +71,13 @@
   padding-bottom:20px;
   & span{font-weight:700;}
 }
+.elaborate{
+  & table{
+    margin-bottom:15px;border-collapse:collapse;text-align:center;
+    &,& th,& td{border: 1px solid #333;}
+    & th,& td{padding:3px 8px;}
+  }
+}
 .sources{
   display:block;padding-top:20px;font-size:0;
   & li{
