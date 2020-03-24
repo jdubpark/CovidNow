@@ -9,11 +9,13 @@
     "build:dev": "webpack",
     "bs-init": "browser-sync init",
     "bs": "gulp bs",
-    "sass": "sass --watch ./public/lib/scss/:./public/lib/style/",
+    "scss": "sass --watch ./public/lib/scss/:./public/lib/style/",
     "start": "NODE_ENV=production node -r dotenv/config ./private/api-main.js dotenv_config_path=.env",
     "start:dev": "node -r dotenv/config ./private/api-main.js dotenv_config_path=.env",
     "worker": "NODE_ENV=production node -r dotenv/config ./private/worker.js dotenv_config_path=.env",
-    "worker:dev": "node -r dotenv/config ./private/worker.js dotenv_config_path=.env"
+    "worker:dev": "node -r dotenv/config ./private/worker.js dotenv_config_path=.env",
+    "api-news": "NODE_ENV=production node -r dotenv/config ./api/partials/api-news.js dotenv_config_path=.env",
+    "api-news:dev": "node -r dotenv/config ./api/partials/api-news.js dotenv_config_path=.env"
   },
   "dependencies": {
     "aws-sdk": "^2.635.0",
@@ -22,6 +24,7 @@
     "bluebird": "^3.7.2",
     "cheerio": "^1.0.0-rc.3",
     "cron": "^1.8.2",
+    "csv-parse": "^4.8.8",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.21.3",

@@ -1,4 +1,7 @@
 <div id="main-nav" class="mnav">
+  <!-- <div class="mnav-top container">
+
+  </div> -->
   <div class="mnav-wrapper container">
     <div class="mnav-col mnav-logo"><a href="./">COVID<span>NOW</span></a></div>
     <div class="mnav-col right">

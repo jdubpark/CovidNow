@@ -4,18 +4,19 @@ body.paused {
 }
 
 #wrapper {
-  padding: 10px 0;
+  padding: 15px 0;
+  background-color: #f5f5f8;
 }
 @media (min-width: 1024px) {
   #wrapper {
-    padding: 20px 0;
+    padding: 25px 0;
   }
 }
 
 .help-us {
   position: absolute;
-  top: 38px;
-  right: 0;
+  top: 6px;
+  right: 50px;
   text-align: center;
 }
 .help-us a {
@@ -25,7 +26,7 @@ body.paused {
   padding-bottom: 4px;
   color: #fff;
   background-color: #22a39f;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 .help-us a:hover, .help-us a:active {
   background-color: #27aa80;
@@ -41,20 +42,19 @@ body.paused {
   height: auto;
   width: 100vw;
   background-color: #fff;
+  border-bottom: 1px solid #e5e5e5;
   z-index: 15000;
 }
 .mnav.moving {
   box-shadow: 0 0 2px 20px rgba(30, 30, 30, 0.05);
 }
-.mnav-wrapper {
-  padding-top: 25px;
-  padding-bottom: 25px;
+.mnav-top {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
-@media (min-width: 1024px) {
-  .mnav-wrapper {
-    padding-top: 30px;
-    padding-bottom: 30px;
-  }
+.mnav-wrapper {
+  padding-top: 15px;
+  padding-bottom: 10px;
 }
 .mnav-wrapper::before {
   content: "";
@@ -64,9 +64,21 @@ body.paused {
 .mnav-col {
   position: relative;
   float: left;
+  text-align: center;
+}
+@media (min-width: 1024px) {
+  .mnav-col {
+    display: block;
+    float: none;
+  }
 }
 .mnav-col.right {
   float: right;
+}
+@media (min-width: 1024px) {
+  .mnav-col.right {
+    float: none;
+  }
 }
 .mnav-logo {
   position: relative;
@@ -87,15 +99,10 @@ body.paused {
   top: 0;
   left: 0;
   font-size: 24px;
-  font-weight: 700;
-  text-align: center;
   z-index: 14999;
   background: rgba(249, 243, 236, 0.85);
   padding: 100px 10px 0;
   overflow-y: scroll;
-}
-.mnav-menu.opened {
-  display: block;
 }
 @media (min-width: 1024px) {
   .mnav-menu {
@@ -103,12 +110,14 @@ body.paused {
     position: relative;
     height: auto;
     width: auto;
-    margin-top: 3px;
+    margin-top: 6px;
     padding: 0;
     background: none;
-    font-size: 20px;
-    text-align: left;
+    font-size: 18px;
   }
+}
+.mnav-menu.opened {
+  display: block;
 }
 .mnav-menu-trigger img {
   height: 36px;
@@ -117,6 +126,7 @@ body.paused {
 }
 .mnav-menu-trigger-wrapper {
   position: relative;
+  margin-top: 1px;
   z-index: 15000;
 }
 @media (min-width: 1024px) {
@@ -141,7 +151,7 @@ body.paused {
 }
 @media (min-width: 1024px) {
   .mnav-menu a {
-    padding: 4px 10px;
+    padding: 4px 8px;
   }
 }
 .mnav-menu a.bg {
@@ -154,6 +164,7 @@ body.paused {
 }
 .mnav-menu a.bg.green {
   background-color: #22a39f;
+  font-weight: 700;
 }
 .mnav-menu a.bg.green:hover, .mnav-menu a.bg.green:active {
   background-color: #27aa80;
@@ -163,9 +174,15 @@ body.paused {
 }
 
 .container {
-  max-width: 1350px;
-  padding-left: 20px;
-  padding-right: 20px;
+  max-width: 1300px;
+  padding-left: 22px;
+  padding-right: 22px;
+}
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
 }
 
 /*# sourceMappingURL=universal.css.map */

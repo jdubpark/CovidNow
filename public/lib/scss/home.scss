@@ -2,66 +2,130 @@
 
 .hero{
   font-size:0;
+
+  & .container{display:flex;flex-wrap:wrap;}
+
+  &-fc,&-news,&-you,&-linkboxes,&-countries{
+    flex:1 1 100%;
+    // border:1px solid $alt3;
+    &-inner{background-color:#fff;border-radius:$bdr2;box-shadow:0 0 20px 1px rgba(180, 180, 180, 0.15);}
+  }
+  &-fc,&-news{
+    &-inner{
+      @media (min-width: $screen-m){height:100%;}
+    }
+  }
+
   // focus
   &-fc{
-    background-color:$fantasy;
-    &-head{background-color:$half-pearl-lusta;padding:7px 25px;}
-    &-body{display:flex;padding:25px;flex-wrap:wrap;}
-    // head
-    &-updated{font-size:18px;}
-    // body
-    &-row,&-col,&-item{display:inline-block;}
-    &-row{
-      flex:1 1 100%;padding-bottom:20px;padding-right:5px;text-align:center;
+    position:relative;width:100%;text-align:center;
+    @media (min-width: $screen-m){flex:1 1 66.666666%;padding-right:20px;}
+    &-inner{
+      max-width:100%;padding:15px 5px;
+      @media (min-width: $screen-m){padding:15px 25px 20px;}
+    }
+    &-section{
+      padding:12px 0;
+      @media (min-width: $screen-m){padding:18px 0;}
       &:last-child{padding-bottom:0;}
-      @media (min-width: $screen-m){flex:1 1 33.333333%;padding-bottom:0;text-align:left;}
-      &-head{
-        padding-bottom:14px;
-        @media (min-width: $screen-m){padding-bottom:20px;}
-        & name{
-          display:none;
-          @media (min-width: $screen-m){display:inline-block;}
-          &.mobile{
-            display:inline-block;padding-left:10px;
-            @media (min-width: $screen-m){display:none;}
-          }
-        }
-
-        & num{
-          padding-left:10px;
-          @media (min-width: $screen-m){display:block;padding-top:5px;padding-left:0;}
-        }
+      &-divide{
+        max-width:350px;margin:0 auto;padding:5px 10px;
+        & span{display:block;height:1px;width:100%;background-color:$alt3;}
       }
-      & name,& num{line-height:1;}
-      & name{
-        font-size:22px;font-weight:700;text-transform:uppercase;
+    }
+    // head
+    &-updated{color:#777;font-size:16px;}
+    // section
+    &-item{
+      display:inline-block;padding:0 12px;vertical-align:top;
+      @media (min-width: $screen-m){padding:0 20px;}
+      & .name,& .num{line-height:1;}
+      & .name{
+        padding-bottom:5px;font-size:15px;
+        @media (min-width: $screen-m){font-size:20px;}
+      }
+      & .num{
+        font-size:26px;
         @media (min-width: $screen-m){font-size:34px;}
       }
-      & num{
-        font-size:26px;font-weight:800;
-        @media (min-width: $screen-m){font-size:38px;}
+      & .note{
+        padding-top:5px;color:#777;font-size:15px;
       }
-      &.total num{color:$yellowsea;}
-      &.deaths num{color:$punch;}
-      &.recovered num{color:$green;}
     }
-    &-item{
-      display:flex;width:100%;padding-bottom:5px;justify-content:center;
-      @media (min-width: $screen-m){padding-bottom:10px;justify-content:left;}
-      &:last-child{padding-bottom:0;}
-      & name{
-        color:#777;padding-right:10px;letter-spacing:-0.5px;
-        @media (min-width: $screen-m){flex:1;}
+    &-top{
+      flex:1 1;min-width:150px;font-size:16px;
+      @media (min-width: $screen-m){flex:1 1 33.333333%;font-size:18px;}
+      &s{
+        display:flex;flex-wrap:nowrap;max-width:100%;overflow-x:scroll;
+        @media (min-width: $screen-m){flex-wrap:wrap;}
       }
-      & num{
-        font-size:22px;
-        @media (min-width: $screen-m){flex:2;font-size:34px;}
+      &-title,&-note,&-rates{color:#777;}
+      &-note,&-rates{font-size:14px;}
+      &-title{
+        font-size:15px;font-weight:600;
+        @media (min-width: $screen-m){font-size:16px;}
+      }
+      &-note{padding-top:2px;}
+      &-list{padding:10px 20px;}
+      &-list li{
+        display:flex;flex-wrap:wrap;padding-bottom:8px;
+        &:last-child{margin-bottom:0;}
+      }
+      // under &-list li
+      &-name,&-num{flex:1 1 100%;}
+      &-name{
+        @media (min-width: $screen-m){flex:2 1;text-align:left;}
+      }
+      &-num{
+        padding:2px 0;
+        @media (min-width: $screen-m){flex:1 1;padding:0;text-align:right;}
+      }
+      &-rates{
+        flex:1 1 100%;
+        & .glob{float:left;}
+        & .perc{float:right;}
+        .confirmed &{
+          display:none;
+          @media (min-width: $screen-m){display:block;}
+        }
+      }
+    }
+    // shared
+    & .name{font-weight:600;}
+    & .num{font-weight:800;}
+    & .confirmed .num{color:#eb2323;}
+    & .confirmed .name,& .deaths .name,& .deaths .num{color:#777;}
+    & .recovered .name,& .recovered .num{color:$green;}
+  }
+
+  // news
+  &-news{
+    margin-top:20px;
+    @media (min-width: $screen-m){flex:1 1 33.333333%;margin-top:0;}
+    &-inner{
+      max-height:500px;overflow-y:scroll;
+      @media (min-width: $screen-m){max-height:100vh;}
+    }
+    & li{
+      display:block;padding:15px;border-bottom:1px solid $alt1;
+      &:last-child{border-bottom:0;}
+      & .pubdate{padding-bottom:6px;color:#777;font-size:14px;}
+      & .headline{
+        font-size:15px;font-weight:600;line-height:1;
+        @media (min-width: $screen-m){font-size:17px;}
+        & font{
+          position:relative;display:block;padding:4px 0 0 10px;font-size:14px;
+          &::before{content:'-';position:absolute;top:50%;margin-top:2px;left:0;font-size:16px;transform:translateY(-50%);}
+        }
       }
     }
   }
+
+  // you
   &-you{
-    padding:25px 0 10px;text-align:center;
+    padding-top:20px;text-align:center;
     @media (min-width: $screen-m){padding:35px 0;text-align:left;}
+    &-inner{padding:25px 0 10px;}
     &-head{
       padding:0 10px 20px;text-align:center;
       @media (min-width: $screen-m){padding:0 25px 20px;}
@@ -135,30 +199,44 @@
       // &.d100-500{flex-grow:3;}
     }
   }
+
+  // link boxes
   &-linkbox{
-    flex:1 1 100%;border-top:6px solid;
-    @media (min-width: $screen-m){flex:1 1 33.333333%;max-width:33.333333%;border-top-width:10px;}
-    &es{display:flex;flex-wrap:wrap;padding:25px 0;}
-    &-inner{
-      display:block;height:100%;padding:20px 25px;background-color:$fantasy;
-      @media (min-width: $screen-m){padding:20px 25px 30px;}
-      &:hover,&:active{background-color:$half-pearl-lusta;}
+    border-top:1px solid $alt3;
+    @media (min-width: $screen-m){flex:1 1 33.333333%;max-width:33.333333%;border-right:1px solid $alt3;}
+    &:first-child{border-top:0;}
+    &:nth-child(2),&:nth-child(3){
+      @media (min-width: $screen-m){border-top:0;}
     }
-    &:nth-child(2n) &-inner{background-color:$quarter-white;}
+    &:nth-child(3n){
+      @media (min-width: $screen-m){border-right:0;}
+    }
+    &es{
+      padding:25px 0;
+      &-inner{display:flex;flex-wrap:wrap;width:100%;padding:20px;}
+    }
+    &-inner{
+      display:block;height:100%;padding:20px 25px;opacity:0.8;
+      @media (min-width: $screen-m){padding:20px 25px 30px;}
+      &:hover,&:active{opacity:1;}
+    }
     &-name{
       color:inherit;font-size:22px;font-weight:800;
       @media (min-width: $screen-m){font-size:26px;}
     }
     &-desc{padding-top:5px;color:#aaa;font-size:15px;font-weight:500;line-height:1.2;}
-    &.states{color:$google-blue;border-color:$google-blue;}
-    &.research{color:$google-yellow;border-color:$google-yellow;}
-    &.prevention{color:$google-red;border-color:$google-red;}
-    &.myths{color:$breaker-bay;border-color:$breaker-bay;}
-    &.faq{color:$fountain-blue;border-color:$fountain-blue;}
-    &.about{color:$bandicoot;border-color:$bandicoot;}
+    &.states{color:$google-blue;}
+    &.research{color:$google-yellow;}
+    &.prevention{color:$google-red;}
+    &.myths{color:$breaker-bay;}
+    &.faq{color:$fountain-blue;}
+    &.about{color:$bandicoot;}
   }
+
+  // countries
   &-countries{
-    padding:20px 25px;text-align:center;
+    text-align:center;
+    &-inner{padding:20px 25px;}
     &-body{padding:20px 0;}
     // head
     &-title{
@@ -181,10 +259,10 @@
     display:flex;flex-wrap:wrap;flex:1 1 100%;
     @media (min-width: $screen-m){flex:1 1 50%;max-width:50%;}
     &:nth-child(2n){
-      @media (max-width: $screen-m - 1px){background-color:#f4f5f6;}
+      @media (max-width: $screen-m - 1px){background-color:$alt4;}
     }
     &:nth-child(4n),&:nth-child(4n-1){
-      @media (min-width: $screen-m){background-color:#f4f5f6;}
+      @media (min-width: $screen-m){background-color:$alt4;}
     }
     &.hd{
       display:none;background-color:inherit;

@@ -1,8 +1,8 @@
 require('dotenv').config({path: __dirname+'/../.env'});
-console.log(__dirname+'/../.env');
+// console.log(__dirname+'/../.env');
 
 module.exports = {
-  aws_table_name: 'TempCoreData',
+  aws_table_name: '',
   aws_local_config: {
     region: 'local',
     endpoint: 'http://localhost:8000',

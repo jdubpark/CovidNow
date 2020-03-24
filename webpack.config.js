@@ -8,6 +8,11 @@ const API_URL = {
   development: JSON.stringify('http://localhost:8012/'),
 };
 
+const API_URL_2 = {
+  production: JSON.stringify('https://covidnow.com/'),
+  development: JSON.stringify('http://localhost:8013/'),
+};
+
 // check environment mode
 const enviro = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
@@ -90,6 +95,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.API_URL': API_URL[enviro],
+      'process.env.API_URL_2': API_URL_2[enviro],
     }),
   ],
 };

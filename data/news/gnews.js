@@ -27,7 +27,7 @@ module.exports = class GNews{
           .then(res => res)
           .catch(err => Promise.reject(err));
       }).catch(err => Promise.reject(err));
-      console.log(url);
+      // console.log(url);
     });
 
     return utils.objectPromise(proms);
@@ -57,7 +57,7 @@ module.exports = class GNews{
 
       cluster[lang] = cleaned;
       // sort timestamp (for filtering newest -> oldest ==> desc ts)
-      cluster['sorted__'+lang] = Object.keys(cleaned).sort((a, b) => {
+      cluster[lang].__sorted = Object.keys(cleaned).sort((a, b) => {
         const _a = Number(a), _b = Number(b);
         return _a < _b ? 1 : _a > _b ? -1 : 0;
       });

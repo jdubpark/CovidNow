@@ -11,5 +11,10 @@ module.exports = {
     cwd: './private/',
     script: 'npm',
     args: 'run worker',
+  }, {
+    name: 'api-news',
+    cwd: './api/partials/',
+    script: 'npm',
+    args: 'run api-news',
   }],
 };
