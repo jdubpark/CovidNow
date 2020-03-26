@@ -16,5 +16,10 @@ module.exports = {
     cwd: './api/partials/',
     script: 'npm',
     args: 'run api-news',
+  }, {
+    name: 'api-usa',
+    cwd: './api/partials/',
+    script: 'npm',
+    args: 'run api-usa',
   }],
 };

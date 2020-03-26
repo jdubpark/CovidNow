@@ -15,7 +15,11 @@
     "worker": "NODE_ENV=production node -r dotenv/config ./private/worker.js dotenv_config_path=.env",
     "worker:dev": "node -r dotenv/config ./private/worker.js dotenv_config_path=.env",
     "api-news": "NODE_ENV=production node -r dotenv/config ./api/partials/api-news.js dotenv_config_path=.env",
-    "api-news:dev": "node -r dotenv/config ./api/partials/api-news.js dotenv_config_path=.env"
+    "api-news:dev": "node -r dotenv/config ./api/partials/api-news.js dotenv_config_path=.env",
+    "api-usa": "NODE_ENV=production node -r dotenv/config ./api/partials/api-usa.js dotenv_config_path=.env",
+    "api-usa:dev": "node -r dotenv/config ./api/partials/api-usa.js dotenv_config_path=.env",
+    "api-global": "NODE_ENV=production node -r dotenv/config ./api/partials/api-global.js dotenv_config_path=.env",
+    "api-global:dev": "node -r dotenv/config ./api/partials/api-global.js dotenv_config_path=.env"
   },
   "dependencies": {
     "aws-sdk": "^2.635.0",
@@ -30,6 +34,8 @@
     "helmet": "^3.21.3",
     "jsonfile": "^6.0.1",
     "mammoth": "^1.4.9",
+    "pako": "^1.0.11",
+    "pbf": "^3.2.1",
     "pdf-parse": "^1.1.1",
     "pdfreader": "^1.0.6",
     "request": "^2.88.2",

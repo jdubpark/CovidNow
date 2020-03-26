@@ -10,9 +10,10 @@ const
   CronJob = require('cron').CronJob;
 
 const
-  getNews = require('../../data/get-news'),
-  CustomError = require('../../private/modules/CustomError'),
-  config = require(__dirname+'/../../config/aws-config.js');
+  ModGetNews = require('../../data/News/get'),
+  CustomError = require('../modules/CustomError'),
+  config = require(__dirname+'/../../config/aws-config.js'),
+  ports = require(__dirname+'/../../config/ports.js');
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -20,10 +21,15 @@ AWS.config.update(isDev ? config.aws_local_config : config.aws_remote_config);
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-// get news data every 15 minutes
-const wrappedFn = (docClient => () => getNews(docClient))(docClient);
-const getJob = new CronJob('0 */15 * * * *', wrappedFn, null, true, 'America/Los_Angeles');
-getNews(docClient); // init call
+const GetNews = new ModGetNews({docClient});
+
+/*
+    Get News data every 10 minutes
+*/
+// either bind class or use wrapped function (() => GetNews.execute())
+// (bind!!! to access this)
+const getJob = new CronJob('0 */10 * * * *', GetNews.execute.bind(GetNews), null, true, 'America/Los_Angeles');
+GetNews.execute(); // init call
 getJob.start();
 
 
@@ -37,7 +43,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/api/news/:type', (req, res, next) => {
+app.get('/api/v1/news/:type', (req, res, next) => {
   const {type} = req.params, allowed = ['usa', 'italy', 'spain'];
 
   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
@@ -58,25 +64,26 @@ app.get('/api/news/:type', (req, res, next) => {
     if (err) return next(err);
 
     const {Items} = data;
-    res.status(200).json(Items[0]);
+    // returns {data, key (used for query), ts (last updated)}
+    res.status(200).json(Items[0].data);
   });
 });
 
 app.get('*', (req, res, next) => {
-  if (!res.headersSent) res.status(404).json(APIM.err404(req));
+  if (!res.headersSent) res.status(404).json(CustomError.err404(req));
 });
 
 // error handler // comes last
 app.use((err, req, res, next) => {
-  if (err.type === '404') res.status(404).json(APIM.err404(req));
-  else if (err.type === '422') res.status(422).json(APIM.err422(req));
+  if (err.type === '404') res.status(404).json(CustomError.err404(req));
+  else if (err.type === '422') res.status(422).json(CustomError.err422(req));
   else {
     console.log(Date.now(), err);
     res.status(500).json({code: 500, error: 'internal-error'});
   }
 });
 
-server.listen(8013, () => {
+server.listen(ports.API_News, () => {
   const
     host = server.address().address,
     port = server.address().port;

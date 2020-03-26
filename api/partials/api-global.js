@@ -10,31 +10,26 @@ const
   CronJob = require('cron').CronJob;
 
 const
-  ModGetUSA = require('../../data/USA/get'),
+  ModGetGlobal = require('../../data/Global/get'),
   CustomError = require('../modules/CustomError'),
-  S3Client = require('../../aws/aws-s3-client.js'),
   config = require(__dirname+'/../../config/aws-config.js'),
   ports = require(__dirname+'/../../config/ports.js');
 
 const isDev = process.env.NODE_ENV !== 'production';
 
-const s3Client = new S3Client(process.env.CN_AWS_S3_KEY, process.env.CN_AWS_S3_SECRET);
-
 AWS.config.update(isDev ? config.aws_local_config : config.aws_remote_config);
 
-const docClient = new AWS.DynamoDB.DocumentClient({
-  convertEmptyValues: true, // ignore empty string error
-});
+const docClient = new AWS.DynamoDB.DocumentClient();
 
-const GetUSA = new ModGetUSA({s3Client, docClient});
+const GetGlobal = new ModGetGlobal({docClient});
 
 /*
-    Get USA data every 10 minutes
-    (starting at 0 to avoid conflict with Global data)
+    Get Global data every 10 minutes
+    (starting at 5 to avoid conflict with USA data)
 */
 // (bind!!! to access this)
-const getJob = new CronJob('0 */10 * * * *', GetUSA.execute.bind(GetUSA), null, true, 'America/Los_Angeles');
-GetUSA.execute(); // init call
+const getJob = new CronJob('0 5,15,25,35,45,55 * * * *', GetGlobal.execute.bind(GetGlobal), null, true, 'America/Los_Angeles');
+GetGlobal.execute(); // init call
 getJob.start();
 
 
@@ -48,10 +43,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
-  const {type} = req.params, allowed = ['states', 'counties'];
+app.get('/api/v1/global/:type', (req, res, next) => {
+  const {type} = req.params, allowed = ['countries', 'stats'];
 
   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
+
+  // every global data key has the prefix 'global-'
+  // to make human reading easier for DDB
+  const key = 'global-'+type;
 
   const params = {
     TableName: 'Data',
@@ -60,7 +59,7 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
       '#k': 'key',
     },
     ExpressionAttributeValues: {
-      ':k': 'usa-'+type,
+      ':k': key,
     },
   };
 
@@ -71,18 +70,6 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
     // returns {data, key (used for query), ts (last updated)}
     res.status(200).json(Items[0].data);
   });
-});
-
-app.get('/api/v1/usa/cases', (req, res, next) => {
-  const s3GetReq = s3Client.getObjectRequest('covidnow/data/usa', 'cases300.json');
-  s3Client.get(s3GetReq)
-    .then(data => {
-      // console.log(data);
-      // returns the case data right away, no obj key wraps
-      const objData = JSON.parse(data.Body.toString('utf-8'));
-      res.status(200).json(objData);
-    })
-    .catch(err => next(err));
 });
 
 app.get('*', (req, res, next) => {
@@ -99,9 +86,9 @@ app.use((err, req, res, next) => {
   }
 });
 
-server.listen(ports.API_USA, () => {
+server.listen(ports.API_Global, () => {
   const
     host = server.address().address,
     port = server.address().port;
-  console.log('[CovidNow API USA] listening at http://%s:%s', host, port);
+  console.log('[CovidNow API Global] listening at http://%s:%s', host, port);
 });
