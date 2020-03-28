@@ -24,18 +24,18 @@
     & span{font-weight:800;}
   }
   &-stat{
-    flex:1;padding:5px;font-size:18px;
-    @media (min-width: $screen-m){padding:10px;font-size:26px;}
+    flex:1;padding:5px;font-size:16px;
+    @media (min-width: $screen-m){padding:10px;font-size:22px;}
     &s{display:flex;max-width:800px;margin:0 auto;padding:20px 5px;font-size:0;}
-    & .val,& .name{display:block;}
-    & .val{
-      font-size:30px;font-weight:800;
-      @media (min-width: $screen-m){font-size:40px;}
+    & .num,& .name{display:block;}
+    & .num{
+      font-size:26px;font-weight:800;
+      @media (min-width: $screen-m){font-size:36px;}
     }
     & .name{padding-top:8px;}
-    &.total .val{color:$yellowsea;}
-    &.deaths .val{color:$punch;}
-    &.recov .val{color:$green;}
+    &.confirmed .num{color:$sharp-red;}
+    &.confirmed .name,&.deaths .name,&.deaths .num{color:#777;}
+    &.recovered .name,&.recovered .num{color:$green;}
   }
   &-county{
     display:flex;padding:5px;
@@ -46,9 +46,6 @@
       &.stat,&.stat-f{
         padding:0 5px;font-weight:700;
         &:last-child{padding-right:0;}
-        &.total{color:$yellowsea;}
-        &.deaths{color:$punch;}
-        &.recov{color:$green;}
       }
       &.stat{font-size:20px;}
     }
@@ -60,7 +57,11 @@
       font-size:22px;font-weight:800;
       @media (min-width: $screen-m){font-size:28px;}
     }
-    &-info{max-width:800px;padding:5px 0;margin:0 auto;}
+    &-info{max-width:800px;padding:5px 0;margin:0 auto;color:#777;}
     &-wrapper{padding:20px 0;}
+    // colors
+    & .confirmed{color:#eb2323;}
+    & .deaths{color:#777;}
+    & .recovered{color:$green;}
   }
 }

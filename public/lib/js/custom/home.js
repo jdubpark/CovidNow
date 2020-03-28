@@ -1,12 +1,21 @@
 'use strict';
 
-const apiBase = process.env.API_URL+'api/';
-const apiBase2 = process.env.API_URL_2+'api/';
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const countriesJSON = require('../../json/countries.json');
+const
+  apiBase = process.env.API_URL+'api/',
+  apiBaseNews = process.env.API_URL_NEWS+'api/',
+  apiBaseGlobal = process.env.API_URL_GLOBAL+'api/',
+  apiBaseUSA = process.env.API_URL_USA+'api/',
+  apiBaseLocal = process.env.API_URL_LOCAL+'api/';
+
+import * as utils from '../utils';
+import countriesJSON from '../../json/countries.json';
+
 const countriesJSON_ = Object.keys(countriesJSON);
 
-let cdFetch = undefined; // core data fetch
+const cdFetch = {
+  global: {},
+  usa: {},
+}; // core data fetch
 
 function geolocSuccess(pos){
   const lat = pos.coords.latitude, long = pos.coords.longitude;
@@ -31,77 +40,64 @@ function geolocError(){
 }
 
 function loadGeodata(data){
-  const {geocoding: {lat, long}, distances: dists} = data;
+  const {lat, lng: long, info, cases} = data;
   if (!lat && !long) $('#you-search-invalid').addClass('show');
   else $('#you-search-invalid').removeClass('show');
   $('#you-search-lat val').text(lat);
   $('#you-search-long val').text(long);
-  // $('#you-search-name val').text(name);
+  // $('#you-search-name val').text(info.locality+', '+info.state);
 
-  // OFF: distance model for now
-  // Object.keys(dists).forEach(dist => {
-  //   const locs = dists[dist], total = locs.length;
-  //   // console.log('#geoloc-d'+dist);
-  //   $('#geoloc-d'+dist+' .cases val').text(total);
-  // });
-
-  // ON: county model
-  const {geocoding: {county, state}} = data, stData = cdFetch.states.data;
-  $('#geoloc-county-name').text(county+' County, '+state);
+  const {county, state} = info;
+  // console.log(cases);
+  // fix names
+  $('#geoloc-county-name').text(county);
   $('#geoloc-state-name span').text(state);
-  let cTotal = 0, sTotal = 0;
-  if (stData[state] && stData[state][county]) cTotal = stData[state][county].total;
-  if (stData[state] && stData[state]._statewide) sTotal = stData[state]._statewide.total;
-  $('#geoloc-county .cases val').text(cTotal);
-  $('#geoloc-state .cases val').text(sTotal);
+  // county
+  $('#geoloc-county .confirmed .num').text(cases.county.confirmed);
+  $('#geoloc-county .deaths .num').text(cases.county.deaths);
+  // state
+  $('#geoloc-state .confirmed .num').text(cases.state.confirmed);
+  $('#geoloc-state .deaths .num').text(cases.state.deaths);
 }
 
-function formatDate(dObj){
-  let hrs = dObj.getHours(), mins = dObj.getMinutes(), ampm = hrs >= 12 ? 'pm' : 'am';
-  hrs = hrs % 12;
-  hrs = hrs ? hrs : 12; // the hour '0' should be '12'
-  mins = mins < 10 ? '0'+mins : mins;
-  const strTime = `${hrs}:${mins} ${ampm}`;
-  return `${months[dObj.getMonth()]} ${dObj.getDate()}, ${strTime}`;
-}
+let addrSearching = false;
+function addrSearch(){
+  if (addrSearching) return false;
+  addrSearching = true;
+  const val = $('#you-search-bar').val();
+  $('#you-search-btn').addClass('disabled');
+  $('#you-search-invalid').removeClass('show');
+  $('#you-search-lat val').html('locating...');
+  $('#you-search-long val').html('locating...');
 
-function percent(nume, deno, fixed=2){
-  let perc;
-  if (typeof num !== 'number' || typeof deno !== 'number') perc = Number(nume)/Number(deno)*100;
-  else perc = nume/deno*100;
-
-  return isFinite(perc) ? perc.toFixed(fixed) : undefined;
-}
-
-function commas(n){
-  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const ajax1 = $.ajax({
+    method: 'GET',
+    url: apiBaseLocal+'v1/local/finder',
+    data: {address: val},
+    dataType: 'json',
+  });
+  ajax1.done(data => {
+    // console.log(data);
+    addrSearching = false;
+    $('#you-search-btn').removeClass('disabled');
+    loadGeodata(data);
+  });
+  ajax1.fail((a, b, c) => console.error(a, b, c));
 }
 
 (function($){
-  let youSearching = false;
-  $('#you-search-btn').on('click', function(){
-    if (youSearching) return false;
-    youSearching = true;
-    const $t = $(this), val = $('#you-search-bar').val();
-    $t.addClass('disabled');
-    $('#you-search-invalid').removeClass('show');
-    $('#you-search-lat val').html('locating...');
-    $('#you-search-long val').html('locating...');
 
-    const ajax1 = $.ajax({
-      method: 'GET',
-      url: apiBase+'my/geoDistances',
-      data: {address: val},
-      dataType: 'json',
-    });
-    ajax1.done(data => {
-      console.log(data);
-      youSearching = false;
-      $t.removeClass('disabled');
-      loadGeodata(data);
-    });
-    ajax1.fail((a, b, c) => console.error(a, b, c));
+
+  /*
+      Address cases look up
+      #1: press 'enter' key in the search bar
+      #2: press the 'search' button
+  */
+  $('#you-search-bar').keydown(e => {
+    if (e.keyCode == 13) addrSearch();
   });
+
+  $('#you-search-btn').on('click', addrSearch);
 
   // off for now, support only address
   $('#you-search-lat val').html('search...');
@@ -118,134 +114,190 @@ function commas(n){
 
   const ajax1 = $.ajax({
     method: 'GET',
-    url: apiBase+'core/all',
+    url: apiBaseGlobal+'v1/global/stats',
     dataType: 'json',
   });
-  ajax1.done(data => {
-    console.log(data);
-    cdFetch = data;
-    const {usa, stats, countries} = data;
-    const totalConfirmed = stats.data.total;
-    const totalDeaths = stats.data.deaths;
-    const totalRecovered = stats.data.recovered;
-    // stats
-    $('#stats-last-update span').text(formatDate(new Date(stats.ts)));
-    $('#stats-confirmed-total').text(commas(stats.data.total));
-    $('#stats-deaths-total').text(commas(stats.data.deaths));
-    $('#stats-recov-total').text(commas(stats.data.recovered));
 
-    const countryCount = Object.keys(countries.data).length - 1; // -1 is _others
-    const fatalityRate = percent(totalDeaths, totalConfirmed);
-    const recoveryRate = percent(totalRecovered, totalConfirmed);
+  const ajax2 = $.ajax({
+    method: 'GET',
+    url: apiBaseGlobal+'v1/global/countries',
+    dataType: 'json',
+  });
 
-    $('#stats-confirmed-countries span').text(countryCount);
-    $('#stats-fatality-rate span').text(fatalityRate);
-    $('#stats-recovery-rate span').text(recoveryRate);
+  const ajax3 = $.ajax({
+    method: 'GET',
+    url: apiBaseNews+'v1/news/usa',
+    dataType: 'json',
+  });
 
-    const ctData = countries.data;
-    // sort by values (desc)
-    const ctSort = {
-      total: Object.keys(ctData).sort((a, b) => ctData[a].total < ctData[b].total ? 1 : ctData[a].total > ctData[b].total ? -1 : 0),
-      deaths: Object.keys(ctData).sort((a, b) => ctData[a].deaths < ctData[b].deaths ? 1 : ctData[a].deaths > ctData[b].deaths ? -1 : 0),
-      recovered: Object.keys(ctData).sort((a, b) => ctData[a].recovered < ctData[b].recovered ? 1 : ctData[a].recovered > ctData[b].recovered ? -1 : 0),
+  const ajax4 = $.ajax({
+    method: 'GET',
+    url: apiBaseUSA+'v1/usa/cases',
+    dataType: 'json',
+  });
+
+  ajax1.fail((a, b, c) => console.error(a, b, c));
+  ajax2.fail((a, b, c) => console.error(a, b, c));
+  ajax3.fail((a, b, c) => console.error(a, b, c));
+  ajax4.fail((a, b, c) => console.error(a, b, c));
+
+  /*
+      Global stats
+  */
+  ajax1.done(res => {
+    const {data: {total, deaths, recovered}, ts} = res;
+    cdFetch.global.stats = res.data;
+
+    /*
+        Update global stats
+    */
+    $('#stats-last-update span').text(utils.formatDate(ts));
+    $('#stats-confirmed-total').text(utils.commas(total));
+    $('#stats-deaths-total').text(utils.commas(deaths));
+    $('#stats-recov-total').text(utils.commas(recovered));
+
+    /*
+        Calulate rate
+    */
+    const rate = {
+      fatality: utils.percent(deaths, total),
+      recovery: utils.percent(recovered, total),
     };
+    $('#stats-fatality-rate span').text(rate.fatality);
+    $('#stats-recovery-rate span').text(rate.recovery);
+  });
 
-    Object.keys(ctSort).forEach(key => {
-      // remove key '_others'
-      ctSort[key].splice(ctSort[key].indexOf('_others'), 1);
 
-      // get top 10 and loop & append
-      $(`#stats-top-countries-${key}`).html('');
-      ctSort[key].slice(0, 10).forEach(ctName_ => {
-        const ctDat = ctData[ctName_];
-        let ctName = ctName_.split('_').join(' '), rateGlobal = '&nbsp;', ratePerc = '&nbsp;';
-        if (countriesJSON_.includes(ctName)) ctName = countriesJSON[ctName];
-        if (key === 'deaths' || key === 'recovered'){
-          // compared to total [key] (global)
-          rateGlobal = percent(ctDat[key], stats.data[key])+'%';
-          // compared to the country's total confirmed
-          ratePerc = percent(ctDat[key], ctDat.total)+'%';
+  /*
+      Global countries
+  */
+  ajax2.done(res => {
+    const {data, ts} = res;
+    cdFetch.global.countries = data;
+
+    /*
+        Global country count
+    */
+    const countryCount = Object.keys(data).length - 1; // -1 is Diamond Princess
+    $('#stats-confirmed-countries span').text(countryCount);
+
+    /*
+        Sort countries by confirmed, deaths, and recovered
+        (put total at last to save that sorted arr)
+    */
+    const
+      sortKeys = ['deaths', 'recovered', 'total'],
+      countryKeys = Object.keys(data);
+
+    sortKeys.forEach(key => {
+      let _key = key;
+      if (_key === 'total') _key = 'confirmed'; // total -> confirmed
+
+      // sort based on key value (deaths/recovered/confirmed)
+      countryKeys.sort((a, b) => {
+        return data[a].nationwide[_key] < data[b].nationwide[_key] ? 1
+          : data[a].nationwide[_key] > data[b].nationwide[_key] ? -1 : 0;
+      });
+
+      /*
+          Top 10 table for (death/recovered/confirmed)
+      */
+      const top10 = countryKeys.slice(0, 10), $top = $(`#stats-top-countries-${key}`);
+      $top.html('');
+      top10.forEach(ctName => {
+        const ctNwDa = data[ctName].nationwide; // country nationwide data
+        const val = ctNwDa[_key];
+
+        // initialize with space (vs. global[key] & country.total)
+        const perc = {global: '&nbsp;', country: '&nbsp;'};
+
+        // compare each country to global[key] & country.total data
+        // local comparison is only for deaths/recovered
+        if (['deaths', 'recovered'].includes(key)){
+          perc.global = utils.percent(val, cdFetch.global.stats[key])+'%';
+          perc.country = utils.percent(val, ctNwDa.confirmed)+'%';
+        } else {
+          // for asthetics purposes, make country's confirmed % of global
+          // float right (perc.country does that)
+          perc.country = utils.percent(val, cdFetch.global.stats[key])+'%';
         }
+
+        // prepare & append template
         const template = '<li>'+
           `<div class="hero-fc-top-name">${ctName}</div>`+
-          `<div class="hero-fc-top-num num">${commas(ctDat[key])}</div>`+
+          `<div class="hero-fc-top-num num">${utils.commas(val)}</div>`+
           '<div class="hero-fc-top-rates">'+
-            `<span class="glob">${rateGlobal}</span>`+
-            `<span class="perc">${ratePerc}</span>`+
+            `<span class="glob">${perc.global}</span>`+
+            `<span class="perc">${perc.country}</span>`+
           '</div>'+
         '</li>';
-        $(`#stats-top-countries-${key}`).append(template);
+        $top.append(template);
       });
     });
 
-    // usa
-    // $('#stats-total-usa').text(usa.data.compiled.all.total);
-    // $('#stats-deaths-usa').text(usa.data.compiled.all.deaths);
-    // $('#stats-recov-usa').text(usa.data.compiled.all.recovered);
-    // // china, other
-    // if (countries.data._others.total >= countries.data.China.total){
-    //   countries.data._others.total = Math.max(0, countries.data._others.total-countries.data.China.total);
-    //   countries.data._others.deaths = Math.max(0, countries.data._others.deaths-countries.data.China.deaths);
-    //   countries.data._others.recovered = Math.max(0, countries.data._others.recovered-countries.data.China.recovered);
-    // }
-    // $('#stats-total-china').text(countries.data.China.total);
-    // $('#stats-deaths-china').text(countries.data.China.deaths);
-    // $('#stats-recov-china').text(countries.data.China.recovered);
-    // $('#stats-total-other').text(countries.data._others.total);
-    // $('#stats-deaths-other').text(countries.data._others.deaths);
-    // $('#stats-recov-other').text(countries.data._others.recovered);
-
-    // countries table
-    const $table = $('#hero-countries-table-body');
-
-    // prepare country data
-    const
-      blobCut = Math.ceil((ctSort.total.length) / 2), // accounts for _others
-      nBlobs = [ctSort.total.slice(0, blobCut), ctSort.total.slice(blobCut, -1)],
-      // alternate blob content
-      alternatedCNames_ = nBlobs.reduce((t, u, v, w) => u.reduce((x, y, z) => (x[z * w.length + v] = y, x), t), []);
-
+    /*
+        All countries table
+        (sorted by total # desc)
+    */
+    const $countries = $('#hero-countries-table-body');
     $('#hero-countries-loading').addClass('loaded');
-    $table.html('');
-    // loop alternated country names (only for desktop > 1024px)
-    if (window.innerWidth && window.innerWidth > 1024) ctSort.total = alternatedCNames_;
-    ctSort.total.forEach(countryName_ => {
-      let countryName = countryName_.split('_').join(' ');
-      if (countriesJSON_.includes(countryName)) countryName = countriesJSON[countryName];
-      // console.log(countryName);
+
+    // blobCut = Math.ceil((ctSort.total.length) / 2), // accounts for _others
+    // nBlobs = [ctSort.total.slice(0, blobCut), ctSort.total.slice(blobCut, -1)],
+    // alternate blob content
+    // alternatedCNames_ = nBlobs.reduce((t, u, v, w) => u.reduce((x, y, z) => (x[z * w.length + v] = y, x), t), []);
+
+    $countries.html('');
+    countryKeys.forEach(ctName => {
+      // if (data[ctName]) console.log(data[ctName].nationwide);
+      // else console.log(ctName);
+      const {confirmed, deaths, recovered} = data[ctName].nationwide;
+
+      // prepare & append template
       const template = '<div class="hero-country">'+
-        `<div class="hero-country-name">${countryName}</div>`+
-        `<div class="hero-country-val total">${ctData[countryName_].total}</div>`+
-        `<div class="hero-country-val deaths">${ctData[countryName_].deaths}</div>`+
-        `<div class="hero-country-val recov">${ctData[countryName_].recovered}</div>`+
+        `<div class="hero-country-name">${ctName}</div>`+
+        `<div class="hero-country-val total">${confirmed}</div>`+
+        `<div class="hero-country-val deaths">${deaths}</div>`+
+        `<div class="hero-country-val recov">${recovered}</div>`+
         '<div class="hero-country-dummy"></div>'+ // dummy
       '</div>';
-      $table.append(template);
+      $countries.append(template);
     });
   });
-  ajax1.fail((a, b, c) => console.error(a, b, c));
 
-  //
-  // News
-  //
-  const ajax2 = $.ajax({
-    method: 'GET',
-    url: apiBase2+'news/usa',
-    dataType: 'json',
-  });
-
-  ajax2.done(res => {
-    const {data, ts: lastUpdateTs} = res;
-
+  /*
+      News
+  */
+  ajax3.done(data => {
     $('#hero-news-list').html('');
     data.__sorted.forEach(ts => {
       const news = data[ts];
       const template = '<li>'+
-        `<div class="pubdate">${formatDate(new Date(news.pubDate))}</div>`+
+        `<div class="pubdate">${utils.formatDate(news.pubDate)}</div>`+
         `<div class="headline">${news.html}</div>`+
       '</li>';
       $('#hero-news-list').append(template);
     });
   });
-  ajax2.fail((a, b, c) => console.error(a, b, c));
+
+  /*
+      USA cases
+  */
+  ajax4.done(data => {
+    let rdts = data.raw.data;
+    rdts = Object.values(rdts).reverse().slice(0, 50);
+    $('#hero-cases-list').html('');
+    rdts.forEach(rdt => {
+      const [no, date, county, state, lng, lat, headline, source] = rdt;
+      const location = county+', '+state;
+      const srcName = source.replace(/^www./, '');
+      const template = '<li>'+
+        `<div class="pubdate">${utils.formatDate(date, false)}</div>`+
+        `<div class="headline">${headline}</div>`+
+        `<div class="location">${location}</div>`+
+        `<div class="source"> &mdash; <a href="${'https://'+source || './'}" target="_blank" rel="noopener">${srcName}</a></div>`+
+      '</li>';
+      $('#hero-cases-list').append(template);
+    });
+  });
 })(jQuery);

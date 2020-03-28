@@ -52,12 +52,12 @@
 .state-stat {
   flex: 1;
   padding: 5px;
-  font-size: 18px;
+  font-size: 16px;
 }
 @media (min-width: 1024px) {
   .state-stat {
     padding: 10px;
-    font-size: 26px;
+    font-size: 22px;
   }
 }
 .state-stats {
@@ -67,28 +67,28 @@
   padding: 20px 5px;
   font-size: 0;
 }
-.state-stat .val, .state-stat .name {
+.state-stat .num, .state-stat .name {
   display: block;
 }
-.state-stat .val {
-  font-size: 30px;
+.state-stat .num {
+  font-size: 26px;
   font-weight: 800;
 }
 @media (min-width: 1024px) {
-  .state-stat .val {
-    font-size: 40px;
+  .state-stat .num {
+    font-size: 36px;
   }
 }
 .state-stat .name {
   padding-top: 8px;
 }
-.state-stat.total .val {
-  color: #f2a543;
+.state-stat.confirmed .num {
+  color: #eb2323;
 }
-.state-stat.deaths .val {
-  color: #db4031;
+.state-stat.confirmed .name, .state-stat.deaths .name, .state-stat.deaths .num {
+  color: #777;
 }
-.state-stat.recov .val {
+.state-stat.recovered .name, .state-stat.recovered .num {
   color: #22a39f;
 }
 .state-county {
@@ -111,15 +111,6 @@
 }
 .state-county-item.stat:last-child, .state-county-item.stat-f:last-child {
   padding-right: 0;
-}
-.state-county-item.stat.total, .state-county-item.stat-f.total {
-  color: #f2a543;
-}
-.state-county-item.stat.deaths, .state-county-item.stat-f.deaths {
-  color: #db4031;
-}
-.state-county-item.stat.recov, .state-county-item.stat-f.recov {
-  color: #22a39f;
 }
 .state-county-item.stat {
   font-size: 20px;
@@ -148,9 +139,19 @@
   max-width: 800px;
   padding: 5px 0;
   margin: 0 auto;
+  color: #777;
 }
 .state-counties-wrapper {
   padding: 20px 0;
+}
+.state-counties .confirmed {
+  color: #eb2323;
+}
+.state-counties .deaths {
+  color: #777;
+}
+.state-counties .recovered {
+  color: #22a39f;
 }
 
 /*# sourceMappingURL=states.css.map */

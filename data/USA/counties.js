@@ -91,4 +91,26 @@ module.exports = class USA$Counties{
       // tested: data.People_Tested || null, // current data is all null
     };
   }
+
+  static load(docClient){
+    return new Promise((resolve, reject) => {
+      const params = {
+        TableName: 'Data',
+        KeyConditionExpression: '#k = :k',
+        ExpressionAttributeNames: {
+          '#k': 'key',
+        },
+        ExpressionAttributeValues: {
+          ':k': 'usa-counties',
+        },
+      };
+      docClient.query(params, (err, data) => {
+        if (err) reject(err);
+        else {
+          const {Items} = data;
+          resolve(Items[0]);
+        }
+      });
+    });
+  }
 };

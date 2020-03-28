@@ -70,26 +70,26 @@
               <div class="hero-state">
                 <div class="state-name">State: <span id="usmap-state-name">Select a state</span></div>
                 <div class="state-stats">
-                  <div class="state-stat total">
-                    <div id="usmap-state-stat-total" class="val">0</div>
-                    <div class="name">Total Cases</div>
+                  <div class="state-stat confirmed">
+                    <div id="usmap-state-stat-confirmed" class="num">0</div>
+                    <div class="name">Confirmed</div>
                   </div>
                   <div class="state-stat deaths">
-                    <div id="usmap-state-stat-deaths" class="val">0</div>
+                    <div id="usmap-state-stat-deaths" class="num">0</div>
                     <div class="name">Deaths</div>
                   </div>
-                  <div class="state-stat recov">
-                    <div id="usmap-state-stat-recov" class="val">0</div>
+                  <div class="state-stat recovered">
+                    <div id="usmap-state-stat-recovered" class="num">0</div>
                     <div class="name">Recovered</div>
                   </div>
                 </div>
                 <div class="state-counties-wrapper">
                   <div class="state-counties-title">Reported Counties</div>
-                  <div class="state-counties-info">Currently, we are trying our best to collect accurate data for each state counties. Please bear with us while we sort our data through! Thank you!</div>
+                  <div class="state-counties-info">More features coming: historical data and charts!</div>
                   <div class="state-counties">
                     <div class="state-county header">
                       <div class="state-county-item loc">County</div>
-                      <div class="state-county-item stat-f">Cases</div>
+                      <div class="state-county-item stat-f">Confirmed</div>
                       <div class="state-county-item stat-f">Deaths</div>
                       <div class="state-county-item stat-f">Recovered</div>
                     </div>
@@ -97,9 +97,9 @@
                   <div id="usmap-state-counties" class="state-counties">
                     <!-- <div class="state-county">
                       <div class="state-county-item loc">Location</div>
-                      <div class="state-county-item stat total">0</div>
+                      <div class="state-county-item stat confirmed">0</div>
                       <div class="state-county-item stat deaths">0</div>
-                      <div class="state-county-item stat recov">0</div>
+                      <div class="state-county-item stat recovered">0</div>
                     </div> -->
                   </div>
                 </div>

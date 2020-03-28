@@ -1,6 +1,7 @@
 'use strict';
 
 const
+  debugApp = require('debug')('app:global'),
   express = require('express'),
   http = require('http'),
   helmet = require('helmet'),
@@ -28,9 +29,17 @@ const GetGlobal = new ModGetGlobal({docClient});
     (starting at 5 to avoid conflict with USA data)
 */
 // (bind!!! to access this)
-const getJob = new CronJob('0 5,15,25,35,45,55 * * * *', GetGlobal.execute.bind(GetGlobal), null, true, 'America/Los_Angeles');
-GetGlobal.execute(); // init call
-getJob.start();
+if (process.env.INSTANCE_ID === 0){
+  const getJob = new CronJob('0 5,15,25,35,45,55 * * * *', GetGlobal.execute.bind(GetGlobal), null, true, 'America/Los_Angeles');
+  // init call
+  GetGlobal.execute()
+    .then(res => {
+      debugApp('%d - Cluster %d Get Global Complete', Date.now(), process.env.INSTANCE_ID);
+      debugApp(res)
+    })
+    .catch(err => debugApp(err));
+  getJob.start();
+}
 
 
 app.use(helmet());
@@ -44,6 +53,8 @@ app.use((req, res, next) => {
 });
 
 app.get('/api/v1/global/:type', (req, res, next) => {
+  debugApp('%d - Cluster %d received request', Date.now(), process.env.INSTANCE_ID);
+
   const {type} = req.params, allowed = ['countries', 'stats'];
 
   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
@@ -68,7 +79,8 @@ app.get('/api/v1/global/:type', (req, res, next) => {
 
     const {Items} = data;
     // returns {data, key (used for query), ts (last updated)}
-    res.status(200).json(Items[0].data);
+    res.status(200).json({data: Items[0].data, ts: Items[0].ts});
+    debugApp('%d - Cluster %d processed request', Date.now(), process.env.INSTANCE_ID);
   });
 });
 
@@ -90,5 +102,5 @@ server.listen(ports.API_Global, () => {
   const
     host = server.address().address,
     port = server.address().port;
-  console.log('[CovidNow API Global] listening at http://%s:%s', host, port);
+  console.log('[CovidNow API Global Cluster %s] listening at http://%s:%s', process.env.INSTANCE_ID, host, port);
 });

@@ -2,8 +2,26 @@ const isArray = a => Array.isArray(a); // a => a && typeof a === "object" && a.c
 const isObject = o => o && typeof o === 'object' && o.constructor === Object;
 const isDict = d => isObject(d) && !isArray(d); // is dictionary
 
+/*
+    Extend object deep in order of params
+    usage: deepExtend(obj1, obj2, obj3)
+    output: obj (obj3 overwrites obj2 overwrites obj1)
+*/
+const deepExtend = (...extend) => {
+  let end = undefined;
+  for (let val of extend){
+    if (isDict(val)){
+      // contains dictionary
+      if (!isObject(end)) end = {}; // change end to {} if end is not object
+      for (let k in val) end[k] = deepExtend(end[k], val[k]); // loops through all nested objects
+    } else end = val;
+  }
+  return end;
+};
+
 module.exports = {
   isArray, isObject, isDict,
+  deepExtend,
   /*
       Pass on an object of promises
       input: {key1: promise1, key2: promise2, etc...}
@@ -23,28 +41,12 @@ module.exports = {
     });
   },
   /*
-      Extend object deep in order of params
-      usage: deepExtend(obj1, obj2, obj3)
-      output: obj (obj3 overwrites obj2 overwrites obj1)
-  */
-  deepExtend: (...extend) => {
-    let end = undefined;
-    for (let val of extend){
-      if (isDict(val)){
-        // contains dictionary
-        if (!isObject(end)) end = {}; // change end to {} if end is not object
-        for (let k in val) end[k] = this.deepExtend(end[k], val[k]); // loops through all nested objects
-      } else end = val;
-    }
-    return end;
-  },
-  /*
       Map object by keys (does not copy obj)
       usage: mapKey(obj, function(val, key){})
   */
   mapKey: (obj, callback = () => {}) => {
     if (!isDict(obj)) return undefined;
-    let object = Object.keys(obj);
+    let object = Object.keys(obj); // Object.values(obj) for mapVal
     if (object.length === 0) return {};
     object.forEach(key => {
       const val = obj[key];

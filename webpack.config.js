@@ -8,9 +8,24 @@ const API_URL = {
   development: JSON.stringify('http://localhost:8012/'),
 };
 
-const API_URL_2 = {
+const API_URL_NEWS = {
   production: JSON.stringify('https://covidnow.com/'),
   development: JSON.stringify('http://localhost:8013/'),
+};
+
+const API_URL_USA = {
+  production: JSON.stringify('https://covidnow.com/'),
+  development: JSON.stringify('http://localhost:8014/'),
+};
+
+const API_URL_GLOBAL = {
+  production: JSON.stringify('https://covidnow.com/'),
+  development: JSON.stringify('http://localhost:8015/'),
+};
+
+const API_URL_LOCAL = {
+  production: JSON.stringify('https://covidnow.com/'),
+  development: JSON.stringify('http://localhost:8016/'),
 };
 
 // check environment mode
@@ -95,7 +110,10 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.API_URL': API_URL[enviro],
-      'process.env.API_URL_2': API_URL_2[enviro],
+      'process.env.API_URL_NEWS': API_URL_NEWS[enviro],
+      'process.env.API_URL_USA': API_URL_USA[enviro],
+      'process.env.API_URL_GLOBAL': API_URL_GLOBAL[enviro],
+      'process.env.API_URL_LOCAL': API_URL_LOCAL[enviro],
     }),
   ],
 };
