@@ -1,0 +1,41 @@
+# [source, url]
+
+# shallow stats, something like just cases, deaths, recovery, etc.
+overview:
+  # global data, country aggregated
+  global:
+    # https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
+    # /FeatureServer/1/ AND /FeatureServer/2/ both works
+    # but for countries, only /FeatureServer/2/ works
+    total: [JHU, https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed > 0&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{"statisticType":"sum","onStatisticField":"Confirmed","outStatisticFieldName":"value"}]&cacheHint=true]
+    deaths: [JHU, https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed > 0&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{"statisticType":"sum","onStatisticField":"Deaths","outStatisticFieldName":"value"}]&cacheHint=true]
+    recovered: [JHU, https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed > 0&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{"statisticType":"sum","onStatisticField":"Recovered","outStatisticFieldName":"value"}]&cacheHint=true]
+    countryNum: [JHU, https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query?f=json&where=Confirmed > 0&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]&cacheHint=true]
+    # all country data (a lot of metrics)
+    countries: [JHU, https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/2/query?f=json&where=1=1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed desc&resultOffset=0&resultRecordCount=250&resultType=standard&cacheHint=true']
+
+  country_specific:
+    USA:
+      latest: [NYTgit, https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us.csv]
+      historical: [NYTgit, https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv]
+
+
+# detailed stats, e.g. by states/counties/cities & historical
+extensive:
+  # global:
+  #   excess_death: [NYTgit, https://raw.githubusercontent.com/nytimes/covid-19-data/master/excess-deaths/deaths.csv]
+
+  country_specific:
+    USA:
+      latest:
+        states: [NYTgit, https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv]
+        # states_fallback: [JHU, https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/ncov_cases/FeatureServer/1/query?f=json&where=(Confirmed%20%3E%200)%20AND%20(Country_Region%3D%27US%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Confirmed%20desc%2CCountry_Region%20asc%2CProvince_State%20asc&outSR=102100&resultOffset=0&resultRecordCount=250&cacheHint=true]
+        counties: [NYTgit, https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-counties.csv]
+
+      # data up to, but not including, the latest (so previous day)
+      historical:
+        states: [NYTgit, https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv]
+        counties: [NYTgit, https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv]
+
+      maskUsage:
+        counties: [NYTgit, https://raw.githubusercontent.com/nytimes/covid-19-data/master/mask-use/mask-use-by-county.csv]

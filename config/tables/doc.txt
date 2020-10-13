@@ -2,4 +2,6 @@ START DynamoDB:
   cd ~/dynamodb
   java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb
 
+MUST append -sharedDb
+
 aws dynamodb create-table --cli-input-json file:///Applications/XAMPP/htdocs/website/CovidNow/config/tables/worldData.json  --endpoint-url http://localhost:8000

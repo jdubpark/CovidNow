@@ -71,6 +71,9 @@ module.exports = class Local$Geo{
               to ensure better consistency & accuracy
         */
         county = county.replace(/\sCounty$/i, '');
+        // exception
+        if (county === 'New York') county = 'New York City';
+        // find county data
         if (locs[state] && locs[state][county]){
           data.cases.county = this.extract(locs[state][county]);
         }

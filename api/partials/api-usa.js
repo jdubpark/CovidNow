@@ -4,38 +4,54 @@ const
   express = require('express'),
   http = require('http'),
   helmet = require('helmet'),
+  pako = require('pako'),
   app = express(),
-  server = http.createServer(app),
-  AWS = require('aws-sdk'),
-  CronJob = require('cron').CronJob;
+  AWS = require('aws-sdk');
 
 const
-  ModGetUSA = require('../../data/USA/get'),
   CustomError = require('../modules/CustomError'),
-  S3Client = require('../../aws/aws-s3-client.js'),
   config = require(__dirname+'/../../config/aws-config.js'),
   ports = require(__dirname+'/../../config/ports.js');
 
 const isDev = process.env.NODE_ENV !== 'production';
 
-const s3Client = new S3Client(process.env.CN_AWS_S3_KEY, process.env.CN_AWS_S3_SECRET);
+const server = http.createServer(app);
 
+// const s3Client = new S3Client(process.env.CN_AWS_S3_KEY, process.env.CN_AWS_S3_SECRET);
+
+console.log(`[CovidNow API USA] Configuring AWS to ${isDev ? 'DEVELOPMENT' : 'PRODUCTION'}`);
 AWS.config.update(isDev ? config.aws_local_config : config.aws_remote_config);
 
 const docClient = new AWS.DynamoDB.DocumentClient({
   convertEmptyValues: true, // ignore empty string error
 });
 
-const GetUSA = new ModGetUSA({s3Client, docClient});
+//
+// Execute dynamodb query in loop to get all results
+// since ddb outputs only up to 1mb per query result
+//
+function queryExecute({params, docClient}){
+  let items = []; // queryCount = 0;
+  const queryLoop = ({params, resolve, reject}) => {
+    docClient.query(params, (err, res) => {
+      // queryCount += 1;
+      if (err) return reject(err);
 
-/*
-    Get USA data every 10 minutes
-    (starting at 0 to avoid conflict with Global data)
-*/
-// (bind!!! to access this)
-const getJob = new CronJob('0 */10 * * * *', GetUSA.execute.bind(GetUSA), null, true, 'America/Los_Angeles');
-GetUSA.execute(); // init call
-getJob.start();
+      if (res.Items) items = items.concat(res.Items);
+      if (res.LastEvaluatedKey){
+        params.ExclusiveStartKey = res.LastEvaluatedKey;
+        // throughput is limited on dynamodb (unless it's on-demand)
+        setTimeout(() => {
+          queryLoop({params, resolve, reject});
+        }, 50);
+      } else {
+        resolve(items); // , queryCount
+      }
+    });
+  };
+  // promise
+  return new Promise((resolve, reject) => queryLoop({params, resolve, reject}));
+}
 
 
 app.use(helmet());
@@ -53,6 +69,55 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
 
   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
 
+  let tableName = '';
+
+  if (type == 'states') tableName = 'USA_States';
+  else tableName = 'USA_Counties';
+
+  const dnow = (new Date()), tymd = dnow.toISOString().split('T')[0]; // today yyyy-mm-dd
+
+  // https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html
+  const params = {
+    TableName: tableName,
+    IndexName: 'date-index', // GSI
+    KeyConditionExpression: '#dt = :date',
+    ExpressionAttributeNames: {'#dt': 'date'},
+    ExpressionAttributeValues: {':date': tymd},
+  };
+
+  queryExecute({params, docClient})
+    .then(items => {
+      if (!items.length){
+        // data for today is empty (? might be future day, wrong clock),
+        // so minus one date to get the previous day
+        const tymdM1 = (d => new Date(d.setDate(d.getDate()-1)))(dnow);
+        params.ExpressionAttributeValues[':date'] = tymdM1.toISOString().split('T')[0];
+        return queryExecute({params, docClient});
+      }
+      // today data is found, proceed
+      return items;
+    })
+    .then(items => res.status(200).json(items))
+    .catch(err => next(err));
+});
+
+// app.get('/api/v1/usa/cases', (req, res, next) => {
+//   const s3GetReq = s3Client.getObjectRequest('covidnow/data/usa', 'cases300.json');
+//   s3Client.get(s3GetReq)
+//     .then(data => {
+//       // console.log(data);
+//       // returns the case data right away, no obj key wraps
+//       const objData = JSON.parse(data.Body.toString('utf-8'));
+//       res.status(200).json(objData);
+//     })
+//     .catch(err => next(err));
+// });
+
+app.get('/api/v1/usa/historical', (req, res, next) => {
+  const {type} = req.query, allowed = ['states', 'counties'];
+
+  if (!allowed.includes(type)) return next(new CustomError('404', req.path));
+
   const params = {
     TableName: 'Data',
     KeyConditionExpression: '#k = :k',
@@ -60,7 +125,7 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
       '#k': 'key',
     },
     ExpressionAttributeValues: {
-      ':k': 'usa-'+type,
+      ':k': 'usa-historical-'+type,
     },
   };
 
@@ -69,21 +134,45 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
 
     const {Items} = data;
     // returns {data, key (used for query), ts (last updated)}
-    res.status(200).json(Items[0].data);
+
+    let sendObj = Items[0].data;
+    // console.log(sendObj);
+
+    if (type === 'counties') sendObj = JSON.parse(pako.inflate(sendObj, {to: 'string'}));
+
+    res.status(200).json(sendObj);
   });
 });
 
-app.get('/api/v1/usa/cases', (req, res, next) => {
-  const s3GetReq = s3Client.getObjectRequest('covidnow/data/usa', 'cases300.json');
-  s3Client.get(s3GetReq)
-    .then(data => {
-      // console.log(data);
-      // returns the case data right away, no obj key wraps
-      const objData = JSON.parse(data.Body.toString('utf-8'));
-      res.status(200).json(objData);
-    })
-    .catch(err => next(err));
-});
+// app.get('/api/v1/usa/tests', (req, res, next) => {
+//   const {type} = req.query, allowed = ['states'];
+//
+//   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
+//
+//   const params = {
+//     TableName: 'Data',
+//     KeyConditionExpression: '#k = :k',
+//     ExpressionAttributeNames: {
+//       '#k': 'key',
+//     },
+//     ExpressionAttributeValues: {
+//       ':k': 'usa-tests-'+type,
+//     },
+//   };
+//
+//   docClient.query(params, (err, data) => {
+//     if (err) return next(err);
+//
+//     const {Items} = data;
+//     // returns {data, key (used for query), ts (last updated)}
+//
+//     let sendObj = Items[0].data;
+//
+//     // if (type === 'counties') sendObj = JSON.parse(pako.inflate(sendObj, {to: 'string'}));
+//
+//     res.status(200).json(sendObj);
+//   });
+// });
 
 app.get('*', (req, res, next) => {
   if (!res.headersSent) res.status(404).json(CustomError.err404(req));

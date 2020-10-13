@@ -32,17 +32,24 @@ module.exports = class USA$Cases{ // informally USA$UofW
     Object.keys(urls).forEach(name => {
       const url = urls[name];
       proms[name] = new Promise((resolve, reject) => {
-        // https://github.com/request/request
-        // https://www.npmjs.com/package/csv-parser
-        const resStream = request(url), results = [];
-        resStream.on('error', err => reject(err));
-        resStream.on('response', res => {
-          if (res.statusCode == 200){
-            resStream.pipe(csv())
-              .on('data', data => results.push(data))
-              .on('end', () => resolve(results));
-          }
-        });
+        try {
+          // https://github.com/request/request
+          // https://www.npmjs.com/package/csv-parser
+          const resStream = request(url), results = [];
+          resStream.on('error', err => reject(err));
+          resStream.on('response', res => {
+            if (res.statusCode == 200){
+              resStream.pipe(csv())
+                .on('data', data => {
+                  console.log(data)
+                  results.push(data)
+                })
+                .on('end', () => resolve(results));
+            }
+          });
+        } catch (err){
+          reject(err);
+        }
       });
     });
 

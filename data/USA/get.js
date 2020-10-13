@@ -1,4 +1,5 @@
 const
+  pako = require('pako'),
   USA$States = require('./states'),
   USA$Counties = require('./counties'),
   USA$Cases = require('./cases'),
@@ -34,8 +35,14 @@ module.exports = class GetUSA{
     const proms = {
       'usa-states': USA$States.fetch(),
       'usa-counties': USA$Counties.fetch(),
-      'usa-cases': USA$Cases.fetch(),
-      // 'usa-historical': USA$Historical.fetch(), // being prepared
+      // 'usa-cases': USA$Cases.fetch(), // off for now, source is inconsistent
+      // separate for saving differently
+      'usa-historical-states': USA$Historical.fetch(
+        {states: USA$Historical.url.states}
+      ),
+      'usa-historical-counties': USA$Historical.fetch(
+        {counties: USA$Historical.url.counties}
+      ),
     };
 
     return utils.objectPromise(proms);
@@ -53,29 +60,58 @@ module.exports = class GetUSA{
       if (key === 'usa-cases'){
         prom = new Promise((resolve, reject) => {
           const bucketDir = 'covidnow/data/usa';
-          const s3PutReq = {
-            cases: this.s3Client.createPutJsonRequest(
-              bucketDir, 'cases.json', JSON.stringify(data.cases),
-            ),
-            cases300: this.s3Client.createPutJsonRequest(
-              bucketDir, 'cases300.json', JSON.stringify(data.cases300),
-            ),
-          };
 
-          const s3Proms = {
-            cases: this.s3Client.put(s3PutReq.cases),
-            cases300: this.s3Client.put(s3PutReq.cases300),
-          };
+          let s3PutReq = {}, s3Proms = {};
+          if (key === 'usa-cases'){
+            /*
+                USA cases (from UofV)
+                Temporarily paused
+            */
+            s3PutReq = {
+              cases: this.s3Client.createPutJsonRequest(
+                bucketDir, 'cases.json', JSON.stringify(data.cases),
+              ),
+              cases300: this.s3Client.createPutJsonRequest(
+                bucketDir, 'cases300.json', JSON.stringify(data.cases300),
+              ),
+            };
+
+            s3Proms = {
+              cases: this.s3Client.put(s3PutReq.cases),
+              cases300: this.s3Client.put(s3PutReq.cases300),
+            };
+          }
+          // else if (key === 'usa-historical-counties'){
+          //   /*
+          //       USA historical cases
+          //       From github.com/nytimes/covid-19-data
+          //   */
+          //   s3PutReq = {
+          //     counties: this.s3Client.createPutJsonRequest(
+          //       bucketDir,
+          //       'historical-counties.txt',
+          //       pako.deflate(JSON.stringify(data.counties), {to: 'string'}),
+          //     ),
+          //   };
+          //
+          //   s3Proms = {
+          //     counties: this.s3Client.put(s3PutReq.counties),
+          //   };
+          // }
 
           utils.objectPromise(s3Proms)
             .then(s3Res => {
               console.log(s3Res);
-              console.log(Date.now(), ' :: S3 PutItem succeeded [usa-cases]');
+              console.log(Date.now(), ` :: S3 PutItem succeeded [${key}]`);
               resolve(true);
             })
             .catch(err => reject(err));
         });
       } else {
+        if (key === 'usa-historical-counties'){
+          data = pako.deflate(JSON.stringify(data.counties), {to: 'string'});
+        }
+
         const params = {
           TableName: 'Data',
           Key: {
@@ -95,7 +131,7 @@ module.exports = class GetUSA{
           this.docClient.update(params, (err, res) => {
             if (err){
               // console.error(key, JSON.stringify(err, null, 2));
-              console.log(Date.now(), ` :: UpdateItem Error [${key}]`);
+              console.log(Date.now(), ` :: UpdateItem error [${key}]`);
               reject(err);
             } else {
               console.log(Date.now(), ` :: UpdateItem succeeded [${key}]`);

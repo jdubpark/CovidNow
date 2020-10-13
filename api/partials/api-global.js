@@ -11,7 +11,7 @@ const
   CronJob = require('cron').CronJob;
 
 const
-  ModGetGlobal = require('../../data/Global/get'),
+  ModGetGlobal = require('../../functions/data/Global/get'),
   CustomError = require('../modules/CustomError'),
   config = require(__dirname+'/../../config/aws-config.js'),
   ports = require(__dirname+'/../../config/ports.js');

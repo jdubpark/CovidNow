@@ -1,0 +1,80 @@
+#
+#
+# Should I store date as ISO-string (S) or as epoch timestamp (N)?
+# S is easier to add and update
+# E is easier to scan and filter
+# e.g. if, say, there is 'latest' (2020-12-12) and '2020-02-02', '2020-02-03', etc.
+# how does scanning work?
+#
+
+Global:
+  KeySchema:
+    - AttributeName: 'dtype' # partition
+      KeyType: 'HASH'
+    - AttributeName: 'date'
+      KeyType: 'RANGE'
+  AttributeDefinitions:
+    - AttributeName: 'dtype'
+      AttributeType: 'S'
+    - AttributeName: 'date'
+      AttributeType: 'S'
+
+Global_Countries:
+  KeySchema:
+    - AttributeName: 'country' # partition
+      KeyType: 'HASH'
+    - AttributeName: 'date'
+      KeyType: 'RANGE'
+  AttributeDefinitions:
+    - AttributeName: 'country'
+      AttributeType: 'S'
+    - AttributeName: 'date'
+      AttributeType: 'S'
+
+USA_Overview:
+  KeySchema:
+    - AttributeName: 'date' # partition
+      KeyType: 'HASH'
+  AttributeDefinitions:
+    - AttributeName: 'date'
+      AttributeType: 'S'
+
+USA_States:
+  KeySchema:
+    - AttributeName: 'state' # partition
+      KeyType: 'HASH'
+    - AttributeName: 'date' # sort
+      KeyType: 'RANGE'
+  AttributeDefinitions:
+    - AttributeName: 'state'
+      AttributeType: 'S'
+    - AttributeName: 'date'
+      AttributeType: 'S'
+
+USA_Counties:
+  KeySchema:
+    - AttributeName: 'state' # partition
+      KeyType: 'HASH'
+    - AttributeName: 'fips_date' # sort
+      KeyType: 'RANGE'
+  AttributeDefinitions:
+    - AttributeName: 'state'
+      AttributeType: 'S'
+    - AttributeName: 'fips_date'
+      AttributeType: 'S'
+
+USA_MaskUsage:
+  KeySchema:
+    - AttributeName: 'fips'
+      KeyType: 'HASH'
+  AttributeDefinitions:
+    - AttributeName: 'fips'
+      AttributeType: 'S'
+
+generic:
+  KeySchema:
+    - AttributeName: 'id'
+      KeyType: 'HASH'
+  AttributeDefinitions:
+    - AttributeName: 'id'
+      AttributeType: 'S'

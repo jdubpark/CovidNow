@@ -1,0 +1,27 @@
+source: https://data.bls.gov/cgi-bin/surveymost?ce
+series:
+  CES0000000001: Total Nonfarm Employment, Seasonally Adjusted
+  CES3000000001: Manufacturing Employment, Seasonally Adjusted
+  CES0500000001: Total Private Employment, Seasonally Adjusted
+  CES9000000001: Government Employment, Seasonally Adjusted
+  CES0500000003: Total Private Average Hourly Earnings of All Employees, Seasonally Adjusted
+  CEU0000000001: Total Nonfarm Employment, Not Seasonally Adjusted
+  CES2000000001: Construction Employment, Seasonally Adjusted
+  CES1021100001: Oil and Gas Extraction Employment, Seasonally Adjusted
+  CES6000000001: Professional and Business Services Employment, Seasonally Adjusted
+  CES7000000001: Leisure and Hospitality Employment, Seasonally Adjusted
+  CES8000000001: Other Services Employment, Seasonally Adjusted
+  CES1000000001: Mining and Logging Employment, Seasonally Adjusted
+  CES5500000001: Financial Activities Employment, Seasonally Adjusted
+  CES6500000001: Education and Health Services Employment, Seasonally Adjusted
+  CES5000000001: Information Employment, Seasonally Adjusted
+  CES0500000002: Total Private Average Weekly Hours of All Employees, Seasonally Adjusted
+  CES3133100002: Primary Metals Average Weekly Hours of All Employees, Seasonally Adjusted
+  CES3231300002: Textile Mills Average Weekly Hours of All Employees, Seasonally Adjusted
+  CES4200000001: Retail Trade Employment, Seasonally Adjusted
+  CES3133200002: Fabricated Metal Products Average Weekly Hours of All Employees, Seasonally Adjusted
+  CES3232200002: Paper and Paper Products Average Weekly Hours of All Employees, Seasonally Adjusted
+  CEU6500000002: Education and Health Services Average Weekly Hours of All Employees, Not Seasonally Adjusted
+  CES3232300002: Printing and Related Support Activities Average Weekly Hours of All Employees, Seasonally Adjusted
+  CEU0500000001: Total Private Employment, Not Seasonally Adjusted
+  CES0500000008: Total Private Average Hourly Earnings of Production and Nonsupervisory Employees, Seasonally Adjusted

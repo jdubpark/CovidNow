@@ -10,8 +10,8 @@ const
   CronJob = require('cron').CronJob;
 
 const
-  Local$Geo = require('../../data/Local/geo'),
-  USA$Counties = (require('../../data/USA/counties')),
+  Local$Geo = require('../../functions/data/Local/geo'),
+  USA$Counties = (require('../../functions/data/USA/counties')),
   CustomError = require('../modules/CustomError'),
   config = require(__dirname+'/../../config/aws-config.js'),
   ports = require(__dirname+'/../../config/ports.js');

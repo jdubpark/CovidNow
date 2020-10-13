@@ -1,0 +1,6 @@
+tpd:
+  nytimes:
+    urls: # urls to get
+      live: [overview, states, counties]
+      historical: [overview, states, counties]
+      maskUsage: [counties]

@@ -1,16 +1,15 @@
 const
   axios = require('axios'),
-  xml2js = require('xml2js');
+  xml2js = require('xml2js'),
+  parser = new xml2js.Parser;
 
 const utils = require('../utils');
-
-const parser = new xml2js.Parser;
 
 module.exports = class News$Google{
   static get url(){
     return {
       'US': 'https://news.google.com/rss/search?q=coronavirus&hl=en-US&gl=US&ceid=US%3Aen',
-      'IT': 'https://news.google.com/rss/search?q=coronavirus&hl=it&gl=IT&ceid=IT:it',
+      // 'IT': 'https://news.google.com/rss/search?q=coronavirus&hl=it&gl=IT&ceid=IT:it',
       // US Spanish (Espanol US)
       'ES_US': 'https://news.google.com/rss/search?q=coronavirus&hl=es-419&gl=US&ceid=US:es-419',
     };
