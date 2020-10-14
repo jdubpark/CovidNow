@@ -162,7 +162,7 @@ module.exports = class GetData{
     const {src, key, category, data} = packed, splt = key.split('/');
     const params = {
       TableName: 'Global',
-      Key: {'dtype': splt[splt.length-1], 'date': 'latest'},
+      Key: {'dtype': splt[splt.length-1], 'date': (new Date()).toISOString().split('T')[0]},
       UpdateExpression: 'SET val = :val, ts = :ts',
       // ExpressionAttributeNames: {'#value': 'value'}, // for using key 'value' #value
       ExpressionAttributeValues: {
@@ -188,11 +188,11 @@ module.exports = class GetData{
   storeGlobalCountriesLatest(packed){
     const
       {src, key, category, data} = packed,
-      params = [], batchNum = 25;
+      params = [], batchNum = 25, tymd = (new Date()).toISOString().split('T')[0];
 
     Object.keys(data).forEach((country, i) => {
       const
-        item = {'country': {'S': country}, 'date': {'S': 'latest'}},
+        item = {'country': {'S': country}, 'date': {'S': tymd}},
         cdata = data[country],
         batchLoc = Math.floor(i/25);
 
@@ -331,7 +331,12 @@ module.exports = class GetData{
           const
             sarr = data[state][county][date],
             // declare item here to use local scope value
-            item = {'state': {'S': state}, 'fips_date': {'S': cFips+'#'+date}, 'county': {'S': county}};
+            item = {
+              'state': {'S': state}, 'fips_date': {'S': cFips+'#'+date},
+              // include FIPS and DATE for GSI query
+              'fips': {'S': cFips}, 'date': {'S': date},
+              'county': {'S': county},
+            };
           // console.log(item)
           sarr.forEach((num, k) => {
             if (num == '') return;

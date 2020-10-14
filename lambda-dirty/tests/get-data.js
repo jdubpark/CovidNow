@@ -7,17 +7,17 @@ const fs = require('fs');
 
 // const s3Client = new (require('./aws/aws-s3-client.js'))(process.env.CN_AWS_S3_KEY, process.env.CN_AWS_S3_SECRET);
 
-// AWS.config.update({
-//   region: 'local',
-//   endpoint: 'http://localhost:8000',
-// });
-
 AWS.config.update({
-  // use .env for prod
-  accessKeyId: process.env.CN_AWS_DDB_KEY,
-  secretAccessKey: process.env.CN_AWS_DDB_SECRET,
-  region: 'us-east-2',
+  region: 'local',
+  endpoint: 'http://localhost:8000',
 });
+
+// AWS.config.update({
+//   // use .env for prod
+//   accessKeyId: process.env.CN_AWS_DDB_KEY,
+//   secretAccessKey: process.env.CN_AWS_DDB_SECRET,
+//   region: 'us-east-2',
+// });
 
 const dynamodb = new AWS.DynamoDB();
 const docClient = new AWS.DynamoDB.DocumentClient({
@@ -57,7 +57,7 @@ const GetData = new (require('../scripts/get-data'))({ddb: dynamodb, docClient})
   //   'global_overview', 'global_extensive',
   //   'USA_overview', 'USA_extensive',
   // ]
-  const type = 'global_extensive';
+  const type = 'USA_extensive';
   const executeOverview = await GetData.execute(type);
   console.log(util.inspect(executeOverview, false, null, true));
 })();

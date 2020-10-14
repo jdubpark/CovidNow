@@ -11,7 +11,8 @@ const
 const
   CustomError = require('../modules/CustomError'),
   config = require(__dirname+'/../../config/aws-config.js'),
-  ports = require(__dirname+'/../../config/ports.js');
+  ports = require(__dirname+'/../../config/ports.js'),
+  utils = require(__dirname+'/utils');
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -35,6 +36,8 @@ function queryExecute({params, docClient}){
   const queryLoop = ({params, resolve, reject}) => {
     docClient.query(params, (err, res) => {
       // queryCount += 1;
+      console.log(err);
+      console.log(res);
       if (err) return reject(err);
 
       if (res.Items) items = items.concat(res.Items);
@@ -58,7 +61,8 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  // res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // res.header('Content-Type', 'application/json');
   next();
@@ -69,32 +73,43 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
 
   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
 
-  let tableName = '';
+  const dnow = (new Date()), tymd = utils.yyyymmdd(dnow);
 
-  if (type == 'states') tableName = 'USA_States';
-  else tableName = 'USA_Counties';
+  let params = {};
 
-  const dnow = (new Date()), tymd = dnow.toISOString().split('T')[0]; // today yyyy-mm-dd
+  if (type == 'states'){
+    params = {
+      TableName: 'USA_States',
+      IndexName: 'date-index', // GSI
+      KeyConditionExpression: '#dt = :date',
+      ExpressionAttributeNames: {'#dt': 'date'},
+      ExpressionAttributeValues: {':date': tymd},
+    };
+  } else {
+    params = {
+      TableName: 'USA_Counties',
+      IndexName: 'date-index', // GSI
+      KeyConditionExpression: '#dt = :date',
+      ExpressionAttributeNames: {'#dt': 'date'},
+      ExpressionAttributeValues: {':date': tymd},
+    };
+  }
 
   // https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html
-  const params = {
-    TableName: tableName,
-    IndexName: 'date-index', // GSI
-    KeyConditionExpression: '#dt = :date',
-    ExpressionAttributeNames: {'#dt': 'date'},
-    ExpressionAttributeValues: {':date': tymd},
-  };
 
   queryExecute({params, docClient})
     .then(items => {
       if (!items.length){
         // data for today is empty (? might be future day, wrong clock),
         // so minus one date to get the previous day
-        const tymdM1 = (d => new Date(d.setDate(d.getDate()-1)))(dnow);
-        params.ExpressionAttributeValues[':date'] = tymdM1.toISOString().split('T')[0];
+        params.ExpressionAttributeValues[':date'] = utils.yyyymmdd(utils.oneDayAgo(dnow));
         return queryExecute({params, docClient});
       }
       // today data is found, proceed
+      return items;
+    })
+    .then(items => {
+      console.log(items);
       return items;
     })
     .then(items => res.status(200).json(items))

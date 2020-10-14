@@ -145,23 +145,24 @@ function addrSearch(){
       Global stats
   */
   ajax1.done(res => {
-    const {data: {total, deaths, recovered}, ts} = res;
-    cdFetch.global.stats = res.data;
+    const {total, deaths, recovered} = res;
+    cdFetch.global.stats = res;
 
     /*
         Update global stats
     */
-    $('#stats-last-update span').text(utils.formatDate(ts));
-    $('#stats-confirmed-total').text(utils.commas(total));
-    $('#stats-deaths-total').text(utils.commas(deaths));
-    $('#stats-recov-total').text(utils.commas(recovered));
+    // use ts from total
+    $('#stats-last-update span').text(utils.formatDate(total.ts));
+    $('#stats-confirmed-total').text(utils.commas(total.val));
+    $('#stats-deaths-total').text(utils.commas(deaths.val));
+    $('#stats-recov-total').text(utils.commas(recovered.val));
 
     /*
         Calulate rate
     */
     const rate = {
-      fatality: utils.percent(deaths, total),
-      recovery: utils.percent(recovered, total),
+      fatality: utils.percent(deaths, total.val),
+      recovery: utils.percent(recovered, total.val),
     };
     $('#stats-fatality-rate span').text(rate.fatality);
     $('#stats-recovery-rate span').text(rate.recovery);
@@ -172,8 +173,8 @@ function addrSearch(){
       Global countries
   */
   ajax2.done(res => {
-    const {data, ts} = res;
-    cdFetch.global.countries = data;
+    const data = res.countries;
+    cdFetch.global.countries = res.countries;
 
     /*
         Global country count
@@ -185,28 +186,24 @@ function addrSearch(){
         Sort countries by confirmed, deaths, and recovered
         (put total at last to save that sorted arr)
     */
-    const
-      sortKeys = ['deaths', 'recovered', 'total'],
-      countryKeys = Object.keys(data);
+    const sortKeys = ['deaths', 'recovered', 'total'];
 
     sortKeys.forEach(key => {
       let _key = key;
       if (_key === 'total') _key = 'confirmed'; // total -> confirmed
 
       // sort based on key value (deaths/recovered/confirmed)
-      countryKeys.sort((a, b) => {
-        return data[a].nationwide[_key] < data[b].nationwide[_key] ? 1
-          : data[a].nationwide[_key] > data[b].nationwide[_key] ? -1 : 0;
+      data.sort((a, b) => {
+        return a[_key] < b[_key] ? 1 : a[_key] > b[_key] ? -1 : 0;
       });
 
       /*
           Top 10 table for (death/recovered/confirmed)
       */
-      const top10 = countryKeys.slice(0, 10), $top = $(`#stats-top-countries-${key}`);
+      const top10 = data.slice(0, 10), $top = $(`#stats-top-countries-${key}`);
       $top.html('');
-      top10.forEach(ctName => {
-        const ctNwDa = data[ctName].nationwide; // country nationwide data
-        const val = ctNwDa[_key];
+      top10.forEach(ctData => {
+        const {country: ctName} = ctData, val = ctData[_key];
 
         // initialize with space (vs. global[key] & country.total)
         const perc = {global: '&nbsp;', country: '&nbsp;'};
@@ -214,12 +211,12 @@ function addrSearch(){
         // compare each country to global[key] & country.total data
         // local comparison is only for deaths/recovered
         if (['deaths', 'recovered'].includes(key)){
-          perc.global = utils.percent(val, cdFetch.global.stats[key])+'%';
-          perc.country = utils.percent(val, ctNwDa.confirmed)+'%';
+          perc.global = utils.percent(val, cdFetch.global.stats[key].val)+'%';
+          perc.country = utils.percent(val, ctData.confirmed)+'%';
         } else {
           // for asthetics purposes, make country's confirmed % of global
           // float right (perc.country does that)
-          perc.country = utils.percent(val, cdFetch.global.stats[key])+'%';
+          perc.country = utils.percent(val, cdFetch.global.stats[key].val)+'%';
         }
 
         // prepare & append template
@@ -248,10 +245,10 @@ function addrSearch(){
     // alternatedCNames_ = nBlobs.reduce((t, u, v, w) => u.reduce((x, y, z) => (x[z * w.length + v] = y, x), t), []);
 
     $countries.html('');
-    countryKeys.forEach(ctName => {
+    data.forEach(ctData => {
       // if (data[ctName]) console.log(data[ctName].nationwide);
       // else console.log(ctName);
-      const {confirmed, deaths, recovered} = data[ctName].nationwide;
+      const {country: ctName, confirmed, deaths, recovered} = ctData;
 
       // prepare & append template
       const template = '<div class="hero-country">'+

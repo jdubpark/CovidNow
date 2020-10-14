@@ -43,7 +43,7 @@ module.exports = {
     'home': `${libPath}js/custom/home.js`,
     'states': `${libPath}js/custom/states.js`,
     'read': `${libPath}js/custom/read.js`,
-    'markets': `${libPath}js/custom/markets.js`,
+    // 'markets': `${libPath}js/custom/markets.js`,
   },
 
   devtool: 'inline-source-map',
@@ -87,7 +87,7 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
-            presets: ['es2015'],
+            presets: ['@babel/preset-env'],
           },
         }],
       },

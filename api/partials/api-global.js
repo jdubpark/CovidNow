@@ -7,46 +7,28 @@ const
   helmet = require('helmet'),
   app = express(),
   server = http.createServer(app),
-  AWS = require('aws-sdk'),
-  CronJob = require('cron').CronJob;
+  AWS = require('aws-sdk');
 
 const
-  ModGetGlobal = require('../../functions/data/Global/get'),
   CustomError = require('../modules/CustomError'),
   config = require(__dirname+'/../../config/aws-config.js'),
-  ports = require(__dirname+'/../../config/ports.js');
+  ports = require(__dirname+'/../../config/ports.js'),
+  utils = require(__dirname+'/utils');
 
 const isDev = process.env.NODE_ENV !== 'production';
+// const isDevCors = process.env.NODE_CORS !== 'production';
 
+console.log(`[CovidNow API Global] Configuring AWS to ${isDev ? 'DEVELOPMENT' : 'PRODUCTION'}`);
 AWS.config.update(isDev ? config.aws_local_config : config.aws_remote_config);
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-
-const GetGlobal = new ModGetGlobal({docClient});
-
-/*
-    Get Global data every 10 minutes
-    (starting at 5 to avoid conflict with USA data)
-*/
-// (bind!!! to access this)
-if (process.env.INSTANCE_ID === 0){
-  const getJob = new CronJob('0 5,15,25,35,45,55 * * * *', GetGlobal.execute.bind(GetGlobal), null, true, 'America/Los_Angeles');
-  // init call
-  GetGlobal.execute()
-    .then(res => {
-      debugApp('%d - Cluster %d Get Global Complete', Date.now(), process.env.INSTANCE_ID);
-      debugApp(res)
-    })
-    .catch(err => debugApp(err));
-  getJob.start();
-}
-
 
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  // res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // res.header('Content-Type', 'application/json');
   next();
@@ -61,25 +43,55 @@ app.get('/api/v1/global/:type', (req, res, next) => {
 
   // every global data key has the prefix 'global-'
   // to make human reading easier for DDB
-  const key = 'global-'+type;
 
-  const params = {
-    TableName: 'Data',
-    KeyConditionExpression: '#k = :k',
-    ExpressionAttributeNames: {
-      '#k': 'key',
-    },
-    ExpressionAttributeValues: {
-      ':k': key,
-    },
-  };
+  const dnow = (new Date()), tymd = dnow.toISOString().split('T')[0];
 
-  docClient.query(params, (err, data) => {
-    if (err) return next(err);
+  const allParams = {};
+  if (type == 'stats'){
+    ['deaths', 'recovered', 'total'].forEach(key => {
+      allParams[key] = {
+        TableName: 'Global',
+        KeyConditionExpression: 'dtype = :dtype and #dt = :dt',
+        ExpressionAttributeNames: {'#dt': 'date'},
+        ExpressionAttributeValues: {':dtype': key, ':dt': tymd},
+      };
+    });
+  } else if (type == 'countries'){
+    allParams['countries'] = {
+      TableName: 'Global_Countries',
+      IndexName: 'date-index',
+      KeyConditionExpression: '#dt = :dt',
+      ExpressionAttributeNames: {'#dt': 'date'},
+      ExpressionAttributeValues: {':dt': tymd},
+    };
+  }
 
-    const {Items} = data;
-    // returns {data, key (used for query), ts (last updated)}
-    res.status(200).json({data: Items[0].data, ts: Items[0].ts});
+  Object.keys(allParams).forEach(paramKey => {
+    const params = allParams[paramKey];
+    allParams[paramKey] = new Promise((resolve, reject) => {
+      docClient.query(params, (err, data) => {
+        if (err) return reject(err);
+        const {Items: items} = data;
+        // console.log(items);
+        resolve(items);
+        // returns {data, key (used for query), ts (last updated)}
+      });
+    });
+  });
+
+  return Promise.all(
+    Object
+      .keys(allParams)
+      .map(key => Promise.resolve(allParams[key]).then(val => ({key: key, val: val})))
+  ).then(items => {
+    let result = {};
+    items.forEach(item => {
+      if (type == 'stats') result[item.key] = item.val[0];
+      else result[item.key] = item.val;
+    });
+    return result;
+  }).then(result => {
+    res.status(200).json(result);
     debugApp('%d - Cluster %d processed request', Date.now(), process.env.INSTANCE_ID);
   });
 });

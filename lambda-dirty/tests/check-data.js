@@ -19,7 +19,6 @@ AWS.config.update({
   region: 'us-east-2',
 });
 
-const dynamodb = new AWS.DynamoDB();
 const docClient = new AWS.DynamoDB.DocumentClient({
   convertEmptyValues: true, // ignore empty string error
 });
@@ -32,9 +31,9 @@ function queryExecute({params, docClient}){
   const queryLoop = ({params, resolve, reject}) => {
     docClient.query(params, (err, res) => {
       queryCount += 1;
-      if (err) reject(err);
+      if (err) return reject(err);
 
-      items = items.concat(res.Items);
+      if (res.Items) items = items.concat(res.Items);
       if (res.LastEvaluatedKey){
         params.ExclusiveStartKey = res.LastEvaluatedKey;
         // throughput is limited on dynamodb (unless it's on-demand)
