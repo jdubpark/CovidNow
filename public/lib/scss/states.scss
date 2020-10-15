@@ -18,6 +18,9 @@
   &-state{padding-top:10px;}
 }
 .state{
+  &-top{
+    &-info{padding-bottom:5px;color:#666;font-size:15px;}
+  }
   &-name{
     font-size:22px;
     @media (min-width: $screen-m){font-size:28px;}

@@ -5,8 +5,8 @@ const
   http = require('http'),
   helmet = require('helmet'),
   pako = require('pako'),
-  app = express(),
-  AWS = require('aws-sdk');
+  AWS = require('aws-sdk'),
+  isDateValid = require('date-fns/isValid');
 
 const
   CustomError = require('../modules/CustomError'),
@@ -16,7 +16,7 @@ const
 
 const isDev = process.env.NODE_ENV !== 'production';
 
-const server = http.createServer(app);
+const app = express(), server = http.createServer(app);
 
 // const s3Client = new S3Client(process.env.CN_AWS_S3_KEY, process.env.CN_AWS_S3_SECRET);
 
@@ -27,42 +27,19 @@ const docClient = new AWS.DynamoDB.DocumentClient({
   convertEmptyValues: true, // ignore empty string error
 });
 
-//
-// Execute dynamodb query in loop to get all results
-// since ddb outputs only up to 1mb per query result
-//
-function queryExecute({params, docClient}){
-  let items = []; // queryCount = 0;
-  const queryLoop = ({params, resolve, reject}) => {
-    docClient.query(params, (err, res) => {
-      // queryCount += 1;
-      console.log(err);
-      console.log(res);
-      if (err) return reject(err);
-
-      if (res.Items) items = items.concat(res.Items);
-      if (res.LastEvaluatedKey){
-        params.ExclusiveStartKey = res.LastEvaluatedKey;
-        // throughput is limited on dynamodb (unless it's on-demand)
-        setTimeout(() => {
-          queryLoop({params, resolve, reject});
-        }, 50);
-      } else {
-        resolve(items); // , queryCount
-      }
-    });
-  };
-  // promise
-  return new Promise((resolve, reject) => queryLoop({params, resolve, reject}));
+/*
+* For USA County
+*/
+function getCountyData(item){
+  return [item.cases, item.deaths];
 }
-
 
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-  // res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  // res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // res.header('Content-Type', 'application/json');
   next();
@@ -73,41 +50,118 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
 
   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
 
-  const dnow = (new Date()), tymd = utils.yyyymmdd(dnow);
+  const
+    dobj = (new Date()),
+    ydobj = utils.oneDayAgo(dobj),
+    tymd = utils.yyyymmdd(dobj);
 
-  let params = {};
+  let params = {}, cleaner = undefined;
 
   if (type == 'states'){
+    let {date: qDate} = req.query;
+    if (typeof qDate == 'undefined') qDate = tymd;
+    else if (!/^[0-9\-]+$/.test(qDate) || !isDateValid(new Date(qDate))) return next(new CustomError('400', req.path));
+
     params = {
       TableName: 'USA_States',
       IndexName: 'date-index', // GSI
       KeyConditionExpression: '#dt = :date',
       ExpressionAttributeNames: {'#dt': 'date'},
-      ExpressionAttributeValues: {':date': tymd},
+      ExpressionAttributeValues: {':date': qDate},
     };
-  } else {
-    params = {
-      TableName: 'USA_Counties',
-      IndexName: 'date-index', // GSI
-      KeyConditionExpression: '#dt = :date',
-      ExpressionAttributeNames: {'#dt': 'date'},
-      ExpressionAttributeValues: {':date': tymd},
+    cleaner = items => {
+      const out = {date: qDate, data: {}};
+      items.forEach(item => {
+        out.data[item.state] = {
+          cases: [item.cases, item.confirmed_cases || '?', item.probable_cases || '?'],
+          deaths: [item.deaths, item.confirmed_deaths || '?', item.probable_deaths || '?'],
+        };
+      });
+      return out;
     };
+  } else { // type == 'counties'
+    const {state, county} = req.query;
+    let {ndays} = req.query;
+    if (typeof ndays == 'undefined'){
+      if (county) ndays = 7; // one-week data for specific county
+      else ndays = 2; // two-day data for all counties
+    }
+
+    if (state){
+      // state can only contain alphabet and space
+      if (!/^[a-z ]+$/i.test(state) || !/^\d+$/.test(ndays)) return next(new CustomError('400', req.path));
+      if (county){
+        // specific county is fips (num)
+        if (!/^\d+$/.test(county)) return next(new CustomError('400', req.path));
+        params = {
+          KeyConditionExpression: '#st = :state and begins_with(fips_date, :fips)',
+          FilterExpression: '#dt >= :date', // > will exclude one past data
+          // go figure out the state & county name from request
+          // don't waste resource
+          ProjectionExpression: '#dt, cases, deaths',
+          ExpressionAttributeNames: {'#st': 'state', '#dt': 'date'},
+          ExpressionAttributeValues: {
+            ':state': state,
+            ':fips': county,
+            ':date': utils.yyyymmdd(utils.nDaysAgo_(dobj, ndays)),
+          },
+        };
+        cleaner = items => {
+          const out = {state, county, data: {}};
+          items.forEach(item => out.data[item.date] = getCountyData(item));
+          return out;
+        };
+      } else {
+        // all counties in the state
+        // -1 to account for today's data
+        const eymd = utils.yyyymmdd(utils.nDaysAgo_(dobj, ndays-1));
+        params = {
+          IndexName: 'state-date-index',
+          KeyConditionExpression: '#st = :state and #dt >= :date',
+          ProjectionExpression: '#dt, county, fips, cases, deaths',
+          ExpressionAttributeNames: {'#st': 'state', '#dt': 'date'},
+          ExpressionAttributeValues: {
+            ':state': state,
+            ':date': eymd,
+          },
+        };
+        cleaner = items => {
+          const out = {state, date: {start: eymd, end: tymd}, data: {}};
+          items.forEach(item => {
+            console.log(item, item.date);
+            if (!out.data[item.county]) out.data[item.county] = {_FIPS: item.fips};
+            out.data[item.county][item.date] = getCountyData(item);
+          });
+          return out;
+        };
+      }
+    }
+    // else {
+    //   params = {
+    //     IndexName: 'date-index', // GSI
+    //     KeyConditionExpression: '#dt = :date',
+    //     ExpressionAttributeNames: {'#dt': 'date'},
+    //     ExpressionAttributeValues: {':date': tymd},
+    //   };
+    // }
+
+    params.TableName = 'USA_Counties';
   }
 
   // https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Query.html
 
-  queryExecute({params, docClient})
+  utils.queryExecute({params, docClient})
     .then(items => {
       if (!items.length){
         // data for today is empty (? might be future day, wrong clock),
         // so minus one date to get the previous day
-        params.ExpressionAttributeValues[':date'] = utils.yyyymmdd(utils.oneDayAgo(dnow));
-        return queryExecute({params, docClient});
+        params.ExpressionAttributeValues[':date'] = utils.yyyymmdd(ydobj);
+        return utils.queryExecute({params, docClient});
       }
       // today data is found, proceed
       return items;
     })
+    .then(items => cleaner ? cleaner(items) : items)
     .then(items => {
       console.log(items);
       return items;
@@ -115,79 +169,6 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
     .then(items => res.status(200).json(items))
     .catch(err => next(err));
 });
-
-// app.get('/api/v1/usa/cases', (req, res, next) => {
-//   const s3GetReq = s3Client.getObjectRequest('covidnow/data/usa', 'cases300.json');
-//   s3Client.get(s3GetReq)
-//     .then(data => {
-//       // console.log(data);
-//       // returns the case data right away, no obj key wraps
-//       const objData = JSON.parse(data.Body.toString('utf-8'));
-//       res.status(200).json(objData);
-//     })
-//     .catch(err => next(err));
-// });
-
-app.get('/api/v1/usa/historical', (req, res, next) => {
-  const {type} = req.query, allowed = ['states', 'counties'];
-
-  if (!allowed.includes(type)) return next(new CustomError('404', req.path));
-
-  const params = {
-    TableName: 'Data',
-    KeyConditionExpression: '#k = :k',
-    ExpressionAttributeNames: {
-      '#k': 'key',
-    },
-    ExpressionAttributeValues: {
-      ':k': 'usa-historical-'+type,
-    },
-  };
-
-  docClient.query(params, (err, data) => {
-    if (err) return next(err);
-
-    const {Items} = data;
-    // returns {data, key (used for query), ts (last updated)}
-
-    let sendObj = Items[0].data;
-    // console.log(sendObj);
-
-    if (type === 'counties') sendObj = JSON.parse(pako.inflate(sendObj, {to: 'string'}));
-
-    res.status(200).json(sendObj);
-  });
-});
-
-// app.get('/api/v1/usa/tests', (req, res, next) => {
-//   const {type} = req.query, allowed = ['states'];
-//
-//   if (!allowed.includes(type)) return next(new CustomError('404', req.path));
-//
-//   const params = {
-//     TableName: 'Data',
-//     KeyConditionExpression: '#k = :k',
-//     ExpressionAttributeNames: {
-//       '#k': 'key',
-//     },
-//     ExpressionAttributeValues: {
-//       ':k': 'usa-tests-'+type,
-//     },
-//   };
-//
-//   docClient.query(params, (err, data) => {
-//     if (err) return next(err);
-//
-//     const {Items} = data;
-//     // returns {data, key (used for query), ts (last updated)}
-//
-//     let sendObj = Items[0].data;
-//
-//     // if (type === 'counties') sendObj = JSON.parse(pako.inflate(sendObj, {to: 'string'}));
-//
-//     res.status(200).json(sendObj);
-//   });
-// });
 
 app.get('*', (req, res, next) => {
   if (!res.headersSent) res.status(404).json(CustomError.err404(req));

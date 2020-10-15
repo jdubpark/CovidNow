@@ -28,7 +28,7 @@ exports.handler = async function(event, context){
   }
 
   // console.log('Lambda GetData EVENT: \n' + JSON.stringify(event, null, 2));
-  console.log('Lambda GetData END:');
+  console.log(`ENDED GETDATA for [${fetchType}]`);
   console.log(getData);
   return context.logStreamName;
 };

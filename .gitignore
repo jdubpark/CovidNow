@@ -5,4 +5,4 @@ node_modules
 .serverless
 .env
 .DS_Store
-.zip
+*.zip

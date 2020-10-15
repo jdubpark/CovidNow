@@ -31,21 +31,26 @@ module.exports = class GetData{
   execute(type='overview'){
     const fetches = this.fetchSetup(type), proms = {};
 
+    // execute fetch promise by running forloop
     Object.keys(fetches).forEach(key => {
       const fetchFn = fetches[key];
-      console.log('----------------------------------');
-      console.log('fetching at', Date.now(), key);
+      // console.log('----------------------------------');
+      // console.log('fetching at', Date.now(), key);
       proms[key] = fetchFn()
         .then(res => {
           const {src, category, data} = res;
-          console.log('----------------------------------');
-          console.log('fetched at', Date.now(), src, category, key);
+          // console.log('----------------------------------');
+          console.log('Fetched at', Date.now(), src, category, key);
           // console.log(data);
           return this.store({src, key, category, data});
         });
     });
 
-    return objectPromise(proms);
+    return objectPromise(proms).then(res => {
+      const out = {};
+      Object.keys(res).forEach(key => out[key] = true);
+      return out;
+    });
   }
 
   fetchSetup(type){
@@ -121,7 +126,7 @@ module.exports = class GetData{
 
   store(packed){
     const {src, key, category, data} = packed;
-    console.log('saving data at', Date.now(), src, category, key);
+    // console.log('saving data at', Date.now(), src, category, key);
 
     if (src == 'JHU'){
       if (['ove/glob/total', 'ove/glob/recovered', 'ove/glob/deaths'].indexOf(key) > -1){
@@ -215,8 +220,8 @@ module.exports = class GetData{
             this.ddb.batchWriteItem(bParams, (err, data) => {
               if (err) reject(err);
               else {
-                if (!((i+1)%10)) console.log('saved Global Countries Latest at', Date.now(), `[${i+1}/${plen}]`);
-                if (i+1 == plen) console.log('[end] saved Global Countries Latest at', Date.now(), `[${i+1}/${plen}]`);
+                // if (!((i+1)%10)) console.log('saved Global Countries Latest at', Date.now(), `[${i+1}/${plen}]`);
+                // if (i+1 == plen) console.log('[end] saved Global Countries Latest at', Date.now(), `[${i+1}/${plen}]`);
                 resolve(data);
               }
             });
@@ -296,7 +301,7 @@ module.exports = class GetData{
             this.ddb.batchWriteItem(bParams, (err, data) => {
               if (err) reject(err);
               else {
-                if (!((i+1)%10)) console.log('saved USA States at', Date.now(), `[${i+1}/${plen}]`);
+                // if (!((i+1)%10)) console.log('saved USA States at', Date.now(), `[${i+1}/${plen}]`);
                 if (i+1 == plen) console.log('[end] saved USA States at', Date.now(), `[${i+1}/${plen}]`);
                 resolve(data);
               }
@@ -360,7 +365,7 @@ module.exports = class GetData{
             this.ddb.batchWriteItem(bParams, (err, data) => {
               if (err) reject(err);
               else {
-                if (!((i+1)%10)) console.log('saved USA Counties at', Date.now(), `[${i+1}/${plen}]`);
+                // if (!((i+1)%10)) console.log('saved USA Counties at', Date.now(), `[${i+1}/${plen}]`);
                 if (i+1 == plen) console.log('[end] saved USA Counties at', Date.now(), `[${i+1}/${plen}]`);
                 resolve(data);
               }

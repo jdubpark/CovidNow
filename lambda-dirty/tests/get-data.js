@@ -57,7 +57,8 @@ const GetData = new (require('../scripts/get-data'))({ddb: dynamodb, docClient})
   //   'global_overview', 'global_extensive',
   //   'USA_overview', 'USA_extensive',
   // ]
-  const type = 'USA_extensive';
-  const executeOverview = await GetData.execute(type);
-  console.log(util.inspect(executeOverview, false, null, true));
+  ['global_overview', 'global_extensive', 'USA_overview', 'USA_extensive'].forEach(async type => {
+    const executeOverview = await GetData.execute(type);
+    console.log(util.inspect(executeOverview, false, null, true));
+  });
 })();

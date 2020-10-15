@@ -25,31 +25,6 @@ const docClient = new AWS.DynamoDB.DocumentClient({
   convertEmptyValues: true, // ignore empty string error
 });
 
-function queryExecute(params){
-  let items = []; // queryCount = 0;
-  const queryLoop = ({params, resolve, reject}) => {
-    docClient.query(params, (err, res) => {
-      // queryCount += 1;
-      // console.log(err);
-      // console.log(res);
-      if (err) return reject(err);
-
-      if (res.Items) items = items.concat(res.Items);
-      if (res.LastEvaluatedKey){
-        params.ExclusiveStartKey = res.LastEvaluatedKey;
-        // throughput is limited on dynamodb (unless it's on-demand)
-        setTimeout(() => {
-          queryLoop({params, resolve, reject});
-        }, 50);
-      } else {
-        resolve(items); // , queryCount
-      }
-    });
-  };
-  // promise
-  return new Promise((resolve, reject) => queryLoop({params, resolve, reject}));
-}
-
 const tableName = 'USA_Counties';
 const params = {
   TableName: tableName,
@@ -60,16 +35,18 @@ const params = {
 // scan returns max 1mb, loop
 // scan 1 -> update on 1mb data -> scan 2 -> update 2 -> scan 3 -> etc...
 
-let idx = 0;
+let queryCount = 0;
 function fixData(params){
   return new Promise((resolve, reject) => {
+    queryCount += 1;
     docClient.scan(params, (err, res) => {
       if (err) throw err;
 
       const {Items: items} = res;
       // console.log(items.length);
-      if (!items.length) return resolve('No Items Left');
+      if (items.length && !res.LastEvaluatedKey) return resolve('No Items Left');
 
+      let idx = 0;
       const proms = items.map((item, i) => {
         const [fips, date] = item.fips_date.split('#');
         const uParams = {
@@ -88,7 +65,7 @@ function fixData(params){
           setTimeout(() => {
             docClient.update(uParams, (err, res) => {
               if (err) return lReject(err);
-              if (!((idx+1)%10)) console.log('Fixing data', Date.now(), `[${idx+1}/${items.length}]`);
+              if (!((idx+1)%100)) console.log('Fixing data', Date.now(), `[${idx+1}/${items.length}]`);
               idx += 1;
               lResolve(true);
             });
@@ -98,6 +75,9 @@ function fixData(params){
 
       Promise.all(proms).then(() => {
         if (res.LastEvaluatedKey){
+          console.log('---------------------------------------------------------------------');
+          console.log(`MORE DATA TO PROCESS... QUERY [${queryCount}] CONTINUING TO FIX at`, Date.now());
+          console.log('---------------------------------------------------------------------');
           params.ExclusiveStartKey = res.LastEvaluatedKey;
           resolve(fixData(params));
         } else {

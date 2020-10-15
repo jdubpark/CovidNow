@@ -36,6 +36,8 @@ aws dynamodb update-table --table-name USA_States --attribute-definitions Attrib
   "Projection": {"ProjectionType": "ALL"}, \
   "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}}}]'
 
+aws dynamodb update-table --table-name USA_Counties --attribute-definitions AttributeName=state,AttributeType=S AttributeName=date,AttributeType=S --endpoint-url http://localhost:8000 --global-secondary-index-updates '[{"Create": {"IndexName": "state-date-index", "KeySchema": [{"AttributeName": "state", "KeyType": "HASH"}, {"AttributeName": "date", "KeyType": "RANGE"}], "Projection": {"ProjectionType": "INCLUDE", "NonKeyAttributes": ["cases", "deaths", "county", "fips"]}, "ProvisionedThroughput": {"ReadCapacityUnits": 5, "WriteCapacityUnits": 5}}}]'
+
 ### Query with Global Secondary Index
 aws dynamodb query --table-name USA_States --index-name date-state-index --key-condition-expression "#dt = :dt" --expression-attribute-names '{"#dt": "date"}' --expression-attribute-values '{":dt": {"S": "2020-10-11"}}' --endpoint-url http://localhost:8000
 

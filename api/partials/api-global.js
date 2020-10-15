@@ -27,8 +27,8 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-  // res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  // res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // res.header('Content-Type', 'application/json');
   next();
@@ -52,6 +52,7 @@ app.get('/api/v1/global/:type', (req, res, next) => {
       allParams[key] = {
         TableName: 'Global',
         KeyConditionExpression: 'dtype = :dtype and #dt = :dt',
+        ProjectionExpression: '#dt, val, ts',
         ExpressionAttributeNames: {'#dt': 'date'},
         ExpressionAttributeValues: {':dtype': key, ':dt': tymd},
       };

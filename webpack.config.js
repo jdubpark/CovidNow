@@ -34,6 +34,11 @@ const enviro = process.env.NODE_ENV === 'production' ? 'production' : 'developme
 module.exports = {
   mode: 'development',
 
+  node: {
+    net: 'empty',
+    tls: 'empty',
+  },
+
   entry: {
     // 'vendor': [
     //   'whatwg-fetch', // fetch polyfill
