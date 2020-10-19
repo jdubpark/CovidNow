@@ -14,7 +14,12 @@ const
   ports = require(__dirname+'/../../config/ports.js'),
   utils = require(__dirname+'/utils');
 
-const isDev = process.env.NODE_ENV !== 'production';
+if (typeof process.env.NODE_ENV == undefined){
+  require('dotenv').config({path: '../../.env'});
+}
+
+const isDev = process.env.NODE_ENV == 'dev';
+const isDevCors = isDev || process.env.NODE_CORS == 'dev';
 
 const app = express(), server = http.createServer(app);
 
@@ -38,7 +43,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  res.header('Access-Control-Allow-Origin', isDevCors ? '*' : 'https://covidnow.com');
   // res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // res.header('Content-Type', 'application/json');
@@ -114,7 +119,13 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
       } else {
         // all counties in the state
         // -1 to account for today's data
-        const eymd = utils.yyyymmdd(utils.nDaysAgo_(dobj, ndays-1));
+        let eymd;
+        if (ndays > 1){
+          eymd = utils.yyyymmdd(utils.nDaysAgo_(dobj, ndays-1));
+        } else {
+          eymd = utils.yyyymmdd(dobj);
+        }
+
         params = {
           IndexName: 'state-date-index',
           KeyConditionExpression: '#st = :state and #dt >= :date',
@@ -126,12 +137,24 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
           },
         };
         cleaner = items => {
-          const out = {state, date: {start: eymd, end: tymd}, data: {}};
+          const out = {state, date: {start: '', end: ''}, data: []}, counties = {};
+          // all items
           items.forEach(item => {
-            console.log(item, item.date);
-            if (!out.data[item.county]) out.data[item.county] = {_FIPS: item.fips};
-            out.data[item.county][item.date] = getCountyData(item);
+            // console.log(item, item.date);
+            if (!counties[item.county]) counties[item.county] = {_META: {county: item.county, fips: item.fips}};
+            counties[item.county][item.date] = getCountyData(item);
           });
+
+          // make it into an array of objects
+          out.data = Object.keys(counties).map(key => counties[key]);
+
+          // sample item to find & sort dates by asc
+          const allDates = Object.keys(out.data[0]);
+          allDates.splice(allDates.indexOf('_META'), 1);
+          allDates.sort((a, b) => new Date(a) - new Date(b));
+
+          out.date.start = allDates[0];
+          out.date.end = allDates[allDates.length-1];
           return out;
         };
       }

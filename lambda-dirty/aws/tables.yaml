@@ -11,12 +11,12 @@ Global:
   KeySchema:
     - AttributeName: 'dtype' # partition
       KeyType: 'HASH'
-    - AttributeName: 'date'
+    - AttributeName: 'date#time'
       KeyType: 'RANGE'
   AttributeDefinitions:
     - AttributeName: 'dtype'
       AttributeType: 'S'
-    - AttributeName: 'date'
+    - AttributeName: 'date#time'
       AttributeType: 'S'
 
 Global_Countries:

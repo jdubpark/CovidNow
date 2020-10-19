@@ -15,7 +15,12 @@ const
   config = require(__dirname+'/../../config/aws-config.js'),
   ports = require(__dirname+'/../../config/ports.js');
 
-const isDev = process.env.NODE_ENV !== 'production';
+if (typeof process.env.NODE_ENV == undefined){
+  require('dotenv').config({path: '../../.env'});
+}
+
+const isDev = process.env.NODE_ENV == 'dev';
+const isDevCors = isDev || process.env.NODE_CORS == 'dev';
 
 AWS.config.update(isDev ? config.aws_local_config : config.aws_remote_config);
 
@@ -37,7 +42,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  res.header('Access-Control-Allow-Origin', isDevCors ? '*' : 'https://covidnow.com');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // res.header('Content-Type', 'application/json');
   next();

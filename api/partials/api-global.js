@@ -15,8 +15,12 @@ const
   ports = require(__dirname+'/../../config/ports.js'),
   utils = require(__dirname+'/utils');
 
-const isDev = process.env.NODE_ENV !== 'production';
-// const isDevCors = process.env.NODE_CORS !== 'production';
+if (typeof process.env.NODE_ENV == undefined){
+  require('dotenv').config({path: '../../.env'});
+}
+
+const isDev = process.env.NODE_ENV == 'dev';
+const isDevCors = isDev || process.env.NODE_CORS == 'dev';
 
 console.log(`[CovidNow API Global] Configuring AWS to ${isDev ? 'DEVELOPMENT' : 'PRODUCTION'}`);
 AWS.config.update(isDev ? config.aws_local_config : config.aws_remote_config);
@@ -27,7 +31,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  res.header('Access-Control-Allow-Origin', isDevCors ? '*' : 'https://covidnow.com');
   // res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // res.header('Content-Type', 'application/json');
@@ -51,9 +55,11 @@ app.get('/api/v1/global/:type', (req, res, next) => {
     ['deaths', 'recovered', 'total'].forEach(key => {
       allParams[key] = {
         TableName: 'Global',
-        KeyConditionExpression: 'dtype = :dtype and #dt = :dt',
+        KeyConditionExpression: 'dtype = :dtype and begins_with(#dt, :dt)',
         ProjectionExpression: '#dt, val, ts',
-        ExpressionAttributeNames: {'#dt': 'date'},
+        ExpressionAttributeNames: {'#dt': 'date#time'},
+        ScanIndexForward: false, // false = descending, true = ascending
+        Limit: 1, // grab the latest of the given date
         ExpressionAttributeValues: {':dtype': key, ':dt': tymd},
       };
     });

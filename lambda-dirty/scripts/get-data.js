@@ -165,9 +165,13 @@ module.exports = class GetData{
 
   storeGlobalLatest(packed){
     const {src, key, category, data} = packed, splt = key.split('/');
+    const
+      dnow = new Date(), splt1 = dnow.toISOString().split('T'),
+      tymd = splt1[0], splt2 = splt1[1].split(':'),
+      hhmm = splt2[0]+':'+splt2[1];
     const params = {
       TableName: 'Global',
-      Key: {'dtype': splt[splt.length-1], 'date': (new Date()).toISOString().split('T')[0]},
+      Key: {'dtype': splt[splt.length-1], 'date#time': tymd+'#'+hhmm},
       UpdateExpression: 'SET val = :val, ts = :ts',
       // ExpressionAttributeNames: {'#value': 'value'}, // for using key 'value' #value
       ExpressionAttributeValues: {

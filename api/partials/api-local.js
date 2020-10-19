@@ -6,49 +6,28 @@ const
   helmet = require('helmet'),
   app = express(),
   server = http.createServer(app),
-  AWS = require('aws-sdk'),
-  CronJob = require('cron').CronJob;
+  AWS = require('aws-sdk');
 
 const
   Local$Geo = require('../../functions/data/Local/geo'),
-  USA$Counties = (require('../../functions/data/USA/counties')),
   CustomError = require('../modules/CustomError'),
   config = require(__dirname+'/../../config/aws-config.js'),
   ports = require(__dirname+'/../../config/ports.js');
 
-const isDev = process.env.NODE_ENV !== 'production';
+if (typeof process.env.NODE_ENV == undefined){
+  require('dotenv').config({path: '../../.env'});
+}
+
+const isDev = process.env.NODE_ENV == 'dev';
+const isDevCors = isDev || process.env.NODE_CORS == 'dev';
 
 AWS.config.update(isDev ? config.aws_local_config : config.aws_remote_config);
-
-const docClient = new AWS.DynamoDB.DocumentClient();
-
-/*
-    Cache US counties data every 3 minutes
-    (starting at 5 to avoid conflict with USA data)
-*/
-let countiesData;
-const wrappedFn = () => {
-  USA$Counties.load(docClient)
-    .then(res => {
-      console.log(Date.now(), ' :: API Local USA Counties Data fetched');
-      countiesData = res;
-    })
-    .catch(err => Promise.reject(err));
-};
-wrappedFn(); // init call
-const getJob = new CronJob(
-  '0 */3 * * * *',
-  wrappedFn,
-  null, true, 'America/Los_Angeles',
-);
-getJob.start();
-
 
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', isDev ? '*' : 'https://covidnow.com');
+  res.header('Access-Control-Allow-Origin', isDevCors ? '*' : 'https://covidnow.com');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   // res.header('Content-Type', 'application/json');
   next();
