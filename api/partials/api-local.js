@@ -159,16 +159,16 @@ app.get('/api/v1/local/area', async(req, res, next) => {
     .catch(err => next(err));
 
 
-  // docClient.put({
-  //   TableName: 'DC_Local_Usage',
-  //   Item: {
-  //     'id': shortid.generate(),
-  //     'time': (new Date()).toISOString().split('.')[0],
-  //     'data': geoData,
-  //   },
-  // }, (err, data) => {
-  //   if (err) console.error('Unable to add item. Error JSON:', err);
-  // });
+  docClient.put({
+    TableName: 'DC_Local_Usage',
+    Item: {
+      'id': shortid.generate(),
+      'time': (new Date()).toISOString().split('.')[0],
+      'data': geoData,
+    },
+  }, (err, data) => {
+    if (err) console.error('Unable to add item. Error JSON:', err);
+  });
 });
 
 app.get('*', (req, res, next) => {
