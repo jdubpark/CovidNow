@@ -1,0 +1,47 @@
+// Shared elements (mostly for body main layout)
+
+.elm
+  &-shadow-box
+    background-color: #fff
+    border-radius: $bdr2
+    box-shadow: 0 0 20px 1px rgba(180, 180, 180, 0.15)
+    // box-shadow: 0 0 6px 0 rgba(180, 180, 180, 0.15)
+
+  &-section
+    padding:
+      top: 1rem
+      bottom: 1rem
+
+    &:first-of-type
+      padding-top: 0
+
+    &:last-of-type
+      padding-top: 0
+
+    @include breakpoint($desktop)
+      padding:
+        top: 3rem
+        bottom: 3rem
+
+  &-subsection
+    padding: 1rem
+
+    > .columns
+      margin: 0
+
+  // subsection stuff, shorter
+  &-title
+    &-sec, &-ssec
+      font-weight: 700
+
+    &-sec
+      font-size: 2rem
+
+      @include breakpoint($desktop)
+        font-size: 2.4rem
+
+    &-ssec
+      font-size: 1.7rem
+
+      @include breakpoint($desktop)
+        font-size: 1.8rem

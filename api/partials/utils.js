@@ -5,6 +5,11 @@ module.exports = {
   // nDaysAgo_ and oneDayAgo_ mutate the original dobj
   nDaysAgo_: ((d, n) => new Date(d.setDate(d.getDate()-n))),
   oneDayAgo_: (d => new Date(d.setDate(d.getDate()-1))),
+  objectFlip: obj => {
+    const ret = {};
+    Object.keys(obj).forEach(key => ret[obj[key]] = key);
+    return ret;
+  },
   //
   // Execute dynamodb query in loop to get all results
   // since ddb outputs only up to 1mb per query result
@@ -12,6 +17,7 @@ module.exports = {
   queryExecute: ({params, docClient}) => {
     let items = []; // queryCount = 0;
     const queryLoop = ({params, resolve, reject}) => {
+      // console.log(params);
       docClient.query(params, (err, res) => {
         // queryCount += 1;
         if (err) return reject(err);

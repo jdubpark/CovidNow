@@ -1,0 +1,910 @@
+@import '../common/_all'
+@import '../colors/_all'
+
+.global
+  &-stats
+    &-header
+      color: $excerpt-light
+
+    &-overview
+
+      .column
+        padding: 0 0 1rem
+        vertical-align: top
+
+        @include breakpoint($desktop)
+          padding: 0 5rem 0 0
+
+        &:last-child
+          padding: 0
+
+          @include breakpoint($desktop)
+            padding: 0
+
+        & .name, & .num
+          line-height: 1
+
+        & .name
+          padding-bottom: 5px
+          font-size: 15px
+
+          @include breakpoint($desktop)
+            font-size: 20px
+
+        & .num
+          font:
+            size: 26px
+            weight: 800
+
+          @include breakpoint($desktop)
+            font-size: 34px
+
+        & .note
+          padding-top: 5px
+          color: #777
+          font-size: 15px
+
+        &.confirmed .num
+          color: $sharp-red
+
+        &.confirmed .name, &.deaths .name, &.deaths .num
+          color: #777
+
+        &.recovered .name, &.recovered .num
+          color: $green
+
+  &-mix
+    flex-wrap: wrap
+    align-items: stretch
+
+  &-top
+    &-cols
+      @include breakpoint(0, $desktop)
+        white-space: nowrap
+        overflow-x: scroll
+
+      > .column
+        @include breakpoint(0, $desktop)
+          display: inline-block
+
+    &-name
+      font:
+        size: 1.15em
+        weight: bold
+
+    &-note
+      padding: 0.3rem 0 1rem
+      color: #777
+      font:
+        size: 0.85em
+
+    &-list
+      .columns
+        margin: 0
+
+      .column
+        padding: 0
+
+      &.confirmed .num
+        color: $sharp-red
+
+      &.deaths .num
+        color: #777
+
+      &.recovered .num
+        color: $green
+
+    &-ct
+      padding: 0.5rem 0.4rem
+
+      &:hover
+        background-color: #eee
+
+      &-num, &-perc-nat
+        padding-left: 0.5rem
+
+      &-name
+        color: #555
+
+      &-num
+        margin-bottom: 0.3rem
+        font-weight: bold
+
+      &-perc
+        &-glb, &-nat
+          color: #bbb
+
+  &-news
+    &-list
+      max-height: 40rem
+      padding: 1rem 0
+      border-top: 1px solid
+      border-bottom: 1px solid
+      border-color: #777
+      overflow-y: scroll
+
+      @include breakpoint($desktop)
+        max-height: 55rem
+
+      li
+        display: block
+        padding: 0 0 2rem
+        border-bottom: 1px solid $alt1
+
+        &:last-child
+          border-bottom: 0
+
+        & .pubdate
+          padding-bottom: 0.6rem
+          color: #777
+          font-size: 0.8em
+
+        & .headline
+          font-size: 0.95em
+          font-weight: 500
+          line-height: 1
+
+          @include breakpoint($desktop)
+            font-size: 17px
+
+          & font
+            position: relative
+            display: block
+            padding: 0.4rem 0 0 1rem
+            font-size: 0.85em
+
+            &::before
+              content: ''
+              position: absolute
+              height: 0.1rem
+              width: 0.5rem
+              top: 50%
+              left: 0
+              margin-top: 0.2rem
+              background-color: #777
+              font-size: 1rem
+              transform: translateY(-50%)
+
+.locality
+  &-search
+    padding-bottom: 0
+
+    &-desc
+      padding-bottom: 1rem
+
+    &-form
+      max-width: 50rem
+      padding: 1rem
+      background-color: #fff
+      border: 0
+      border-radius: $bdr2
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
+      align-items: center
+
+      @include breakpoint($desktop)
+        padding: 1.2rem 1rem
+
+    &-item, &-input
+      color: #555
+
+    &-item
+      font-size: 1.2em
+
+    &-input
+      width: 100%
+      border: 0
+      font-size: 1.5rem
+
+      @include breakpoint($desktop)
+        font-size: 1.7rem
+
+      &:focus, &:hover, &:active
+        outline: 0
+
+    &-btn
+      cursor: pointer
+
+      &.disabled
+        color: #aaa
+        cursor: default
+
+      &:not(.disabled)
+        &:hover, &:active
+          color: #333
+
+    &-tab
+      i:last-child
+        display: none
+
+      &.loading
+        i:first-child
+          display: none
+
+        i:last-child
+          display: block
+
+    &-return
+      padding-top: 2rem
+
+      &-name
+        font-weight: 700
+
+  &-data
+    &-box
+      font-size: 1.8rem
+
+      .column
+        padding-right: 2rem
+
+      @include breakpoint($desktop)
+        font-size: 2rem
+
+    &-name
+      color: #777
+
+    &-val
+      font:
+        weight: 700
+        size: 1.2em
+
+      &.confirmed
+        color: $punch
+
+      &.deaths
+        color: #555
+
+    &-graph
+      margin-top: 1rem
+
+
+.hero
+  font-size: 0
+
+  & .container
+    display: flex
+    flex-wrap: wrap
+
+  &-fc, &-news, &-you, &-cases, &-linkboxes, &-countries
+    flex: 1 1 100%
+
+    // border:1px solid $alt3;
+    &-inner
+      background-color: #fff
+      border-radius: $bdr2
+      box-shadow: 0 0 20px 1px rgba(180, 180, 180, 0.15)
+
+  &-fc, &-news, &-you, &-cases
+    &-inner
+      @include breakpoint($desktop)
+        height: 100%
+
+  &-you, &-cases
+    padding-top: 30px
+    padding-bottom: 0
+
+    @include breakpoint($desktop)
+      padding-top: 35px
+      padding-bottom: 35px
+
+  // focus
+  &-fc
+    position: relative
+    width: 100%
+    text-align: center
+
+    @include breakpoint($desktop)
+      flex: 1 1 66.666666%
+      padding-right: 20px
+
+    &-inner
+      max-width: 100%
+      padding: 15px 5px
+
+      @include breakpoint($desktop)
+        padding: 15px 25px 20px
+
+    &-section
+      padding: 12px 0
+
+      @include breakpoint($desktop)
+        padding: 18px 0
+
+      &:last-child
+        padding-bottom: 0
+
+      &-divide
+        max-width: 350px
+        margin: 0 auto
+        padding: 5px 10px
+
+        & span
+          display: block
+          height: 1px
+          width: 100%
+          background-color: $alt3
+
+    // head
+    &-updated
+      color: #777
+      font-size: 16px
+
+    // section
+    &-item
+      display: inline-block
+      padding: 0 12px
+      vertical-align: top
+
+      @include breakpoint($desktop)
+        padding: 0 20px
+
+      & .name, & .num
+        line-height: 1
+
+      & .name
+        padding-bottom: 5px
+        font-size: 15px
+
+        @include breakpoint($desktop)
+          font-size: 20px
+
+      & .num
+        font-size: 26px
+
+        @include breakpoint($desktop)
+          font-size: 34px
+
+      & .note
+        padding-top: 5px
+        color: #777
+        font-size: 15px
+
+    &-top
+      flex: 1 1
+      min-width: 150px
+      font-size: 16px
+
+      @include breakpoint($desktop)
+        flex: 1 1 33.333333%
+        font-size: 18px
+
+      &s
+        display: flex
+        flex-wrap: nowrap
+        max-width: 100%
+        overflow-x: scroll
+
+        @include breakpoint($desktop)
+          flex-wrap: wrap
+
+      &-title, &-note, &-rates
+        color: #777
+
+      &-note, &-rates
+        font-size: 14px
+
+      &-title
+        font-size: 15px
+        font-weight: 600
+
+        @include breakpoint($desktop)
+          font-size: 16px
+
+      &-note
+        padding-top: 2px
+
+      &-list
+        padding: 10px 20px
+
+      &-list li
+        display: flex
+        flex-wrap: wrap
+        padding-bottom: 8px
+
+        &:last-child
+          margin-bottom: 0
+
+      // under &-list li
+      &-name, &-num
+        flex: 1 1 100%
+
+      &-name
+        @include breakpoint($desktop)
+          flex: 2 1
+          text-align: left
+
+      &-num
+        padding: 2px 0
+
+        @include breakpoint($desktop)
+          flex: 1 1
+          padding: 0
+          text-align: right
+
+      &-rates
+        flex: 1 1 100%
+
+        & .glob
+          float: left
+
+        & .perc
+          float: right
+
+        .confirmed &
+          display: none
+
+          @include breakpoint($desktop)
+            display: block
+
+    // shared
+    & .name
+      font-weight: 600
+
+    & .num
+      font-weight: 800
+
+    & .confirmed .num
+      color: $sharp-red
+
+    & .confirmed .name, & .deaths .name, & .deaths .num
+      color: #777
+
+    & .recovered .name, & .recovered .num
+      color: $green
+
+  // news
+  &-news
+    margin-top: 30px
+
+    @include breakpoint($desktop)
+      flex: 1 1 33.333333%
+      margin-top: 0
+
+    &-inner
+      max-height: 500px
+      overflow-y: scroll
+
+      @include breakpoint($desktop)
+        max-height: 105vh
+
+    &-head
+      padding: 15px 10px 0
+      font-size: 18px
+      font-weight: 600
+      text-align: center
+
+    & li
+      display: block
+      padding: 15px
+      border-bottom: 1px solid $alt1
+
+      &:last-child
+        border-bottom: 0
+
+      & .pubdate
+        padding-bottom: 6px
+        color: #777
+        font-size: 14px
+
+      & .headline
+        font-size: 15px
+        font-weight: 600
+        line-height: 1
+
+        @include breakpoint($desktop)
+          font-size: 17px
+
+        & font
+          position: relative
+          display: block
+          padding: 4px 0 0 10px
+          font-size: 14px
+
+          &::before
+            content: '-'
+            position: absolute
+            top: 50%
+            margin-top: 2px
+            left: 0
+            font-size: 16px
+            transform: translateY(-50%)
+
+  // you
+  &-you
+    position: relative
+    width: 100%
+    text-align: center
+
+    @include breakpoint($desktop)
+      flex: 1 1 60%
+      padding-right: 20px
+      text-align: left
+
+    &-inner
+      padding: 25px 0
+
+    &-head
+      padding: 0 10px 20px
+      text-align: center
+
+      @include breakpoint($desktop)
+        padding: 0 25px 20px
+
+    &-body
+      text-align: center
+
+    // head
+    &-title
+      font-size: 20px
+      font-weight: 800
+
+      @include breakpoint($desktop)
+        font-size: 26px
+
+    // body
+    &-search
+      padding: 0 25px 20px
+
+      &-title
+        padding: 2px 0 5px
+        color: #777
+        font-size: 14px
+
+        @include breakpoint($desktop)
+          padding-bottom: 2px
+
+      &-bar, &-btn
+        display: inline-block
+        border-radius: 50px
+        font-size: 17px
+        vertical-align: middle
+
+      &-bar
+        width: 100%
+        max-width: 300px
+        padding: 6px 12px
+        margin-bottom: 8px
+        border: 1px solid #ddd
+        outline: 0
+
+        @include breakpoint($desktop)
+          margin-right: 20px
+          margin-bottom: 0
+
+        &:focus, &:hover, &:active
+          border: 1px solid $punch
+          box-shadow: 0 0 20px 1px rgba(150, 150, 150, 0.2)
+
+      &-btn
+        display: inline-block
+        color: #fff
+        background-color: $punch
+        border: 1px solid $punch
+
+        &:not(.disabled)
+          &:hover, &:active
+            box-shadow: 0 0 20px 1px rgba(150, 150, 150, 0.2)
+
+        &.disabled span
+          opacity: 0.5
+          cursor: default
+
+        & span
+          display: block
+          padding: 5px 15px
+          cursor: pointer
+
+    &-home
+      padding: 0 25px 5px
+
+      & li
+        display: block
+        font-size: 16px
+
+        @include breakpoint($desktop)
+          display: inline-block
+          padding-right: 25px
+          font-size: 18px
+
+      & val
+        padding-left: 5px
+        font-weight: 700
+
+      &-invalid
+        display: none !important
+        padding: 5px 0
+        color: $carmine-pink
+        font-size: 14px
+
+        @include breakpoint($desktop)
+          display: none !important
+          font-size: 16px
+
+        &.show
+          display: block !important
+
+    &-loc
+      flex: 1 1 50%
+      max-width: 50%
+      padding-right: 10px
+      margin-top: 20px
+      font-size: 16px
+
+      @include breakpoint($desktop)
+        flex: 1 1 auto
+        max-width: 25%
+        margin-top: 0
+
+      &:last-child
+        padding-right: 0
+
+      &s
+        display: flex
+        padding: 10px 25px 0
+        text-align: center
+        flex-wrap: wrap
+        justify-content: center
+
+        // background: /* gradient can be an image
+        // linear-gradient(to left, rga(219,64,49,1) 0%, rgb(241,75,70) 30%, rgb(241,75,70) 70%, rgb(223,80,103) 100%)
+        // left bottom $fantasy no-repeat;
+        // background-size:100% 5px;/* if linear-gradient, we need to resize it */
+
+      &-radius
+        font-weight: 700
+
+      & ul
+        padding-top: 10px
+
+      & li
+        padding-bottom: 10px
+
+        &:last-child
+          padding-bottom: 0
+
+        & .name, & .num
+          display: block
+
+        & .name
+          padding-top: 4px
+          font-size: 15px
+          font-weight: 600
+
+          @include breakpoint($desktop)
+            font-size: 16px
+
+        & .num
+          font-size: 24px
+          font-weight: 800
+
+          @include breakpoint($desktop)
+            font-size: 30px
+
+      & .confirmed .name, & .deaths .name, & .deaths .num
+        color: #777
+
+      & .confirmed .num
+        color: $sharp-red
+
+      // & .recovered .name,& .recovered .num{color:$green;}
+
+  // cases
+  &-cases
+    @include breakpoint($desktop)
+      flex: 1 1 40%
+
+    &-inner
+      max-height: 400px
+      overflow-y: scroll
+
+      // @include breakpoint($desktop){max-height:105vh;}
+
+    &-head
+      padding: 20px 10px 0
+      font-size: 18px
+      font-weight: 600
+      text-align: center
+
+    & li
+      display: block
+      padding: 15px
+      border-bottom: 1px solid $alt1
+
+      &:last-child
+        border-bottom: 0
+
+      & .pubdate, & .location, & .source
+        color: #777
+        font-size: 14px
+
+      & .pubdate, & .headline
+        padding-bottom: 6px
+
+      & .location, & .source
+        display: inline-block
+        vertical-align: middle
+
+      & .headline
+        font-size: 15px
+        font-weight: 600
+        line-height: 1
+
+      & .location
+        padding-right: 5px
+
+      & .source a
+        &:hover, &:active
+          color: $blue
+
+  // link boxes
+  &-linkbox
+    margin-top: 30px
+    border-top: 1px solid $alt3
+
+    @include breakpoint($desktop)
+      flex: 1 1 33.333333%
+      max-width: 33.333333%
+      margin-top: 0
+      border-right: 1px solid $alt3
+
+    &:first-child
+      border-top: 0
+
+    &:nth-child(2), &:nth-child(3)
+      @include breakpoint($desktop)
+        border-top: 0
+
+    &:nth-child(3n)
+      @include breakpoint($desktop)
+        border-right: 0
+
+    &es
+      padding: 25px 0
+
+      &-inner
+        display: flex
+        flex-wrap: wrap
+        width: 100%
+        padding: 20px
+
+    &-inner
+      display: block
+      height: 100%
+      padding: 20px 25px
+      opacity: 0.8
+
+      @include breakpoint($desktop)
+        padding: 20px 25px 30px
+
+      &:hover, &:active
+        opacity: 1
+
+    &-name
+      color: inherit
+      font-size: 22px
+      font-weight: 800
+
+      @include breakpoint($desktop)
+        font-size: 26px
+
+    &-desc
+      padding-top: 5px
+      color: #aaa
+      font-size: 15px
+      font-weight: 500
+      line-height: 1.2
+
+    &.states
+      color: $google-blue
+
+    &.research
+      color: $google-yellow
+
+    &.prevention
+      color: $google-red
+
+    &.myths
+      color: $breaker-bay
+
+    &.faq
+      color: $fountain-blue
+
+    &.about
+      color: $bandicoot
+
+  // countries
+  &-countries
+    text-align: center
+
+    &-inner
+      padding: 20px 25px
+
+    &-body
+      padding: 20px 0
+
+    // head
+    &-title
+      font-size: 24px
+      font-weight: 800
+
+      @include breakpoint($desktop)
+        font-size: 32px
+
+    // body
+    &-loading
+      font-size: 20px
+
+      &.loaded
+        display: none
+
+    &-labels
+      font-size: 20px
+
+    &-table
+      font-size: 0
+
+      &-head, &-body
+        display: flex
+        flex-wrap: wrap
+
+      &-head
+        padding-bottom: 2px
+        margin-bottom: 10px
+        border-bottom: 1px solid #ccc
+        font-weight: 700
+
+  &-country
+    display: flex
+    flex-wrap: wrap
+    flex: 1 1 100%
+
+    @include breakpoint($desktop)
+      flex: 1 1 50%
+      max-width: 50%
+
+    &:nth-child(2n)
+      @include breakpoint(0, $desktop)
+        background-color: $alt4
+
+    &:nth-child(4n), &:nth-child(4n-1)
+      @include breakpoint($desktop)
+        background-color: $alt4
+
+    &.hd
+      display: none
+      background-color: inherit
+
+      &.mobile
+        display: flex
+
+      @include breakpoint($desktop)
+        display: flex
+
+    &-name, &-val
+      flex: 2 1
+      padding: 3px
+      font-size: 16px
+
+      @include breakpoint($desktop)
+        padding: 4px
+        font-size: 18px
+
+    &-name
+      text-align: center
+
+      @include breakpoint($desktop)
+        text-align: right
+
+    &-dummy
+      flex: 0
+
+      @include breakpoint($desktop)
+        flex: 1
+
+    & .total
+      color: $yellowsea
+
+    & .deaths
+      color: $punch
+
+    & .recov
+      color: $green

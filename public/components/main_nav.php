@@ -1,27 +1,40 @@
 <div id="main-nav" class="mnav">
   <div class="mnav-wrapper container">
-    <div class="mnav-col mnav-logo"><a href="./">COVID<span>NOW</span></a></div>
-    <div class="mnav-col right">
-      <div class="mnav-menu-trigger-wrapper">
-        <div id="main-nav-trigger" class="mnav-menu-trigger">
-          <img src="./lib/svg/mnav-menu-trigger.svg" />
+    <div class="columns is-multiline is-mobile is-centered">
+      <div class="column is-narrow-desktop">
+        <div class="mnav-logo">
+          <a href=<?php echo RQ_BASE_DIR.'/'; ?>>COVID<span>NOW</span></a>
         </div>
       </div>
-      <ul id="main-nav-menu" class="mnav-menu">
-        <li><a href="./">Home</a></li>
-        <li><a href="./states">States</a></li>
-        <li><a href="./flu">Seasonal Flu</a></li>
-        <li><a href="./economy">Economy</a></li>
-        <li><a href="./wiki">Wiki</a></li>
-        <!-- <li><a href="./myths">Myths</a></li>
-        <li><a href="./faq">FAQ</a></li> -->
-        <!-- <li><a href="./facts">Facts</a></li> -->
-        <!-- <li><a href="./research">Research</a></li> -->
-        <li><a href="./about">About</a></li>
-        <!-- <li><a class="bg" href="./prevention">Prevention</a></li> -->
-        <li><a class="bg green" href="https://ko-fi.com/covidnow" target="_blank" rel="noopener">Help Us</a></li>
-      </ul>
-      <div id="help-us" class="help-us"><a href="https://ko-fi.com/covidnow" target="_blank" rel="noopener">Help us</a></div>
+      <div class="column is-narrow-desktop mnav-menu-wrapper">
+        <div id="main-nav-menu" class="mnav-menu">
+          <div class="container columns is-multiline">
+            <div class="column is-narrow">
+              <a href=<?php echo RQ_BASE_DIR.'/'; ?>>Home</a>
+            </div>
+            <!-- <div class="column is-narrow">
+              <a href=<?php echo RQ_BASE_DIR.'/counties'; ?>>Counties</a>
+            </div> -->
+            <div class="column is-narrow">
+              <a href=<?php echo RQ_BASE_DIR.'/states'; ?>>States</a>
+            </div>
+            <!-- <div class="column is-narrow">
+              <a href=<?php echo RQ_BASE_DIR.'/countries'; ?>>Countries</a>
+            </div> -->
+            <div class="column is-narrow">
+              <a href=<?php echo RQ_BASE_DIR.'/about'; ?>>About</a>
+            </div>
+            <div class="column is-narrow">
+              <a class="bg green" href="https://ko-fi.com/covidnow" target="_blank" rel="noopener">Help Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-narrow is-hidden-desktop mnav-menu-trigger-wrapper">
+        <div id="main-nav-trigger" class="mnav-menu-trigger">
+          <img src=<?php echo RQ_LIB_DIR.'/svg/mnav-menu-trigger.svg' ?> />
+        </div>
+      </div>
     </div>
   </div>
 </div>

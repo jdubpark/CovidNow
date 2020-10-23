@@ -1,0 +1,33 @@
+.page-back-to-top
+  display: none
+  position: fixed
+  right: 2rem
+  bottom: 2rem
+  z-index: 99999
+
+  &.show
+    display: block
+
+  &-btn
+    position: relative
+    height: 4rem
+    width: 4rem
+    background-color: #fff
+    border-radius: 50rem
+    box-shadow: 0 0 20px 1px rgba(30, 30, 30, 0.15)
+    cursor: pointer
+
+    &:hover, &:active
+      background-color: #fafafa
+
+      i
+        color: #222
+
+    i
+      display: block
+      position: absolute
+      top: 55%
+      left: 50%
+      color: #444
+      font-size: 2rem
+      transform: translate(-50%, -50%)

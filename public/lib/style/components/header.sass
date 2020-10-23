@@ -1,0 +1,145 @@
+@import '../colors/_all'
+@import '../common/_all'
+// @use '../common/_all' as com // @use is not supported yet
+
+#main-nav
+  position: fixed
+  height: auto
+  width: 100vw
+  top: 0
+  left: 0
+  right: 0
+  background-color: #fff
+  border-bottom: 1px solid #e5e5e5
+  z-index: 15000
+
+.mnav
+  &.moving
+    box-shadow: 0 0 2px 20px rgba(30, 30, 30, 0.05)
+
+  & .container
+    margin: 0
+    width: 100%
+    max-width: 100%
+
+  &-top
+    padding:
+      top: 0.5rem
+      bottom: 0.5rem
+
+  &-wrapper
+    padding:
+      top: 1.5rem
+      bottom: 1rem
+
+    @include breakpoint($desktop)
+      padding:
+        top: 1.5rem
+        bottom: 1.5rem
+
+    .columns
+      margin: 0
+
+      .column
+        padding: 0
+
+  &-col
+    position: relative
+    float: left
+    text-align: center
+
+    @include breakpoint($desktop)
+      display: block
+      float: none
+
+    &.right
+      float: right
+
+      @include breakpoint($desktop)
+        float: none
+
+  &-logo
+    position: relative
+    font-size: 30px
+    font-weight: 800
+    text-transform: uppercase
+    letter-spacing: -0.5px
+    z-index: 15000
+
+    & span
+      color: $punch
+
+  &-menu
+    display: none
+    position: fixed
+    height: 100vh
+    width: 100vw
+    top: 0
+    left: 0
+    font-size: 24px
+    z-index: 14999
+    background: rgba(249, 243, 236, 0.85)
+    padding: 100px 10px 0
+    overflow-y: scroll
+
+    @include breakpoint($desktop)
+      display: block
+      position: relative
+      height: auto
+      width: auto
+      margin-top: 6px
+      padding: 0
+      background: none
+      font-size: 18px
+
+    &.opened
+      display: block
+      text-align: center
+
+    &-trigger
+      width: 3.6rem
+      cursor: pointer
+
+      &-wrapper
+        position: relative
+        margin-top: 0.1rem
+        z-index: 15000
+
+        @include breakpoint($desktop)
+          display: none
+
+      & img
+        height: 3.6rem
+
+    & .column
+      // display: block
+      margin-bottom: 1.5rem
+
+      @include breakpoint($desktop)
+        // display: inline-block
+        margin: 0
+
+    & a
+      display: block
+      padding: 0.6rem 1.2rem
+      transition: none
+
+      @include breakpoint($desktop)
+        padding: 0.4rem 0.8rem
+
+      &.bg
+        color: #fff
+        background-color: $punch
+        border-radius: $bdr1
+        &:hover, &:active
+          background-color: $carmine-pink
+
+      &:not(.bg)
+        &:hover, &:active
+          color: $punch
+
+      &.green
+        background-color: $green
+        font-weight: 700
+        &:hover, &:active
+          background-color: $jungle-green

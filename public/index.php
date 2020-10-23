@@ -1,316 +1,207 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="keywords" content="coronavirus, covid, covid-19" />
-    <meta name="description" content="Live updates and information regarding COVID-19." />
-    <meta name="author" content="StudioPark.io" />
-    <title>COVID-19 - CovidNow</title>
-    <!-- canonical: https://www.shopify.com/partners/blog/canonical-urls -->
-    <link rel="canonical" href="https://covidnow.com/" />
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap"> -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700,800&display=swap">
-    <link rel="stylesheet" href="./lib/style/normalize.min.css" />
-    <link rel="stylesheet" href="./lib/style/covidnow.css<?php echo "?v=".filemtime("./lib/style/covidnow.css"); ?>" />
-    <link rel="stylesheet" href="./lib/style/universal.css<?php echo "?v=".filemtime("./lib/style/universal.css"); ?>" />
-    <link rel="stylesheet" href="./lib/style/home.css<?php echo "?v=".filemtime("./lib/style/home.css"); ?>" />
-    <!-- Fonts -->
-    <!-- <link rel="stylesheet" href="./lib/style/font/glyphicons/glyphicons.css" /> -->
-    <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> -->
-    <!-- Social Media -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="CovidNow" />
-    <meta property="og:title" content="COVID-19 Live Updates" />
-    <meta property="og:description" content="Live updates and information regarding COVID-19." />
-    <meta property="og:image" content="./lib/img/covid-19-1330px.jpg" />
-    <meta property="og:url" content="https://covidnow.com" />
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image:alt" content="./lib/img/covid-19-1330px.jpg" />
-    <!-- 1. JavaScript workaround to enable styling of HTML5 elements in versions of Internet Explorer prior to version 9 (must be placed in the <head> element, after any stylesheets) -->
-    <!-- 2. A fast & lightweight polyfill for min/max-width CSS3 Media Queries (for IE 6-8, and more) -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- Track -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103973100-4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+<?php
+  define('PAGE_NAME', 'home');
+  define('PAGE_TITLE', 'COVID-19');
 
-      gtag('config', 'UA-103973100-4');
-    </script>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WJCF2FG');</script>
-    <!-- End Google Tag Manager -->
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <!-- <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript> -->
-  </head>
+  define('NEED_JS_highchart', true);
+  define('NEED_CSS_fa', true);
 
-  <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJCF2FG"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+  require './components/header.php';
+?>
+<div id="global" class="global">
+  <div class="container">
 
-    <div id="page">
+    <div id="global-stats" class="columns is-multiline elm-section global-stats">
 
-      <?php require_once './components/main_nav.php'; ?>
+      <div class="column is-12">
+        <div class="elm-subsection global-stats-header">
+          <div id="stats-last-update">Data as of <span>loading...</span></div>
+        </div>
+      </div>
 
-      <div id="wrapper">
-
-        <div id="hero" class="hero">
-          <div class="container">
-            <div class="hero-fc">
-              <div class="hero-fc-inner">
-                <div class="hero-fc-head">
-                  <div id="stats-last-update" class="hero-fc-updated"><span>loading...</span></div>
-                </div>
-                <div class="hero-fc-section">
-                  <div class="hero-fc-item confirmed">
-                    <div class="name">Confirmed</div>
-                    <div id="stats-confirmed-total" class="num">0</div>
-                    <div id="stats-confirmed-countries" class="note"><span>0</span> countries</div>
-                  </div>
-                  <div class="hero-fc-item deaths">
-                    <div class="name">Deaths</div>
-                    <div id="stats-deaths-total" class="num">0</div>
-                    <div id="stats-fatality-rate" class="note"><span>0</span>%</div>
-                  </div>
-                  <div class="hero-fc-item recovered">
-                    <div class="name">Recovered</div>
-                    <div id="stats-recov-total" class="num">0</div>
-                    <div id="stats-recovery-rate" class="note"><span>0</span>%</div>
-                  </div>
-                </div>
-                <div class="hero-fc-section-divide"><span></span></div>
-                <div class="hero-fc-section">
-                  <div class="hero-fc-tops">
-                    <div class="hero-fc-top confirmed">
-                      <div class="hero-fc-top-title">Top Confirmed</div>
-                      <div class="hero-fc-top-note">global %</div>
-                      <ul id="stats-top-countries-total" class="hero-fc-top-list"></ul>
-                    </div>
-                    <div class="hero-fc-top deaths">
-                      <div class="hero-fc-top-title">Top Deaths</div>
-                      <div class="hero-fc-top-note">global %, country %</div>
-                      <ul id="stats-top-countries-deaths" class="hero-fc-top-list"></ul>
-                    </div>
-                    <div class="hero-fc-top recovered">
-                      <div class="hero-fc-top-title">Top Recovery</div>
-                      <div class="hero-fc-top-note">global %, country %</div>
-                      <ul id="stats-top-countries-recovered" class="hero-fc-top-list"></ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div id="latest" class="column is-12">
+        <div class="elm-subsection global-stats-overview">
+          <div class="columns is-multiline">
+            <div class="column is-narrow confirmed">
+              <div class="name">Confirmed</div>
+              <div id="stats-confirmed-total" class="num">0</div>
+              <div id="stats-confirmed-countries" class="note"><span>189</span> countries</div>
             </div>
 
-            <div class="hero-news">
-              <div class="hero-news-inner">
-                <div class="hero-news-head">
-                  <div class="hero-news-title">Latest News</div>
-                </div>
-                <div class="hero-news-body">
-                  <ul id="hero-news-list" class="hero-news-list">
-                    <!-- Data loaded here -->
-                    <!-- <li class="hero-news-item">
-                      <div class="pubdate"></div>
-                      <div class="source"></div>
-                      <div class="headline"></div>
-                    </li> -->
-                  </ul>
-                </div>
-              </div>
+            <div class="column is-narrow deaths">
+              <div class="name">Deaths</div>
+              <div id="stats-deaths-total" class="num">0</div>
+              <div id="stats-fatality-rate" class="note"><span>0</span>%</div>
             </div>
 
-            <div class="hero-you">
-              <div class="hero-you-inner">
-                <div class="hero-you-head">
-                  <div class="hero-you-title">Search Location</div>
-                  <div class="hero-you-search-title"><span>Look up address on Google maps</span></div>
-                </div>
-                <div class="hero-you-body">
-                  <div class="hero-you-search">
-                    <input id="you-search-bar" class="hero-you-search-bar" type="text" placeholder="Type in address with states abbr."></input>
-                    <div id="you-search-btn" class="hero-you-search-btn"><span>Search</span></div>
-                  </div>
-                  <ul class="hero-you-home">
-                    <li id="you-search-lat" class="hero-you-home-lat">Latitude: <val>allow access...</val></li>
-                    <li id="you-search-long" class="hero-you-home-long">Longtitude: <val>allow access...</val></li>
-                    <!-- <li id="you-search-name" class="hero-you-home-prov">Location: <val>loading...</val></li> -->
-                    <li id="you-search-invalid" class="hero-you-home-invalid">Sorry, we couldn't grab location data for the provided address. Please include the city/state or use the Google Maps address for better accuracy!</li>
-                  </ul>
-                  <div class="hero-you-locs">
-                    <!-- <div id="geoloc-city" class="hero-you-loc">
-                      <div id="geoloc-city-name" class="hero-you-loc-radius">City</div>
-                      <ul>
-                        <li class="cases"><val>?</val> preparing data</li>
-                      </ul>
-                    </div> -->
-                    <div id="geoloc-county" class="hero-you-loc">
-                      <div id="geoloc-county-name" class="hero-you-loc-radius">County</div>
-                      <ul>
-                        <li class="confirmed">
-                          <div class="num">0</div>
-                          <div class="name">Confirmed</div>
-                        </li>
-                        <li class="deaths">
-                          <div class="num">0</div>
-                          <div class="name">Deaths</div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div id="geoloc-state" class="hero-you-loc">
-                      <div id="geoloc-state-name" class="hero-you-loc-radius">State: <span></span></div>
-                      <ul>
-                        <li class="confirmed">
-                          <div class="num">0</div>
-                          <div class="name">Confirmed</div>
-                        </li>
-                        <li class="deaths">
-                          <div class="num">0</div>
-                          <div class="name">Deaths</div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="hero-cases">
-              <div class="hero-cases-inner">
-                <div class="hero-cases-head">
-                  <div class="hero-cases-title">Latest Reports</div>
-                </div>
-                <div class="hero-cases-body">
-                  <ul id="hero-cases-list" class="hero-cases-list">
-                    <!-- Data loaded here -->
-                    <!-- <li>
-                      <div class="pubdate"></div>
-                      <div class="headline"></div>
-                      <div class="location"></div>
-                      <div class="source">()</div>
-                    </li> -->
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="hero-linkboxes">
-              <div class="hero-linkboxes-inner">
-                <div class="hero-linkbox states">
-                  <a class="hero-linkbox-inner" href="./states">
-                    <div class="hero-linkbox-name">States Breakdown &#8250;</div>
-                    <div class="hero-linkbox-desc">Check out current COVID-19 cases and status in each state.</div>
-                  </a>
-                </div>
-                <div class="hero-linkbox research">
-                  <a class="hero-linkbox-inner" href="./flu">
-                    <div class="hero-linkbox-name">COVID-19 vs. Flu &#8250;</div>
-                    <div class="hero-linkbox-desc">Learn more about how COVID-19 differs from the seasonal flu.</div>
-                  </a>
-                </div>
-                <div class="hero-linkbox prevention">
-                  <a class="hero-linkbox-inner" href="./economy">
-                    <div class="hero-linkbox-name">Economy &#8250;</div>
-                    <div class="hero-linkbox-desc">See how the virus has impacted the economy, in live data.</div>
-                  </a>
-                </div>
-                <div class="hero-linkbox myths">
-                  <a class="hero-linkbox-inner" href="./wiki">
-                    <div class="hero-linkbox-name">Wiki &#8250;</div>
-                    <div class="hero-linkbox-desc">Learn more about COVID-19, with expert-backed facts and evidence.</div>
-                  </a>
-                </div>
-                <div class="hero-linkbox faq">
-                  <a class="hero-linkbox-inner" href="./about">
-                    <div class="hero-linkbox-name">About &#8250;</div>
-                    <div class="hero-linkbox-desc">Learn about the developers behind the website and contribute. Your voice matters.</div>
-                  </a>
-                </div>
-                <div class="hero-linkbox about">
-                  <a class="hero-linkbox-inner" href="https://ko-fi.com/covidnow" target="_blank" rel="noopener">
-                    <div class="hero-linkbox-name">Help us &#8250;</div>
-                    <div class="hero-linkbox-desc">Help us maintain the website and present you factual information!</div>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="hero-countries">
-              <div class="hero-countries-inner">
-                <div class="hero-countries-head">
-                  <div class="hero-countries-title">Numbers by Countries</div>
-                </div>
-                <div class="hero-countries-body">
-                  <div id="hero-countries-loading" class="hero-countries-loading">Loading...</div>
-                  <div id="hero-countries-table" class="hero-countries-table">
-                    <div class="hero-countries-table-head">
-                      <div class="hero-country hd mobile">
-                        <div class="hero-country-name">Country</div>
-                        <div class="hero-country-val">Total</div>
-                        <div class="hero-country-val">Deaths</div>
-                        <div class="hero-country-val">Recov.</div>
-                        <div class="hero-country-dummy"></div>
-                      </div>
-                      <div class="hero-country hd">
-                        <div class="hero-country-name">Country</div>
-                        <div class="hero-country-val">Total</div>
-                        <div class="hero-country-val">Deaths</div>
-                        <div class="hero-country-val">Recov.</div>
-                        <div class="hero-country-dummy"></div>
-                      </div>
-                    </div>
-                    <div id="hero-countries-table-body" class="hero-countries-table-body">
-                      <!-- Data loaded here -->
-                      <!-- <div class="hero-country">
-                        <div class="hero-country-name">China</div>
-                        <div class="hero-country-val total">20310</div>
-                        <div class="hero-country-val deaths">20310</div>
-                        <div class="hero-country-val recov">20310</div>
-                      </div> -->
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="column is-narrow recovered">
+              <div class="name">Recovered</div>
+              <div id="stats-recov-total" class="num">0</div>
+              <div id="stats-recovery-rate" class="note"><span>0</span>%</div>
             </div>
           </div>
         </div>
-
       </div>
 
     </div>
 
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script> -->
-    <!-- <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script> -->
-    <!-- load from local for dev. -->
-    <script src="./lib/js/src/pep-0.4.3.js">
-    // universal use
-    // pointermove: a pointer moves, similar to touchmove or mousemove.
-    // pointerdown: a pointer is activated, or a device button held.
-    // pointerup: a pointer is deactivated, or a device button released.
-    // pointerover: a pointer has moved onto an element.
-    // pointerout: a pointer is no longer on an element it once was.
-    // pointerenter: a pointer enters the bounding box of an element.
-    // pointerleave: a pointer leaves the bounding box of an element.
-    // pointercancel: a pointer will no longer generate events.
-    </script>
-    <script src="./lib/js/src/jquery-3.2.1.min.js"></script>
-    <script src="./lib/js/dist/universal.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/universal.bundle.js"); ?>"></script>
-    <script src="./lib/js/dist/home.bundle.js<?php echo "?v=".filemtime("./lib/js/dist/home.bundle.js"); ?>"></script>
+    <div id="global-mix" class="columns is-multiline elm-section global-mix">
 
-  </body>
-</html>
+      <div id="top-countries" class="column is-8">
+        <div class="elm-subsection elm-shadow-box global-top">
+          <div class="columns is-multiline global-top-cols">
+            <div class="column is-one-third">
+              <div class="global-top-name">Top Confirmed</div>
+              <div class="global-top-note">global %</div>
+              <ul id="stats-top-countries-total" class="global-top-list confirmed"><!-- filled here --></ul>
+            </div>
+
+            <div class="column is-one-third">
+              <div class="global-top-name">Top Deaths</div>
+              <div class="global-top-note">global %, national %</div>
+              <ul id="stats-top-countries-deaths" class="global-top-list deaths"><!-- filled here --></ul>
+            </div>
+
+            <div class="column is-one-third">
+              <div class="global-top-name">Top Recovery</div>
+              <div class="global-top-note">global %, national %</div>
+              <ul id="stats-top-countries-recovered" class="global-top-list recovered"><!-- filled here --></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="news" class="column is-4">
+        <div class="elm-subsection global-news">
+          <div class="columns is-multiline">
+            <div class="column is-12">
+              <div class="elm-title-ssec global-news-title">News</div>
+            </div>
+
+            <div class="column is-12">
+              <ul id="global-news-list" class="global-news-list">
+                <!-- Data filled here -->
+                <!-- <li class="hero-news-item">
+                  <div class="pubdate"></div>
+                  <div class="source"></div>
+                  <div class="headline"></div>
+                </li> -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div id="locality" class="locality">
+  <div class="container">
+
+    <div id="locality-search" class="columns is-multiline elm-section locality-search">
+
+      <div class="column is-12">
+        <div class="elm-subsection locality-search-header">
+          <div class="elm-title-sec locality-search-title">My Area</div>
+        </div>
+      </div>
+
+      <div id="my-area" class="column is-12">
+        <div class="elm-subsection locality-search">
+          <div class="columns is-multiline">
+            <div class="column is-12">
+              <div class="columns is-mobile locality-search-form">
+                <div id="locality-search-tab" class="column is-narrow locality-search-item locality-search-tab">
+                  <i class="far fa-globe"></i>
+                  <i class="far fa-spinner-third"></i>
+                </div>
+                <div class="column locality-search-box">
+                  <input value="7 Boyden Lane, 01342" id="locality-search-input" class="locality-search-input" type="text" placeholder="Search address (via Google Maps)" />
+                </div>
+                <div id="locality-search-btn" class="column is-narrow locality-search-item locality-search-btn disabled"><i class="far fa-search"></i></div>
+                <div class="column is-narrow locality-search-item"><i class="far fa-times"></i></div>
+              </div>
+            </div>
+
+            <div class="column is-12">
+              <div class="columns is-multiline locality-search-return">
+                <div class="column is-narrow locality-search-return-name">
+                  Retrieved Address:
+                </div>
+                <div class="column is-narrow locality-search-return-addr">
+                  <div id="locality-search-return-addr"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="locality-area" class="columns is-multiline elm-section locality-area">
+
+      <div id="my-county" class="column is-half">
+        <div class="elm-subsection locality-data locality-county">
+          <div class="columns is-multiline">
+            <div class="column is-12">
+              <div class="elm-title-ssec locality-area-title">County Report</div>
+            </div>
+
+            <div class="column is-12">
+              <div id="locality-county-data" class="columns is-multiline locality-data-box">
+                <div class="column is-narrow">
+                  <div class="locality-data-name">Cases</div>
+                  <div id="locality-county-cases-today" class="locality-data-val confirmed"></div>
+                </div>
+                <div class="column is-narrow">
+                  <div class="locality-data-name">Deaths</div>
+                  <div id="locality-county-deaths-today" class="locality-data-val deaths"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-12 elm-shadow-box locality-data-graph">
+              <div id="locality-county-graph"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="my-state" class="column is-half">
+        <div class="elm-subsection locality-data locality-state">
+          <div class="columns is-multiline">
+            <div class="column is-12">
+              <div class="elm-title-ssec locality-area-title">State Report</div>
+            </div>
+
+            <div class="column is-12">
+              <div id="locality-state-data" class="columns is-multiline locality-data-box">
+                <div class="column is-narrow">
+                  <div class="locality-data-name">Cases</div>
+                  <div id="locality-state-cases-today" class="locality-data-val confirmed"></div>
+                </div>
+                <div class="column is-narrow">
+                  <div class="locality-data-name">Deaths</div>
+                  <div id="locality-state-deaths-today" class="locality-data-val deaths"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="column is-12 elm-shadow-box locality-data-graph">
+              <div id="locality-state-graph"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<?php require './components/footer.php';

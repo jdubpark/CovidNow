@@ -33,9 +33,11 @@ const GetNews = new ModGetNews({docClient});
 */
 // either bind class or use wrapped function (() => GetNews.execute())
 // (bind!!! to access this)
-const getJob = new CronJob('0 */10 * * * *', GetNews.execute.bind(GetNews), null, true, 'America/Los_Angeles');
-GetNews.execute(); // init call
-getJob.start();
+if (!isDev){
+  const getJob = new CronJob('0 */10 * * * *', GetNews.execute.bind(GetNews), null, true, 'America/Los_Angeles');
+  GetNews.execute(); // init call
+  getJob.start();
+}
 
 
 app.use(helmet());

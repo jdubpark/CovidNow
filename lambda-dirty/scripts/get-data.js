@@ -281,7 +281,14 @@ module.exports = class GetData{
         // define the 'item' variable here to localize the scope to each forEach loop
         // if we define the 'item' outside, its scope will also be out this forEach loop
         // and thus item will be always point to the last saved value
-        const item = {'state': {'S': state}, 'date': {'S': date}}, sarr = data[state][date];
+        const
+          sarr = data[state][date],
+          item = {
+            'state': {'S': state},
+            'date': {'S': date},
+            // tymw = (new Date()).toISOString().split('T')[0]
+            // 'weekly_marker': {'S': tymw},
+          };
         // if (date.slice(0, 2) !== '20') return; // skip weird date
         batchLoc = Math.floor(batchRun/25);
         if (!params[batchLoc]) params[batchLoc] = {RequestItems: {USA_States: []}};

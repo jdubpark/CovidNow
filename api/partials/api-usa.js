@@ -99,16 +99,19 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
         // specific county is fips (num)
         if (!/^\d+$/.test(county)) return next(new CustomError('400', req.path));
         params = {
-          KeyConditionExpression: '#st = :state and begins_with(fips_date, :fips)',
-          FilterExpression: '#dt >= :date', // > will exclude one past data
+          KeyConditionExpression: '#st = :state and fips_date BETWEEN :fd_start AND :fd_end',
+          // KeyConditionExpression: '#st = :state and begins_with(fips_date, :fips)',
+          // FilterExpression: '#dt >= :date', // > will exclude one past data
           // go figure out the state & county name from request
           // don't waste resource
           ProjectionExpression: '#dt, cases, deaths',
           ExpressionAttributeNames: {'#st': 'state', '#dt': 'date'},
           ExpressionAttributeValues: {
             ':state': state,
-            ':fips': county,
-            ':date': utils.yyyymmdd(utils.nDaysAgo_(dobj, ndays)),
+            // ':fips': county,
+            // ':date': utils.yyyymmdd(utils.nDaysAgo_(dobj, ndays)),
+            ':fd_start': county+'#'+utils.yyyymmdd(utils.nDaysAgo_(dobj, ndays)),
+            ':fd_end': county+'#'+tymd,
           },
         };
         cleaner = items => {
@@ -185,10 +188,10 @@ app.get('/api/v1/usa/:type(states|counties)', (req, res, next) => {
       return items;
     })
     .then(items => cleaner ? cleaner(items) : items)
-    .then(items => {
-      console.log(items);
-      return items;
-    })
+    // .then(items => {
+    //   console.log(items);
+    //   return items;
+    // })
     .then(items => res.status(200).json(items))
     .catch(err => next(err));
 });
