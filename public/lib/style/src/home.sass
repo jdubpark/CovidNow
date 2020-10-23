@@ -223,18 +223,38 @@
         i:last-child
           display: block
 
+      &.error
+        color: $punch
+
+      &.success
+        color: $google-green
+
+    &-clear-btn
+      cursor: pointer
+
+      &:hover, &:active
+        color: $punch
+
     &-return
       padding-top: 2rem
+
+      &-error, &-addr .error
+        color: $punch
+
+      &-error
+        padding: 0.5rem 0
+        font-size: 1.4rem
 
       &-name
         font-weight: 700
 
   &-data
-    &-box
-      font-size: 1.8rem
-
+    &-box,&-smallbox
       .column
         padding-right: 2rem
+
+    &-box
+      font-size: 1.8rem
 
       @include breakpoint($desktop)
         font-size: 2rem
@@ -253,8 +273,20 @@
       &.deaths
         color: #555
 
+    &-sval
+      font-size: 0.9em
+
     &-graph
       margin-top: 1rem
+
+      .highcharts-container
+        border-radius: $bdr2
+
+  &-mask
+    &-desc
+      padding: 0.5rem 0
+      color: #777
+      font-size: 1.3rem
 
 
 .hero

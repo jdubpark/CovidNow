@@ -7877,13 +7877,14 @@ request({
 /*!**************************************!*\
   !*** ./public/lib/js/utils/index.js ***!
   \**************************************/
-/*! exports provided: formatDate, commas, percent */
+/*! exports provided: formatDate, commas, dec2perc, percent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "commas", function() { return commas; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dec2perc", function() { return dec2perc; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "percent", function() { return percent; });
 /* harmony import */ var _json_months_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../json/months.json */ "./public/lib/json/months.json");
 var _json_months_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../json/months.json */ "./public/lib/json/months.json", 1);
@@ -7914,6 +7915,15 @@ function formatDate(time, displayTime=true){
 */
 function commas(n){
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+/*
+    Convert decimal to percentage
+    input: Number deci
+*/
+function dec2perc(deci, fixed=1){
+  const perc = deci*100;
+  return isFinite(perc) ? perc.toFixed(fixed) : undefined;
 }
 
 /*

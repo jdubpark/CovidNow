@@ -7875,26 +7875,51 @@ const cdFetch = {
 // }
 
 function loadLocalData({data, geoData}){
-  console.log(data, geoData);
-
   //
   // Returned Address info
   //
-  const retAddr = geoData.info.address || 'Error!';
-  $('#locality-search-return-addr').text(retAddr);
-
-  if (geoData.info.fips == null){
-    $('#locality-search-fips-error').text('Try to narrow down the address, or type in the zipcode!');
+  if (geoData.info != null){
+    $('#locality-search-return-addr').text(geoData.info.address);
   }
+
+  if (data == undefined || geoData.info.fips == null){
+    $('#locality-search-tab').removeClass('success error').addClass('error');
+    $('#locality-search-error-fips').text('Try to narrow down the address, or type in the zipcode!');
+    $('#locality-search-return-addr').addClass('error');
+    return;
+  }
+
+  $('#locality-search-tab').addClass('success');
 
   //
   // County & State data
   //
   ['county', 'state'].forEach(key => {
+    if (data[key] == null) return;
     const dlen = data[key].length;
-    $(`#locality-${key}-cases-today`).text(data[key][dlen-1].cases);
-    $(`#locality-${key}-deaths-today`).text(data[key][dlen-1].deaths);
+    let caseNum = 'n/a', deathNum = 'n/a';
+    if (dlen){
+      caseNum = data[key][dlen-1].cases;
+      deathNum = data[key][dlen-1].deaths;
+    }
+    $(`#locality-${key}-cases-today`).text(caseNum);
+    $(`#locality-${key}-deaths-today`).text(deathNum);
   });
+
+  //
+  // County Mask Usage data
+  //
+  if (data.countyMaskUsage){
+    let template = '';
+    ['Always', 'Frequently', 'Sometimes', 'Rarely', 'Never'].forEach(key => {
+      const val = data.countyMaskUsage[key.toUpperCase()];
+      template += '<div class="column is-narrow">'+
+        `<div class="locality-data-sname">${key}</div>`+
+        `<div class="locality-data-sval">${utils.dec2perc(val)}%</div>`+
+      '</div>';
+    });
+    $('#locality-county-mask-data').html(template);
+  }
 
   //
   // Set up county & state chart
@@ -7940,10 +7965,11 @@ function loadLocalData({data, geoData}){
   // Plot county & state data
   //
   ['county', 'state'].forEach(key => {
-    if (!seriesArr[key]){
-      // error! too broad address
-      return;
-    }
+    // if (!seriesArr[key].length){
+    //   // error! too broad address
+    //   // $(`#locality-${key}-graph`).html('n/a for '+key);
+    //   return;
+    // }
 
     $(`#locality-${key}-graph`).highcharts(graphConf({
       title: key[0].toUpperCase()+key.slice(1)+' Trend',
@@ -7952,25 +7978,6 @@ function loadLocalData({data, geoData}){
       seriesArr: seriesArr[key],
     }));
   });
-
-  // const {lat, lng: long, info, cases} = data;
-  // if (!lat && !long) $('#you-search-invalid').addClass('show');
-  // else $('#you-search-invalid').removeClass('show');
-  // $('#you-search-lat val').text(lat);
-  // $('#you-search-long val').text(long);
-  // // $('#you-search-name val').text(info.locality+', '+info.state);
-  //
-  // const {county, state} = info;
-  // // console.log(cases);
-  // // fix names
-  // $('#geoloc-county-name').text(county);
-  // $('#geoloc-state-name span').text(state);
-  // // county
-  // $('#geoloc-county .confirmed .num').text(cases.county.confirmed);
-  // $('#geoloc-county .deaths .num').text(cases.county.deaths);
-  // // state
-  // $('#geoloc-state .confirmed .num').text(cases.state.confirmed);
-  // $('#geoloc-state .deaths .num').text(cases.state.deaths);
 }
 
 const minAddrCharLen = 5;
@@ -7979,11 +7986,13 @@ function addrSearch(){
   if (!isAddrSearchEnabled || addrSearching) return false;
   addrSearching = true;
   const val = $('#locality-search-input').val();
-  $('#locality-search-return-addr').text('');
-  $('#locality-search-fips-error').text('');
+  $('#locality-search-return-addr').removeClass('error').html('');
+  $('#locality-search-error-fips').html('');
+  $('#locality-search-error-length').html('');
 
   if (val.length < minAddrCharLen){
     console.log('Input longer address!');
+    $('locality-search-error-length').html('Search address at least 5 characters long');
     isAddrSearchEnabled = false;
     return false;
   } else {
@@ -7991,7 +8000,7 @@ function addrSearch(){
   }
 
   $('#locality-search-btn').addClass('disabled');
-  $('#locality-search-tab').addClass('loading');
+  $('#locality-search-tab').removeClass('success error').addClass('loading');
   // $('#you-search-invalid').removeClass('show');
   // $('#you-search-lat val').html('locating...');
   // $('#you-search-long val').html('locating...');
@@ -8005,9 +8014,8 @@ function addrSearch(){
     .then(res => {
       const {data, geoData} = res.data;
       resetAddrSearch();
+      console.log(data, geoData);
       loadLocalData({data, geoData});
-      console.log(data);
-      console.log(geoData);
       return true;
     })
     .catch(err => {
@@ -8020,6 +8028,13 @@ function resetAddrSearch(isError=false){
   addrSearching = false;
   $('#locality-search-btn').removeClass('disabled');
   $('#locality-search-tab').removeClass('loading');
+  // clear data
+  ['county', 'state'].forEach(key => {
+    $(`#locality-${key}-cases-today`).html('');
+    $(`#locality-${key}-deaths-today`).html('');
+    $(`#locality-${key}-graph`).html('');
+  });
+  $('#locality-county-mask-data').html('');
   // if (isError)
 }
 
@@ -8030,48 +8045,48 @@ function resetAddrSearch(isError=false){
   * Dummy
   *
   */
-  const dummyData = {
-    county: [
-      {date: '2020-10-15', cases: 426, deaths: 71},
-      {date: '2020-10-16', cases: 432, deaths: 71},
-      {date: '2020-10-17', cases: 432, deaths: 71},
-      {date: '2020-10-18', cases: 437, deaths: 72},
-      {date: '2020-10-19', cases: 437, deaths: 72},
-      {date: '2020-10-20', cases: 438, deaths: 72},
-      {date: '2020-10-21', cases: 441, deaths: 72},
-    ],
-    state: [
-      {date: '2020-10-15', cases: 141579, deaths: 9672},
-      {date: '2020-10-16', cases: 142346, deaths: 9702},
-      {date: '2020-10-17', cases: 142346, deaths: 9702},
-      {date: '2020-10-18', cases: 143660, deaths: 9737},
-      {date: '2020-10-19', cases: 143660, deaths: 9737},
-      {date: '2020-10-20', cases: 144488, deaths: 9753},
-      {date: '2020-10-21', cases: 145464, deaths: 9758},
-    ],
-    countyMaskUsage: {
-      ALWAYS: 0.762,
-      FREQUENTLY: 0.156,
-      NEVER: 0.043,
-      RARELY: 0.011,
-      SOMETIMES: 0.028,
-    },
-  };
-  const dummyGeodata = {
-    lat: 42.5442599,
-    lng: -72.6050836,
-    info: {
-      address: '7 Boyden Ln, Deerfield, MA 01342, USA',
-      country: 'US',
-      county: 'Franklin County',
-      fips: '25011',
-      locality: 'Deerfield',
-      state: 'Massachusetts',
-      stateAbbr: 'MA',
-      zip: '01342',
-    },
-  };
-  loadLocalData({data: dummyData, geoData: dummyGeodata});
+  // const dummyData = {
+  //   county: [
+  //     {date: '2020-10-15', cases: 426, deaths: 71},
+  //     {date: '2020-10-16', cases: 432, deaths: 71},
+  //     {date: '2020-10-17', cases: 432, deaths: 71},
+  //     {date: '2020-10-18', cases: 437, deaths: 72},
+  //     {date: '2020-10-19', cases: 437, deaths: 72},
+  //     {date: '2020-10-20', cases: 438, deaths: 72},
+  //     {date: '2020-10-21', cases: 441, deaths: 72},
+  //   ],
+  //   state: [
+  //     {date: '2020-10-15', cases: 141579, deaths: 9672},
+  //     {date: '2020-10-16', cases: 142346, deaths: 9702},
+  //     {date: '2020-10-17', cases: 142346, deaths: 9702},
+  //     {date: '2020-10-18', cases: 143660, deaths: 9737},
+  //     {date: '2020-10-19', cases: 143660, deaths: 9737},
+  //     {date: '2020-10-20', cases: 144488, deaths: 9753},
+  //     {date: '2020-10-21', cases: 145464, deaths: 9758},
+  //   ],
+  //   countyMaskUsage: {
+  //     ALWAYS: 0.762,
+  //     FREQUENTLY: 0.156,
+  //     NEVER: 0.043,
+  //     RARELY: 0.011,
+  //     SOMETIMES: 0.028,
+  //   },
+  // };
+  // const dummyGeodata = {
+  //   lat: 42.5442599,
+  //   lng: -72.6050836,
+  //   info: {
+  //     address: '7 Boyden Ln, Deerfield, MA 01342, USA',
+  //     country: 'US',
+  //     county: 'Franklin County',
+  //     fips: '25011',
+  //     locality: 'Deerfield',
+  //     state: 'Massachusetts',
+  //     stateAbbr: 'MA',
+  //     zip: '01342',
+  //   },
+  // };
+  // loadLocalData({data: dummyData, geoData: dummyGeodata});
 
 
   /*
@@ -8081,6 +8096,14 @@ function resetAddrSearch(isError=false){
       min char is 5 (minAddrCharLen)
   */
   const $locSearchBtn = $('#locality-search-btn');
+
+  $('#locality-search-input').on('click', () => {
+    $('#locality-search-tab').removeClass('success error');
+  });
+
+  $('#locality-search-clear-btn').on('click', () => {
+    $('#locality-search-input').val('');
+  });
 
   $('#locality-search-input').keydown(function(e){
     if (e.keyCode == 13) addrSearch();
@@ -8133,7 +8156,6 @@ function resetAddrSearch(isError=false){
     .catch(err => console.error(err));
 
   function globalStats(res){
-    console.log(res)
     const {total, deaths, recovered} = res;
     cdFetch.global.stats = res;
 
@@ -8273,13 +8295,14 @@ function resetAddrSearch(isError=false){
 /*!**************************************!*\
   !*** ./public/lib/js/utils/index.js ***!
   \**************************************/
-/*! exports provided: formatDate, commas, percent */
+/*! exports provided: formatDate, commas, dec2perc, percent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "commas", function() { return commas; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dec2perc", function() { return dec2perc; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "percent", function() { return percent; });
 /* harmony import */ var _json_months_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../json/months.json */ "./public/lib/json/months.json");
 var _json_months_json__WEBPACK_IMPORTED_MODULE_0___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../json/months.json */ "./public/lib/json/months.json", 1);
@@ -8310,6 +8333,15 @@ function formatDate(time, displayTime=true){
 */
 function commas(n){
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+/*
+    Convert decimal to percentage
+    input: Number deci
+*/
+function dec2perc(deci, fixed=1){
+  const perc = deci*100;
+  return isFinite(perc) ? perc.toFixed(fixed) : undefined;
 }
 
 /*

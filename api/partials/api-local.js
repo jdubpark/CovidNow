@@ -103,10 +103,10 @@ app.get('/api/v1/local/area', async(req, res, next) => {
   if (!address) return next(new CustomError('422', 'Missing Argument'));
 
   const geoData = await geocoding(address);
-  if (!geoData.info) return res.status(200).json({'error': 'invalid-address'});
-  console.log(geoData);
+  if (!geoData.info) return res.status(200).json({error: 'invalid-address', geoData});
+  // console.log(geoData);
 
-  if (!geoData.info.fips) return res.status(200).json({'error': 'too-broad-address'});
+  if (!geoData.info.fips) return res.status(200).json({error: 'too-broad-address', geoData});
 
   // default ndays to 7
   if (!ndays) ndays = 7;

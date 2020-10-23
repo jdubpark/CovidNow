@@ -28,6 +28,15 @@ export function commas(n){
 }
 
 /*
+    Convert decimal to percentage
+    input: Number deci
+*/
+export function dec2perc(deci, fixed=1){
+  const perc = deci*100;
+  return isFinite(perc) ? perc.toFixed(fixed) : undefined;
+}
+
+/*
     Evaluate percentage from two numbers
     input: numerator, denominator
     output: numerator/denominator %

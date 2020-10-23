@@ -117,15 +117,19 @@
                   <i class="far fa-spinner-third"></i>
                 </div>
                 <div class="column locality-search-box">
-                  <input value="7 Boyden Lane, 01342" id="locality-search-input" class="locality-search-input" type="text" placeholder="Search address (via Google Maps)" />
+                  <input value="Manhattan, NYC" id="locality-search-input" class="locality-search-input" type="text" placeholder="Search address (via Google Maps)" />
                 </div>
                 <div id="locality-search-btn" class="column is-narrow locality-search-item locality-search-btn disabled"><i class="far fa-search"></i></div>
-                <div class="column is-narrow locality-search-item"><i class="far fa-times"></i></div>
+                <div id="locality-search-clear-btn" class="column is-narrow locality-search-item locality-search-clear-btn"><i class="far fa-times"></i></div>
               </div>
             </div>
 
             <div class="column is-12">
               <div class="columns is-multiline locality-search-return">
+                <div class="column is-12 locality-search-return-error">
+                  <div id="locality-search-error-fips"></div>
+                  <div id="locality-search-error-length"></div>
+                </div>
                 <div class="column is-narrow locality-search-return-name">
                   Retrieved Address:
                 </div>
@@ -143,7 +147,7 @@
 
     <div id="locality-area" class="columns is-multiline elm-section locality-area">
 
-      <div id="my-county" class="column is-half">
+      <div id="my-county" class="column is-6">
         <div class="elm-subsection locality-data locality-county">
           <div class="columns is-multiline">
             <div class="column is-12">
@@ -151,7 +155,7 @@
             </div>
 
             <div class="column is-12">
-              <div id="locality-county-data" class="columns is-multiline locality-data-box">
+              <div id="locality-county-data" class="columns is-multiline is-mobile locality-data-box">
                 <div class="column is-narrow">
                   <div class="locality-data-name">Cases</div>
                   <div id="locality-county-cases-today" class="locality-data-val confirmed"></div>
@@ -162,16 +166,11 @@
                 </div>
               </div>
             </div>
-
-            <div class="column is-12 elm-shadow-box locality-data-graph">
-              <div id="locality-county-graph"></div>
-            </div>
-
           </div>
         </div>
       </div>
 
-      <div id="my-state" class="column is-half">
+      <div id="my-state" class="column is-6">
         <div class="elm-subsection locality-data locality-state">
           <div class="columns is-multiline">
             <div class="column is-12">
@@ -179,7 +178,7 @@
             </div>
 
             <div class="column is-12">
-              <div id="locality-state-data" class="columns is-multiline locality-data-box">
+              <div id="locality-state-data" class="columns is-multiline is-mobile locality-data-box">
                 <div class="column is-narrow">
                   <div class="locality-data-name">Cases</div>
                   <div id="locality-state-cases-today" class="locality-data-val confirmed"></div>
@@ -191,10 +190,36 @@
               </div>
             </div>
 
-            <div class="column is-12 elm-shadow-box locality-data-graph">
-              <div id="locality-state-graph"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="my-county-mask" class="column is-6">
+        <div class="elm-subsection locality-data locality-mask">
+          <div class="columns is-multiline">
+            <div class="column is-12">
+              <div class="elm-title-ssec locality-mask-title">County Mask Usage</div>
+              <div class="locality-mask-desc">NYTimes: 250,000 survey responses (July 2 ~ 14)</div>
             </div>
 
+            <div class="column is-12">
+              <div id="locality-county-mask-data" class="columns is-multiline is-mobile locality-data-smallbox"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="my-graphs" class="column is-12">
+        <div class="columns is-multiline elm-subsection locality-graph">
+          <div class="column is-6">
+            <div class="elm-shadow-box locality-data-graph">
+              <div id="locality-county-graph"></div>
+            </div>
+          </div>
+          <div class="column is-6">
+            <div class="elm-shadow-box locality-data-graph">
+              <div id="locality-state-graph"></div>
+            </div>
           </div>
         </div>
       </div>
