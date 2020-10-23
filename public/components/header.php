@@ -30,18 +30,18 @@
     <!-- Local Style -->
     <!-- cbv = cache buster version (set it to 1, intialized later) -->
     <!-- <link rel="stylesheet" href=<?php relDistFile('normalize.min.css', 'style');?> /> -->
-    <link rel="stylesheet" href=<?php relDistFile('covidnow.min.css?cbv=819b47306d5d9a99c0b70891a4cf8aa9', 'style');?> />
-    <!-- <link rel="stylesheet" href=<?php relDistFile('universal.min.css?cbv=819b47306d5d9a99c0b70891a4cf8aa9', 'style');?> /> -->
+    <link rel="stylesheet" href=<?php relDistFile('covidnow.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
+    <!-- <link rel="stylesheet" href=<?php relDistFile('universal.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> /> -->
     <?php if (defined('PAGE_NAME')): ?>
     <?php if (PAGE_NAME == 'home'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('home.min.css?cbv=819b47306d5d9a99c0b70891a4cf8aa9', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('home.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
     <?php elseif (PAGE_NAME == 'states'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('states.min.css?cbv=819b47306d5d9a99c0b70891a4cf8aa9', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('states.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
     <?php elseif (PAGE_NAME == 'about'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('about.min.css?cbv=819b47306d5d9a99c0b70891a4cf8aa9', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('about.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
     <?php endif; endif; ?>
     <?php if (defined('NEED_CSS_fa') && NEED_CSS_fa): ?>
-    <link rel="stylesheet" href=<?php relDistFile('_fa.min.css?cbv=819b47306d5d9a99c0b70891a4cf8aa9', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('_fa.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
     <?php endif; ?>
     <!-- Social Media -->
     <meta property="og:type" content="website" />

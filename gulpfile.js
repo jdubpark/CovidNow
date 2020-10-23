@@ -73,7 +73,10 @@ function build(cb){
   src(['./public/**/*.php', './public/components/**/*.php'])
     .pipe(replace(/\?cbv=[a-zA-Z\d]+/g, () => '?cbv='+hash))
     .pipe(dest(f => f.base))
-    .on('end', cb); // signal end
+    .on('end', () => {
+      console.log(`GULP build complete with hash ${hash}`);
+      cb();
+    }); // signal end
 }
 
 exports.watch = parallel(bsWatch, sassWatch);

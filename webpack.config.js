@@ -18,6 +18,7 @@ const
 function getOptions(nodeEnv){
   const isProd = nodeEnv == 'production';
   const processEnv = {};
+  console.log(isProd);
 
   apiUrlsKeys.forEach(key => {
     const url = isProd ? apiUrlProd : apiUrlsDev[key];
@@ -25,7 +26,7 @@ function getOptions(nodeEnv){
   });
 
   const options = {
-    mode: 'development',
+    mode: isProd ? 'production' : 'development',
 
     node: {
       net: 'empty',
