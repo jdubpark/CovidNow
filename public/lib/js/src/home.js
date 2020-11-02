@@ -248,6 +248,33 @@ function resetAddrSearch(isError=false){
   // };
   // loadLocalData({data: dummyData, geoData: dummyGeodata});
 
+  /*
+      All Data Fetches
+  */
+  request({
+    method: 'GET',
+    url: process.env.API_URL_GLOBAL+'/v1/global/stats',
+    dataType: 'json',
+  })
+    .then(({data}) => globalStats(data))
+    .catch(err => console.error(err));
+
+  request({
+    method: 'GET',
+    url: process.env.API_URL_GLOBAL+'/v1/global/countries',
+    dataType: 'json',
+  })
+    .then(({data}) => globalCountries(data))
+    .catch(err => console.error(err));
+
+  request({
+    method: 'GET',
+    url: process.env.API_URL_NEWS+'/v1/news/usa',
+    dataType: 'json',
+  })
+    .then(({data}) => renderNews(data))
+    .catch(err => console.error(err));
+
 
   /*
       Address cases look up
@@ -278,42 +305,73 @@ function resetAddrSearch(isError=false){
 
   $locSearchBtn.on('click', addrSearch);
 
-  // off for now, support only address
-  $('#you-search-lat val').html('search...');
-  $('#you-search-long val').html('search...');
-  // if (!navigator.geolocation){
-  //   console.log('Geolocation is not supported by your browser');
-  //   $('#you-search-lat val').html('not supported');
-  //   $('#you-search-long val').html('not supported');
-  // } else {
-  //   $('#you-search-lat val').html('locating...');
-  //   $('#you-search-long val').html('locating...');
-  //   navigator.geolocation.getCurrentPosition(geolocSuccess, geolocError);
-  // }
 
-  request({
-    method: 'GET',
-    url: process.env.API_URL_GLOBAL+'/v1/global/stats',
-    dataType: 'json',
-  })
-    .then(({data}) => globalStats(data))
-    .catch(err => console.error(err));
+  /*
+      Use Current Location
+  */
+  let isCurLocSearching = false;
+  const
+    $locCurLocNote = $('#locality-search-current-note'),
+    curLocSearchStat = (status, $t) => {
+      // status: true (searching), false (not searching)
+      // $t: $('#locality-search-current-btn')
+      isCurLocSearching = status;
+      if (status) $t.addClass('disabled');
+      else $t.removeClass('disabled');
+      return;
+    };
 
-  request({
-    method: 'GET',
-    url: process.env.API_URL_GLOBAL+'/v1/global/countries',
-    dataType: 'json',
-  })
-    .then(({data}) => globalCountries(data))
-    .catch(err => console.error(err));
+  $('#locality-search-current-btn').on('click', function(){
+    if (isCurLocSearching) return;
+    const $t = $(this);
 
-  request({
-    method: 'GET',
-    url: process.env.API_URL_NEWS+'/v1/news/usa',
-    dataType: 'json',
-  })
-    .then(({data}) => renderNews(data))
-    .catch(err => console.error(err));
+    curLocSearchStat(true, $t);
+
+    if (!navigator.geolocation){
+      // console.log('Geolocation is not supported by your browser');
+      $locCurLocNote.html('not supported');
+      return curLocSearchStat(false, $t);
+    }
+
+    $locCurLocNote.html('locating...');
+    // (success fn, error fn)
+    navigator.geolocation.getCurrentPosition(pos => {
+      // success
+      console.log(pos);
+      const {latitude: lat, longitude: lng} = pos.coords;
+      $locCurLocNote.html('loading...');
+      if (lat == undefined || lng == undefined){
+        $locCurLocNote.html('can\'t locate (Err 2)');
+        return curLocSearchStat(false, $t);
+      }
+
+      console.log(lat, lng);
+      request({
+        method: 'GET',
+        url: process.env.API_URL_LOCAL+'/v1/local/geocoding',
+        dataType: 'json',
+        params: {lat, lng},
+      })
+        .then(({geoData: data}) => {
+          if (data){
+            $locCurLocNote.html('');
+            $('#locality-search-input').val(data.address);
+          } else {
+            $locCurLocNote.html('error occured');
+          }
+        })
+        .catch(err => console.error(err))
+        .finally(() => {
+          return curLocSearchStat(false, $t);
+        });
+    }, () => {
+      // error
+      $locCurLocNote.html('can\'t locate (Err 1)');
+      return curLocSearchStat(false, $t);
+    }, {
+      enableHighAccuracy: true,
+    });
+  });
 
   function globalStats(res){
     const {total, deaths, recovered} = res;

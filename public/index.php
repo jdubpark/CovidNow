@@ -117,10 +117,22 @@
                   <i class="far fa-spinner-third"></i>
                 </div>
                 <div class="column locality-search-box">
-                  <input value="Manhattan, NYC" id="locality-search-input" class="locality-search-input" type="text" placeholder="Search address (via Google Maps)" />
+                  <!-- value="Manhattan, NYC"  -->
+                  <input id="locality-search-input" class="locality-search-input" type="text" placeholder="Search address (via Google Maps)" />
                 </div>
                 <div id="locality-search-btn" class="column is-narrow locality-search-item locality-search-btn disabled"><i class="far fa-search"></i></div>
                 <div id="locality-search-clear-btn" class="column is-narrow locality-search-item locality-search-clear-btn"><i class="far fa-times"></i></div>
+              </div>
+            </div>
+
+            <div class="column is-12">
+              <div class="columns is-mobile locality-search-current">
+                <div class="column is-narrow">
+                  <div id="locality-search-current-btn" class="locality-search-current-btn">Use current location (allow access)</div>
+                </div>
+                <div class="column is-narrow">
+                  <div id="locality-search-current-note" class="locality-search-current-note"></div>
+                </div>
               </div>
             </div>
 

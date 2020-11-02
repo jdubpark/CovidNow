@@ -30,18 +30,18 @@
     <!-- Local Style -->
     <!-- cbv = cache buster version (set it to 1, intialized later) -->
     <!-- <link rel="stylesheet" href=<?php relDistFile('normalize.min.css', 'style');?> /> -->
-    <link rel="stylesheet" href=<?php relDistFile('covidnow.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
-    <!-- <link rel="stylesheet" href=<?php relDistFile('universal.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> /> -->
+    <link rel="stylesheet" href=<?php relDistFile('covidnow.min.css?cbv=acb0412b916fdaf1adbb0d7734c71d19', 'style');?> />
+    <!-- <link rel="stylesheet" href=<?php relDistFile('universal.min.css?cbv=acb0412b916fdaf1adbb0d7734c71d19', 'style');?> /> -->
     <?php if (defined('PAGE_NAME')): ?>
     <?php if (PAGE_NAME == 'home'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('home.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('home.min.css?cbv=acb0412b916fdaf1adbb0d7734c71d19', 'style');?> />
     <?php elseif (PAGE_NAME == 'states'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('states.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('states.min.css?cbv=acb0412b916fdaf1adbb0d7734c71d19', 'style');?> />
     <?php elseif (PAGE_NAME == 'about'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('about.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('about.min.css?cbv=acb0412b916fdaf1adbb0d7734c71d19', 'style');?> />
     <?php endif; endif; ?>
     <?php if (defined('NEED_CSS_fa') && NEED_CSS_fa): ?>
-    <link rel="stylesheet" href=<?php relDistFile('_fa.min.css?cbv=126eeb93301d505a69fa563737e7d0e9', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('_fa.min.css?cbv=acb0412b916fdaf1adbb0d7734c71d19', 'style');?> />
     <?php endif; ?>
     <!-- Social Media -->
     <meta property="og:type" content="website" />
@@ -59,15 +59,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Track -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-103973100-4"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-103973100-4');
-    </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

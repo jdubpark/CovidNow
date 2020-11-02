@@ -34,20 +34,27 @@ const docClient = new AWS.DynamoDB.DocumentClient({
 });
 
 /*
-* Geocoding, outputs address data given address
+    Geocoding, outputs full address data given address
+    Reverse geocoding, outputs full address data given lat & long
 */
-function geocoding(address){
-  const
-    addr = encodeURIComponent(address),
-    url = 'https://maps.googleapis.com/maps/api/geocode/json?address=__ADDR__&key=__KEY__'
-      .replace('__ADDR__', addr)
-      .replace('__KEY__', process.env.CN_GMAPS_API_KEY),
-    geoData = {lat: null, lng: null, info: null};
-
-  if (!address){
+function geocoding(input, isReverse=false){
+  const geoData = {lat: null, lng: null, info: null};
+  if (!input){
     return new Promise((resolve, reject) => {
       resolve(geoData);
     });
+  }
+
+  let url = 'https://maps.googleapis.com/maps/api/geocode/json?__KEY__=__VAL__&key=__APIKEY__'
+    .replace('__APIKEY__', process.env.CN_GMAPS_API_KEY);
+
+  if (isReverse){
+    let {lat, lng} = input;
+    [lat, lng].forEach(item => encodeURIComponent(item));
+    url = url.replace('__KEY__', 'latlng').replace('__VAL__', lat+','+lng);
+  } else {
+    const addr = encodeURIComponent(input);
+    url = url.replace('__KEY__', 'address').replace('__VAL__', addr);
   }
 
   return axios(url)
@@ -170,6 +177,23 @@ app.get('/api/v1/local/area', async(req, res, next) => {
   }, (err, data) => {
     if (err) console.error('Unable to add item. Error JSON:', err);
   });
+});
+
+app.get('/api/v1/local/reverse', async(req, res, next) => {
+  // const {type} = req.params, allowed = ['area'];
+  //
+  // if (!allowed.includes(type)) return next(new CustomError('404', req.path));
+  const {lat, lng} = req.query;
+  if (!lat && !lng) return next(new CustomError('422', 'Missing Argument'));
+
+  const geoData = await geocoding({lat, lng}, true);
+
+  if (!geoData.info) return res.status(200).json({error: 'invalid-address', geoData});
+  // console.log(geoData);
+
+  if (!geoData.info.fips) return res.status(200).json({error: 'too-broad-address', geoData});
+
+  res.status(200).json({geoData});
 });
 
 app.get('*', (req, res, next) => {
