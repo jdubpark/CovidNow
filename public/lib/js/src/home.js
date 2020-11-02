@@ -282,7 +282,18 @@ function resetAddrSearch(isError=false){
       #2: press the 'search' button
       min char is 5 (minAddrCharLen)
   */
-  const $locSearchBtn = $('#locality-search-btn');
+  const
+    $locSearchBtn = $('#locality-search-btn'),
+    locSearchBtnStatus = status => {
+      // status: true (enable), false (disable)
+      if (status){
+        if ($locSearchBtn.hasClass('disabled')) $locSearchBtn.removeClass('disabled');
+        isAddrSearchEnabled = true;
+      } else {
+        if (!$locSearchBtn.hasClass('disabled')) $locSearchBtn.addClass('disabled');
+        isAddrSearchEnabled = false;
+      }
+    };
 
   $('#locality-search-input').on('click', () => {
     $('#locality-search-tab').removeClass('success error');
@@ -293,14 +304,9 @@ function resetAddrSearch(isError=false){
   });
 
   $('#locality-search-input').keydown(function(e){
-    if (e.keyCode == 13) addrSearch();
-    if ($(this).val().length < minAddrCharLen){
-      if (!$locSearchBtn.hasClass('disabled')) $locSearchBtn.addClass('disabled');
-      isAddrSearchEnabled = false;
-    } else {
-      if ($locSearchBtn.hasClass('disabled')) $locSearchBtn.removeClass('disabled');
-      isAddrSearchEnabled = true;
-    }
+    if (e.keyCode == 13) return addrSearch();
+    const isValid = $(this).val().length < minAddrCharLen;
+    locSearchBtnStatus(isValid);
   });
 
   $locSearchBtn.on('click', addrSearch);
@@ -360,7 +366,10 @@ function resetAddrSearch(isError=false){
             });
             if (zip) addrBlock += zip;
             if (addrBlock == '') return $locCurLocNote.html('error occured (Err 4)');
+            // fill address value into search bar
             $('#locality-search-input').val(addrBlock);
+            // enable searching
+            locSearchBtnStatus(true);
           } else {
             $locCurLocNote.html('error occured (Err 3)');
           }

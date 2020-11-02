@@ -5,7 +5,7 @@
 </div>
 </div><!-- #page -->
 
-<script src=<?php relDistFile('universal.bundle.js?cbv=fbf9c6220915d51bb78b34eb3bb3f433', 'js'); ?>></script>
+<script src=<?php relDistFile('universal.bundle.js?cbv=1780f66a1c4209c604d5de1b96bf0fd4', 'js'); ?>></script>
 <?php
   $cacheBuster = false; // cache buster will increase load time
   $distScripts = [
@@ -16,7 +16,7 @@
   else $distScriptsToLoad = [];
 
   foreach ($distScriptsToLoad as $item){
-    echo '<script src="'.relDistFile($item, 'js', false).'.bundle.js?cbv=fbf9c6220915d51bb78b34eb3bb3f433"></script>';
+    echo '<script src="'.relDistFile($item, 'js', false).'.bundle.js?cbv=1780f66a1c4209c604d5de1b96bf0fd4"></script>';
   }
 ?>
 </body>
