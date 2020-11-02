@@ -111,6 +111,10 @@
         <div class="elm-subsection locality-search">
           <div class="columns is-multiline">
             <div class="column is-12">
+              Currently supports [USA]
+            </div>
+
+            <div class="column is-12">
               <div class="columns is-mobile locality-search-form">
                 <div id="locality-search-tab" class="column is-narrow locality-search-item locality-search-tab">
                   <i class="far fa-globe"></i>
