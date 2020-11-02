@@ -337,7 +337,6 @@ function resetAddrSearch(isError=false){
     // (success fn, error fn)
     navigator.geolocation.getCurrentPosition(pos => {
       // success
-      console.log(pos);
       const {latitude: lat, longitude: lng} = pos.coords;
       $locCurLocNote.html('loading...');
       if (lat == undefined || lng == undefined){
@@ -345,10 +344,9 @@ function resetAddrSearch(isError=false){
         return curLocSearchStat(false, $t);
       }
 
-      console.log(lat, lng);
       request({
         method: 'GET',
-        url: process.env.API_URL_LOCAL+'/v1/local/geocoding',
+        url: process.env.API_URL_LOCAL+'/v1/local/reverse',
         dataType: 'json',
         params: {lat, lng},
       })
