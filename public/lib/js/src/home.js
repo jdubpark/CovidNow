@@ -406,6 +406,11 @@ function resetAddrSearch(isError=false){
     const data = res.countries;
     cdFetch.global.countries = res.countries;
 
+    // wait for global stats data to be fetched
+    if (!cdFetch.global.stats){
+      return setTimeout(() => globalCountries(res), 1000);
+    }
+
     /*
         Global country count
     */

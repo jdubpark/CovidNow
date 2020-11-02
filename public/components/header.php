@@ -30,18 +30,18 @@
     <!-- Local Style -->
     <!-- cbv = cache buster version (set it to 1, intialized later) -->
     <!-- <link rel="stylesheet" href=<?php relDistFile('normalize.min.css', 'style');?> /> -->
-    <link rel="stylesheet" href=<?php relDistFile('covidnow.min.css?cbv=c28ff13c060a8db1d2c4d173132af95f', 'style');?> />
-    <!-- <link rel="stylesheet" href=<?php relDistFile('universal.min.css?cbv=c28ff13c060a8db1d2c4d173132af95f', 'style');?> /> -->
+    <link rel="stylesheet" href=<?php relDistFile('covidnow.min.css?cbv=fbf9c6220915d51bb78b34eb3bb3f433', 'style');?> />
+    <!-- <link rel="stylesheet" href=<?php relDistFile('universal.min.css?cbv=fbf9c6220915d51bb78b34eb3bb3f433', 'style');?> /> -->
     <?php if (defined('PAGE_NAME')): ?>
     <?php if (PAGE_NAME == 'home'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('home.min.css?cbv=c28ff13c060a8db1d2c4d173132af95f', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('home.min.css?cbv=fbf9c6220915d51bb78b34eb3bb3f433', 'style');?> />
     <?php elseif (PAGE_NAME == 'states'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('states.min.css?cbv=c28ff13c060a8db1d2c4d173132af95f', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('states.min.css?cbv=fbf9c6220915d51bb78b34eb3bb3f433', 'style');?> />
     <?php elseif (PAGE_NAME == 'about'): ?>
-    <link rel="stylesheet" href=<?php relDistFile('about.min.css?cbv=c28ff13c060a8db1d2c4d173132af95f', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('about.min.css?cbv=fbf9c6220915d51bb78b34eb3bb3f433', 'style');?> />
     <?php endif; endif; ?>
     <?php if (defined('NEED_CSS_fa') && NEED_CSS_fa): ?>
-    <link rel="stylesheet" href=<?php relDistFile('_fa.min.css?cbv=c28ff13c060a8db1d2c4d173132af95f', 'style');?> />
+    <link rel="stylesheet" href=<?php relDistFile('_fa.min.css?cbv=fbf9c6220915d51bb78b34eb3bb3f433', 'style');?> />
     <?php endif; ?>
     <!-- Social Media -->
     <meta property="og:type" content="website" />
