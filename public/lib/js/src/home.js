@@ -350,12 +350,19 @@ function resetAddrSearch(isError=false){
         dataType: 'json',
         params: {lat, lng},
       })
-        .then(({geoData: data}) => {
-          if (data){
+        .then(({data}) => {
+          if (data.geoData && data.geoData.info){
             $locCurLocNote.html('');
-            $('#locality-search-input').val(data.address);
+            const {locality, stateAbbr, zip} = data.geoData.info;
+            let addrBlock = '';
+            [locality, stateAbbr].forEach(val => {
+              if (val) addrBlock += val+', ';
+            });
+            if (zip) addrBlock += zip;
+            if (addrBlock == '') return $locCurLocNote.html('error occured (Err 4)');
+            $('#locality-search-input').val(addrBlock);
           } else {
-            $locCurLocNote.html('error occured');
+            $locCurLocNote.html('error occured (Err 3)');
           }
         })
         .catch(err => console.error(err))
