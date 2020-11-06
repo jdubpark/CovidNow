@@ -13,9 +13,9 @@
     <div id="global-quick" class="columns is-multiline is-mobile is-hidden-desktop global-quick">
 
       <div class="column is-12 global-quick-name">Quick actions</div>
-      <div class="column is-narrow global-quick-button gqb-area"><a href="#my-area">My Area</a></div>
-      <div class="column is-narrow global-quick-button gqb-overview"><a href="<?php echo RQ_BASE_DIR.'/usa'; ?>">USA</a></div>
-      <div class="column is-narrow global-quick-button gqb-states"><a href="<?php echo RQ_BASE_DIR.'/states'; ?>">States</a></div>
+      <div id="global-quick-action-area" class="column is-narrow global-quick-button gqb-area"><a href="#my-area">My Area</a></div>
+      <!-- <div id="global-quick-action-usa" class="column is-narrow global-quick-button gqb-usa"><a href="<?php echo RQ_BASE_DIR.'/usa'; ?>">USA</a></div> -->
+      <div id="global-quick-action-states" class="column is-narrow global-quick-button gqb-states"><a href="<?php echo RQ_BASE_DIR.'/states'; ?>">States</a></div>
 
     </div>
 
