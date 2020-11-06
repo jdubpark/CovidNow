@@ -3,6 +3,8 @@ import months from '../../json/months.json';
 /*
     Formats date to
       'Month(short) Date, Time' or 'Month(long) Date'
+
+    time: timestamp or any time string
 */
 export function formatDate(time, displayTime=true){
   const dObj = new Date(time), month = dObj.getMonth(), date = dObj.getDate();

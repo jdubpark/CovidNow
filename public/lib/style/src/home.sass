@@ -2,7 +2,33 @@
 @import '../colors/_all'
 
 .global
+  &-quick
+    padding: 0 1rem
+    color: $excerpt-light
+
+    .column
+      padding-bottom: 0
+
+    &-name
+      font-size: 0.75em
+
+    &-button
+      font-size: 0.85em
+
+      a
+        display: block
+        padding: 0.4rem 0.8rem
+        border: 1px solid $excerpt-light
+        border-radius: $bdr1
+
+        &:hover, &:active
+          color: #fff
+          border-color: $purple
+          background-color: $purple
+
   &-stats
+    padding-top: 0
+
     &-header
       color: $excerpt-light
 
